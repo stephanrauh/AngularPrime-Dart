@@ -9,3 +9,5 @@
 .ui-widget-content .pui-inputtext {
     font-weight: normal;
 }
+
+.puibold {  font-weight: bold; }

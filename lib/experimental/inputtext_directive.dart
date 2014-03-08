@@ -5,7 +5,7 @@ import 'package:angular/angular.dart';
 
 
 @NgDirective(
-    selector: '[puiinput]'
+    selector: '[puiinput2]'
 )
 class AInputtextDirective {
   dom.Element element;

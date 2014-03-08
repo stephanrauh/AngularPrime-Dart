@@ -5,9 +5,9 @@ import 'package:angular/angular.dart';
 
 
 @NgComponent(
-    selector: '[puiinput]',
-    templateUrl: '../experimental-lib/inputtext.html',
-    cssUrl: '../experimental-lib/inputtext.css',
+    selector: 'puiinput',
+    templateUrl: '../lib/experimental/inputtext.html',
+    cssUrl: '../lib/experimental/inputtext.css',
     publishAs: 'cmp'
 )
 class AInputtextComponent {
@@ -44,7 +44,7 @@ class AInputtextComponent {
 
 
   AInputtextComponent(this.element) {
-    print('Constructor called');
+    print('Constructor called: ' + this.runtimeType.toString());
 //    caption = element.getAttribute('caption');
 //    bean = element.getAttribute('bean');
 //    value = element.getAttribute('value');
