@@ -10,7 +10,7 @@ import 'package:angular/angular.dart';
     cssUrl: '../lib/experimental/inputtext.css',
     publishAs: 'cmp'
 )
-class AInputtextComponent {
+class AInputtextComponent implements NgAttachAware  {
   dom.Element element;
   
   String _caption=null;
@@ -35,11 +35,8 @@ class AInputtextComponent {
     return _id;
   }
   
-  @NgOneWay('bean')
-  String bean;
-  
-  @NgTwoWay('value')
-  String value;
+  @NgOneWay('model')
+  String model;
   
   dom.Element captionElem;
   dom.InputElement inputField;
@@ -47,24 +44,11 @@ class AInputtextComponent {
 
   AInputtextComponent(this.element) {
     print('Constructor called: ' + this.runtimeType.toString());
-//    caption = element.getAttribute('caption');
-//    bean = element.getAttribute('bean');
-//    value = element.getAttribute('value');
-    
-//    captionElem = new dom.SpanElement();
-//    captionElem.innerHtml=caption;
-//    element.append(captionElem);
-//    inputField = new dom.InputElement();
-//    inputField.setAttribute('ng-model', bean);
-//    inputField.name=bean;
-//    inputField.value=value;
-    
-//    element.append(inputField);
     
   }
 
-  _createTemplate() {
-    assert(caption != null);
+  @override
+  void attach() {
+    print("Attaching: $caption / $model / $id");
   }
-
 }

@@ -5,24 +5,24 @@
 </head>
 <body>
   
-  <div>
+  <div puiInputDemo>
     <h3>Two labelled input fields</h3>
     
     
     <table>
     <tr>
     <td>
-    <puiinput caption="My favorite caption" bean="myBean" value="myValue" ></</puiinput>
+    <puiinput caption="My favorite caption" model="ctrl.firstField"></puiinput>
     </td>
     </tr>
     <tr>
     <td>
     <br />
-    <puiinput caption="Another Caption" bean="anotherBean" value="another value" ></</puiinput>
+    <puiinput caption="Another Caption" model="ctrl.secondField"></puiinput>
     </tr>
     </table>
     <h3>And an input field without label</h3>
-    <puiinput bean="anotherBean" value="another value" ></puiinput>
+    <puiinput model="ctrl.thirdField" ></puiinput>
   </div>
     
   <script type="application/dart" src="main.dart"></script>
