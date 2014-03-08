@@ -6,12 +6,10 @@
 <body>
   
   <div>
-    <h3>Two aligned input fields</h3>
+    <h3>Two labelled input fields</h3>
     
-    <span class="pui-bold">lorem</span>
     
-    <div>
-    <table border=1>
+    <table>
     <tr>
     <td>
     <puiinput caption="My favorite caption" bean="myBean" value="myValue" ></</puiinput>
@@ -23,7 +21,8 @@
     <puiinput caption="Another Caption" bean="anotherBean" value="another value" ></</puiinput>
     </tr>
     </table>
-    </div>
+    <h3>And an input field without label</h3>
+    <puiinput bean="anotherBean" value="another value" ></puiinput>
   </div>
     
   <script type="application/dart" src="main.dart"></script>

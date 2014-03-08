@@ -13,14 +13,16 @@ import 'package:angular/angular.dart';
 class AInputtextComponent {
   dom.Element element;
   
-  String _caption;
+  String _caption=null;
   
   @NgAttr('caption')
   set caption(String value) {
     _caption=value;
   }
   
-  get caption { return _caption; }
+  get caption { 
+    return _caption; 
+  }
   
   String _id=null;
   
@@ -65,11 +67,4 @@ class AInputtextComponent {
     assert(caption != null);
   }
 
-}
-
-class AInputtextModel {
-  String caption;
-  String model;
-
-  AInputtextModel(this.caption, this.model);
 }
