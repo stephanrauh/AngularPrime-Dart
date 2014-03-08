@@ -1,0 +1,10 @@
+name: angularprime_dart
+version: 0.0.1
+dependencies:
+  angular: any
+  js: any
+  shadow_dom: any
+  
+
+dev_dependencies:
+  unittest: any 
