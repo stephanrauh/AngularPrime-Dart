@@ -7,4 +7,4 @@ dependencies:
   
 
 dev_dependencies:
-  unittest: any 
+  unittest: any
