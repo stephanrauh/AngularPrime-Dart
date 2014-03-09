@@ -4,6 +4,7 @@ dependencies:
   angular: any
   js: any
   shadow_dom: any
+  polymer: any
   
 
 dev_dependencies:

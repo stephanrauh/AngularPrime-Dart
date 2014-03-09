@@ -1,11 +1,11 @@
 import 'package:angular/angular.dart';
 import 'package:di/di.dart';
-import 'package:angularprime_dart/experimental/inputtext.dart';
+import 'package:angularprime_dart/puiInput/pui-input.dart';
+import 'package:angularprime_dart/core/pui-module.dart';
 import 'puiInputDemoController.dart';
 
-class MyAppModule extends Module {
+class MyAppModule extends PuiModule {
   MyAppModule() {
-    type(AInputtextComponent);
     type(PuiInputDemoController);
   }
 }
