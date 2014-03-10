@@ -1,6 +1,8 @@
 library angularprime_dart;
 
 import 'dart:html';
+import 'package:angular/angular.dart';
+
 
 /**
  * This class encapsulates common behaviour of the components of AngularPrime-Dart.
@@ -18,7 +20,8 @@ class PuiBaseComponent {
    * Copies every attribute from the updated <pui-input> - which contains the current model values - 
    * to the shadow tree.
    */
-  void updateAttributesInShadowDOM(Element puiInputElement, InputElement shadowyInputField) {
+  void updateAttributesInShadowDOM(Element puiInputElement, InputElement shadowyInputField, Scope scope) {
+    
     puiInputElement.attributes.forEach((String key, String value) =>
         updateAttributeInShadowDOM(shadowyInputField, key, value));
   }
@@ -43,11 +46,15 @@ class PuiBaseComponent {
     * to the shadow tree, and creates the map of original attribute values.
     */
 
-  void copyAttributesToShadowDOM(Element puiInputElement, InputElement shadowyInputField) {
+  void copyAttributesToShadowDOM(Element puiInputElement, InputElement shadowyInputField, Scope scope) {
      originalValues = new Map();
 
      puiInputElement.attributes.forEach((String key, String value) =>
          addAttributeToShadowDOM(shadowyInputField, key, value));
+     
+//     scope.$watch(()=>puiInputElement.attributes["ng-model"], (newVar, oldVar) => 
+//          updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
+
    }
   /** 
     * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
@@ -66,3 +73,4 @@ class PuiBaseComponent {
     }
   }
 }
+

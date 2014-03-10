@@ -1,3 +1,7 @@
+/**
+ * This is work in progress!
+ */
+
 library angularprime_dart;
 
 import 'dart:html';
@@ -24,10 +28,13 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   @NgTwoWay("ng-model")
   String ngmodel;
   
+  /** The scope is needed to add watches. */
+  Scope scope;
+  
   /**
-   * Initializes the component by setting the <pui-input> field.
+   * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiInputTextComponent(this.puiInputElement) {
+  PuiInputTextComponent(this.scope, this.puiInputElement) {
   }
 
   /**
@@ -39,8 +46,8 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowRoot.applyAuthorStyles = true;
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
-    copyAttributesToShadowDOM(puiInputElement, shadowyInputField);
-    shadowyInputField.onKeyUp.listen((KeyboardEvent e)=>updateAttributesInShadowDOM(puiInputElement, shadowyInputField));
+    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
+    shadowyInputField.onKeyUp.listen((KeyboardEvent e)=>updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
   }
   
   

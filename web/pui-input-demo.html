@@ -9,53 +9,52 @@
 <body>
   
   <div puiInputDemo>
-    <h3><span style="width:200px;">AngularPrime-Dart</span></h3>
+    <h3>Three simple pui-input fields</h3>
     
     
     <table border="1" >
     <tr style="background-color:#CCC">
     <td>
-    Component
+    
     </td>
     <td>
-    Description
     </td>
     <td>
-    State 
+        Model values (expressions in curly braces)
     </td>
     
     </tr>
     <tr>
     <td>
-    <a href="pui-input-demo.html">&lt;pui-input&gt;</a>
+    First input field:
     </td>
     <td>
-    text input field
+    <pui-input ng-model="ctrl.firstField" ></pui-input>
     </td>
     <td>
-      finished except "disabled" attribute and improved watches
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <a href="pui-button-demo.html">&lt;pui-button&gt;</a>
-    </td>
-    <td>
-    A stylish button
-    </td>
-    <td>
-    nascient
+        {{ctrl.firstField}}
     </td>
     </tr>
     <tr>
     <td>
-    <a href="pui-panel-demo.html">&lt;pui-panel&gt;</a>
+    Second input field:
     </td>
     <td>
-    a panel groups input fields and other components
+    <pui-input ng-model="ctrl.secondField" style="background-color:#0F0"></pui-input>
     </td>
     <td>
-    nascient
+        {{ctrl.secondField}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Input field with dynamic style:<br />(becomes red if empty)
+    </td>
+    <td>
+    <pui-input ng-model="ctrl.thirdField" style="{{ctrl.thirdFieldStyle}}"></pui-input>
+    </td>
+    <td>
+        {{ctrl.thirdField}}
     </td>
     </tr>
     
