@@ -9,16 +9,30 @@
 <body>
   
   <div puiInputDemo>
-    <h3>Two simple pui-input fields</h3>
+    <h3>Three simple pui-input fields</h3>
     
     
-    <table>
+    <table border="1" >
+    <tr style="background-color:#CCC">
+    <td>
+    
+    </td>
+    <td>
+    </td>
+    <td>
+        Model values (expressions in curly braces)
+    </td>
+    
+    </tr>
     <tr>
     <td>
     First input field:
     </td>
     <td>
     <pui-input ng-model="ctrl.firstField" ></pui-input>
+    </td>
+    <td>
+        {{ctrl.firstField}}
     </td>
     </tr>
     <tr>
@@ -27,19 +41,24 @@
     </td>
     <td>
     <pui-input ng-model="ctrl.secondField" style="background-color:#0F0"></pui-input>
+    </td>
+    <td>
+        {{ctrl.secondField}}
+    </td>
     </tr>
     <tr>
     <td>
-    Input field with dynamic style:
+    Input field with dynamic style:<br />(becomes red if empty)
     </td>
     <td>
     <pui-input ng-model="ctrl.thirdField" style="{{ctrl.thirdFieldStyle}}"></pui-input>
+    </td>
+    <td>
+        {{ctrl.thirdField}}
+    </td>
     </tr>
     
     </table>
-    Model values:
-    <br>
-    {{ctrl.thirdField}}
   </div>
     
   <script type="application/dart" src="main.dart"></script>
