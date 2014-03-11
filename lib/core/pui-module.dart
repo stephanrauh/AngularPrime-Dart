@@ -4,6 +4,7 @@ import 'package:angular/angular.dart';
 import 'package:di/di.dart';
 import 'package:angularprime_dart/puiInput/pui-input.dart';
 import 'package:angularprime_dart/puiButton/pui-button.dart';
+import 'package:angularprime_dart/puiPanel/pui-panel.dart';
 
 /**
  * AngularPrime-Dart applications can get access to every PUI component by deriving from this class.
@@ -13,5 +14,6 @@ class PuiModule extends Module {
   PuiModule() {
     type(PuiInputTextComponent);
     type(PuiButtonComponent);
+    type(PuiPanelComponent);
   }
 }

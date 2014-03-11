@@ -10,29 +10,32 @@ import 'dart:html';
 
 @NgComponent(
     selector: 'pui-panel',
-    templateUrl: 'puiPanel/pui-panel.html',
-    cssUrl: 'puiPanel/pui-panel.css',  
-    publishAs: 'ctrl',
-    map: const {
-      'header' : '@header',
-      'toggleable': '@toggleable'
-    }
+    templateUrl: 'packages/angularprime_dart/puiPanel/pui-panel.html',
+    cssUrl: 'packages/angularprime_dart/puiPanel/pui-panel.css',  
+    publishAs: 'cmp'
 )
-class puiPanelComponent extends NgShadowRootAware {
+class PuiPanelComponent extends NgShadowRootAware {
+  @NgAttr("header")
   String header;
-  String toggleable;
-  String collapsed = 'false';
   
+  @NgAttr("toggleable")
+  String toggleable;
+  
+  @NgAttr("collapsed")
+  String collapsed = 'false';
+
+  @NgAttr("toggleOrientation")
+  String toggleOrientation = 'vertical';
+  
+  HtmlElement titlebar;
   HtmlElement content;
   bool collapsedState;
-  String toggleOrientation = 'vertical';
   HtmlElement toggler;
   
   
   void convertAttributes() {
     collapsedState = false;
-    
-    if ("true" == collapsed.trim().toLowerCase()) {
+    if (null!= collapsed && "true" == collapsed.trim().toLowerCase()) {
       collapsedState = true;
     }
   }
@@ -57,7 +60,7 @@ class puiPanelComponent extends NgShadowRootAware {
     toggleSpan.classes.add('ui-icon-minusthick');
     toggleSpan.classes.remove('ui-icon-plusthick');
     
-    if(toggleOrientation == 'vertical') {
+    if(null == toggleOrientation || toggleOrientation == 'vertical') {
       _slideDown();
     } 
     else if(toggleOrientation == 'horizontal') {
@@ -73,7 +76,7 @@ class puiPanelComponent extends NgShadowRootAware {
     toggleSpan.classes.remove('ui-icon-minusthick');
     
 
-    if(toggleOrientation == 'vertical') {
+    if(null == toggleOrientation || toggleOrientation == 'vertical') {
       _slideUp();
     } 
     else if(toggleOrientation == 'horizontal') {
@@ -91,13 +94,26 @@ class puiPanelComponent extends NgShadowRootAware {
   }
 
   void _slideLeft() {
+    content.hidden = true; 
+    titlebar.parent.style.width="60px";
+    titlebar.style.width="20px";
+    HtmlElement text=titlebar.firstChild;
+    text.hidden=true;
+
   }
 
   void _slideRight() {
+    content.hidden = false; 
+    titlebar.parent.style.width="";
+    titlebar.style.width="";
+    HtmlElement text=titlebar.firstChild;
+    text.hidden=false;
   }
   
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowRoot.applyAuthorStyles = true;
+
+    titlebar = shadowRoot.querySelector('.pui-panel-titlebar');
     
     content = shadowRoot.querySelector('.pui-panel-content');
     convertAttributes();
