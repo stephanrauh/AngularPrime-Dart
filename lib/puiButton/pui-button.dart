@@ -2,6 +2,7 @@ library puiButton;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
+import 'dart:async';
 
 @NgComponent(
     selector: 'pui-button', 
@@ -40,7 +41,9 @@ class PuiButtonComponent extends NgShadowRootAware {
     
     if (disabled!=null)
     {
-      button.classes.add("ui-state-disabled"); 
+      button.classes.add("ui-state-disabled");
+      // Todo: cancel onClick listeners
+      // Future<Set<MouseEvent>> set = button.onClick.toSet();
     }
     else
     {
