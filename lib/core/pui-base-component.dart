@@ -1,3 +1,19 @@
+/**
+ * (C) 2014 Stephan Rauh http://www.beyondjava.net
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 library angularprime_dart;
 
 import 'dart:html';
@@ -20,7 +36,7 @@ class PuiBaseComponent {
    * Copies every attribute from the updated <pui-input> - which contains the current model values - 
    * to the shadow tree.
    */
-  void updateAttributesInShadowDOM(Element puiInputElement, InputElement shadowyInputField, Scope scope) {
+  void updateAttributesInShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
     
     puiInputElement.attributes.forEach((String key, String value) =>
         updateAttributeInShadowDOM(shadowyInputField, key, value));
@@ -30,7 +46,7 @@ class PuiBaseComponent {
    * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
    * to the shadow tree.
    */
-  void updateAttributeInShadowDOM(InputElement inputfield, String key, String value) {
+  void updateAttributeInShadowDOM(Element inputfield, String key, String value) {
     if (originalValues.containsKey(key)) {
       String s = originalValues[key];
       if (s == null) {
@@ -46,7 +62,7 @@ class PuiBaseComponent {
     * to the shadow tree, and creates the map of original attribute values.
     */
 
-  void copyAttributesToShadowDOM(Element puiInputElement, InputElement shadowyInputField, Scope scope) {
+  void copyAttributesToShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
      originalValues = new Map();
 
      puiInputElement.attributes.forEach((String key, String value) =>
@@ -60,9 +76,9 @@ class PuiBaseComponent {
     * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
     * to the shadow tree, and adds to the map of original attribute values.
     */
- void addAttributeToShadowDOM(InputElement inputfield, String key, String value) {
+ void addAttributeToShadowDOM(Element inputfield, String key, String value) {
     var s = inputfield.attributes[key];
-    if (s != null && s.substring(0, 4) == "cmp.") {
+    if ((s != null) && (s.length>4) && (s.substring(0, 4) == "cmp.")) {
       return;
     }
     originalValues[key] = s;
