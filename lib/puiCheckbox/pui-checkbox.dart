@@ -74,6 +74,9 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
 
   }
   
+  /**
+   * Called by onClick to toggle the value of the check box.
+   */
   toggle() {
     if (true != disabled){
       if (disabled != false) {
@@ -84,6 +87,9 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
     }
   }
   
+  /**
+   * Updates the CSS classes to update model changes and the checkbox state. 
+   */
   update() {
     updateAttributesInShadowDOM(puiCheckboxElement, shadowyInputField, scope);
     if (true==ngmodel)
