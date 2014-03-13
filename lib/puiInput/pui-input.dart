@@ -59,7 +59,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
     shadowRoot.applyAuthorStyles = true;
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
-    shadowyInputField.onKeyUp.listen((KeyboardEvent e)=>updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
+    scope.$watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
   }
 }
 

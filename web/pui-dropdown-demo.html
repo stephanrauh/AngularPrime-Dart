@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>AngularDart-Prime: pui-dropdown </title>
+    <link rel="stylesheet" href="themes/aristo/theme.css">
+    <link rel="stylesheet" href="themes/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div puiInputDemo>
+    <h3>Three simple pui-dropdown fields</h3>
+    
+    
+    <table border="1" >
+    <tr style="background-color:#CCC">
+    <td>
+    
+    </td>
+    <td>
+    </td>
+    <td>
+        Model values (expressions in curly braces)
+    </td>
+    
+    </tr>
+    <tr>
+    <td>
+    Simple drop-down menu:
+    </td>
+    <td>
+    <pui-dropdown ng-model="ctrl.firstField" >
+      <option value="top dog">AngularPrime</option>
+      <option value="promising newcomer">AngularPrime/Dart</option>
+      <option value="foundation framework">PrimeUI</option>
+    </pui-dropdown>
+    </td>
+    <td>
+        {{ctrl.firstField}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Second input field:
+    </td>
+    <td>
+    <pui-dropdown ng-model="ctrl.secondField" editable="true">
+      <option value="top dog">AngularPrime</option>
+      <option value="promising newcomer">AngularPrime/Dart</option>
+      <option value="foundation framework">PrimeUI</option>
+    </pui-dropdown>
+    </td>
+    <td>
+        {{ctrl.secondField}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Input field with dynamic style:<br />(becomes red if empty)
+    </td>
+    <td>
+    <pui-dropdown ng-model="ctrl.thirdField" style="{{ctrl.thirdFieldStyle}}"></pui-dropdown>
+    </td>
+    <td>
+        {{ctrl.thirdField}}
+    </td>
+    </tr>
+    
+    </table>
+  </div>
+    
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>

@@ -22,6 +22,7 @@ import 'package:angularprime_dart/puiInput/pui-input.dart';
 import 'package:angularprime_dart/puiButton/pui-button.dart';
 import 'package:angularprime_dart/puiPanel/pui-panel.dart';
 import 'package:angularprime_dart/puiCheckbox/pui-checkbox.dart';
+import 'package:angularprime_dart/puiDropdown/pui-dropdown.dart';
 
 /**
  * AngularPrime-Dart applications can get access to every PUI component by deriving from this class.
@@ -33,5 +34,6 @@ class PuiModule extends Module {
     type(PuiButtonComponent);
     type(PuiPanelComponent);
     type(PuiCheckboxComponent);
+    type(PuiDropdownComponent);
   }
 }
