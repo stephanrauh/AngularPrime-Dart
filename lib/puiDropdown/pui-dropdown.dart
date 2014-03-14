@@ -70,6 +70,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   
   /** Map containing the selectable items of the drop down menu */
   Map<String, String> predefinedOptions = new Map<String, String>();
+
+  /** Map containing the selectable items of the drop down menu */
+  List<String> predefinedValuesAsList = new List<String>();
   
   /** The mouse click listener is needed to close the drop down menu by clicking somewhere outside. It has to be static
    * to be able to cancel it from another drop down menu.
@@ -99,10 +102,12 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     if (editable==true) {
       shadowySelection.style.display="none";
       shadowySelection.classes.add("ui-helper-hidden");
+      shadowyInputField.onKeyDown.listen((KeyboardEvent e){keyListener(e);});
     }
     else {
       shadowyInputField.style.display="none";
       shadowyInputField.classes.add("ui-helper-hidden");
+      // Todo: shadowySelection.onKeyDown.listen((KeyboardEvent e){keyListener(e);});
     }
     
     var children = puiInputElement.children;
@@ -110,6 +115,56 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
 //    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     scope.$watch(()=>ngmodel, (newVar, oldVar) => updateDisplayedValue());
     scope.$watch(()=>displayedValue, (newVar, oldVar) => updateNgModel());
+  }
+  
+  /**
+   * Enables key navigation.
+   */
+  keyListener(KeyboardEvent e) {
+    if (e.keyCode==KeyCode.ENTER)
+    {
+      toggleOptionBox();
+      return;
+    }
+
+    int currentSelectedIndex=-1; // undefined value as default
+    if (displayedValue!=null && displayedValue.length>0)
+    {
+      for (int i = 0; i < predefinedValuesAsList.length;i++)
+      {
+        if (predefinedValuesAsList[i]==displayedValue) {
+          currentSelectedIndex=i; 
+          break;
+        }
+      }
+    }
+    int newSelectedIndex=-1; // undefined value as default
+    if (e.keyCode==KeyCode.UP)
+    {
+      if (currentSelectedIndex<=0)
+        newSelectedIndex=predefinedValuesAsList.length-1;
+      else
+        newSelectedIndex= currentSelectedIndex-1;
+    }
+    else if (e.keyCode==KeyCode.DOWN)
+    {
+      if (currentSelectedIndex<0 || (currentSelectedIndex>=predefinedValuesAsList.length-1))
+        newSelectedIndex=0;
+      else
+        newSelectedIndex = currentSelectedIndex+1;
+    }
+    else if (editable==true){
+      // Todo: find the entry matching the entered character
+    }
+    if (newSelectedIndex>= 0)
+    {
+      displayedValue=predefinedValuesAsList[newSelectedIndex];
+      updateNgModel();
+      dropDownItems.children.forEach((LIElement li) => li.classes.remove("ui-state-highlight"));
+      dropDownItems.children[newSelectedIndex].classes.add('ui-state-highlight');
+
+    }
+
   }
   
   /**
@@ -158,6 +213,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     li.onClick.listen((Event) => select(li, v));
     dropDownItems.children.add(li);
     predefinedOptions[v]=description;
+    predefinedValuesAsList.add(description);
     
   }
   
@@ -188,7 +244,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
       dropDownPanel.style.display="block";
       currentlyOpenedDropDownPanel=dropDownPanel;
       dropDownPanel.parent.onMouseOver.listen((Event e){cancelMouseClickListener();}); 
-      dropDownPanel.parent.onMouseOut.listen((Event e){activateMouseClickListener();}); 
+      dropDownPanel.parent.onMouseOut.listen((Event e){activateMouseClickListener();});
     }
     else {
       dropDownPanel.style.display="none";
@@ -210,9 +266,10 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   activateMouseClickListener() {
     if (null == mouseClickListenerSubscription)
     {
-    mouseClickListenerSubscription = window.onClick.listen((MouseEvent e) {
-      toggleOptionBox();
-        });
+      mouseClickListenerSubscription = window.onClick.listen((MouseEvent e) {
+        toggleOptionBox();
+          });
+      dropDownPanel.onKeyDown.listen((KeyEvent e){keyListener(e);});
     }
   }
 }
