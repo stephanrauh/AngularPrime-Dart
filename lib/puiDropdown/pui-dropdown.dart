@@ -17,6 +17,7 @@
 library puiDropdown;
 
 import 'dart:html';
+import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:angularprime_dart/core/pui-base-component.dart';
 
@@ -33,7 +34,7 @@ import 'package:angularprime_dart/core/pui-base-component.dart';
 class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware  {
   /** The <pui-input> field as defined in the HTML source code. */ 
   Element puiInputElement;
- 
+  
   /** The <input> field in the shadow DOM displaying the component if the drop-down menu is editable. */
   InputElement shadowyInputField;
   
@@ -42,6 +43,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   
   /** This panel contains the list of predefined values. */
   DivElement dropDownPanel;
+  
+  /** We need this variable to hide a recently opened drop down panel before showing a new one */
+  static DivElement currentlyOpenedDropDownPanel;
   
   /** put the predefined values into this container */
   UListElement dropDownItems;
@@ -64,7 +68,13 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   /** The scope is needed to add watches. */
   Scope scope;
   
+  /** Map containing the selectable items of the drop down menu */
   Map<String, String> predefinedOptions = new Map<String, String>();
+  
+  /** The mouse click listener is needed to close the drop down menu by clicking somewhere outside. It has to be static
+   * to be able to cancel it from another drop down menu.
+   */
+  static StreamSubscription<MouseEvent> mouseClickListenerSubscription=null;
   
  
   /**
@@ -102,6 +112,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     scope.$watch(()=>displayedValue, (newVar, oldVar) => updateNgModel());
   }
   
+  /**
+   * Every change of the angular model has to result in a change of the displayed and the selected value of the drop down menu.
+   */
   updateNgModel() {
     if (!dontWatch)
     {
@@ -116,7 +129,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     else dontWatch=false;
   }
   
-  
+  /**
+   * Every key stroke in the input field has to modify the angular model.
+   */
   updateDisplayedValue() {
     if (dontWatch)
     {
@@ -130,6 +145,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
       displayedValue="";
   }
   
+  /**
+   * Adds an item to the drop down menu.
+   */
   add(Element option) {
     String v = option.value;
     String description = option.innerHtml;
@@ -143,6 +161,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     
   }
   
+  /**
+   * Highlight the selected item (while removing the highlight effect from the previously selected item).
+   */
   select(LIElement selectedLIElement, String v) {
     dropDownItems.children.forEach((LIElement li) => li.classes.remove("ui-state-highlight"));
     ngmodel=v;
@@ -150,16 +171,48 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     
   }
   
+  /**
+   * Show or hide the menu. Hide any menu that's previously been active.
+   */
   void toggleOptionBox()
   {
     String s = dropDownPanel.style.display;
     String v = dropDownPanel.style.visibility;
     
     if (s.contains("none")) {
+      cancelMouseClickListener();
+      if (null != currentlyOpenedDropDownPanel)
+      {
+        currentlyOpenedDropDownPanel.style.display="none";
+      }
       dropDownPanel.style.display="block";
+      currentlyOpenedDropDownPanel=dropDownPanel;
+      dropDownPanel.parent.onMouseOver.listen((Event e){cancelMouseClickListener();}); 
+      dropDownPanel.parent.onMouseOut.listen((Event e){activateMouseClickListener();}); 
     }
     else {
       dropDownPanel.style.display="none";
+      currentlyOpenedDropDownPanel=null;
+      cancelMouseClickListener();
+        
+    }
+  }
+
+  void cancelMouseClickListener() {
+    if (null != mouseClickListenerSubscription)
+    {
+      mouseClickListenerSubscription.cancel();
+      mouseClickListenerSubscription=null;
+    }
+  }
+
+  /** Mouse clicks outside the drop down menus close the menu. */
+  activateMouseClickListener() {
+    if (null == mouseClickListenerSubscription)
+    {
+    mouseClickListenerSubscription = window.onClick.listen((MouseEvent e) {
+      toggleOptionBox();
+        });
     }
   }
 }
