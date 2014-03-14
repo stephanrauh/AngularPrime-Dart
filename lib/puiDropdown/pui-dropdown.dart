@@ -27,6 +27,7 @@ import 'package:angularprime_dart/core/pui-base-component.dart';
     selector: 'pui-dropdown',
     templateUrl: 'packages/angularprime_dart/puiDropdown/pui-dropdown.html',
     cssUrl: 'packages/angularprime_dart/puiDropdown/pui-dropdown.css',
+    applyAuthorStyles: true,
     publishAs: 'cmp'
 )
 class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware  {
@@ -79,7 +80,6 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed. 
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowRoot.applyAuthorStyles = true;
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
     shadowySelection = shadowRoot.getElementsByTagName("label")[0];
     shadowySelection.parent.onClick.listen((Event) => toggleOptionBox());
@@ -135,7 +135,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     String description = option.innerHtml;
     LIElement li = new LIElement();
     li.attributes["data-label"] =description;
-    li.classes.add('pui-dropdown-item pui-dropdown-list-item ui-corner-all');
+    li.classes.add('pui-dropdown-item pui-dropdown-list-item ui-corner-all pui-dropdown-label');
     li.innerHtml=description;
     li.onClick.listen((Event) => select(li, v));
     dropDownItems.children.add(li);

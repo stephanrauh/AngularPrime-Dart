@@ -27,6 +27,7 @@ import 'package:angularprime_dart/core/pui-base-component.dart';
     selector: 'pui-checkbox',
     templateUrl: 'packages/angularprime_dart/puiCheckbox/pui-checkbox.html',
     cssUrl: 'packages/angularprime_dart/puiCheckbox/pui-checkbox.css',
+    applyAuthorStyles: true,
     publishAs: 'cmp'
 )
 class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware  {
@@ -63,7 +64,6 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed. 
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowRoot.applyAuthorStyles = true;
     shadowyInputField = shadowRoot.getElementById("checkboxVisibleItemId");
     iconElement = shadowRoot.getElementById("checkboxIconId");
     copyAttributesToShadowDOM(puiCheckboxElement, shadowyInputField, scope);
@@ -105,10 +105,12 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
     if (true==disabled)
     {
       shadowyInputField.classes.add("ui-state-disabled");
+      iconElement.classes.add("ui-state-disabled");
     }
     else
     {
       shadowyInputField.classes.remove("ui-state-disabled");
+      iconElement.classes.remove("ui-state-disabled");
     }
   }
 }

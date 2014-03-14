@@ -27,6 +27,7 @@ import 'package:angularprime_dart/core/pui-base-component.dart';
     selector: 'pui-input',
     templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
     cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',
+    applyAuthorStyles: true,
     publishAs: 'cmp'
 )
 class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAware  {
@@ -56,7 +57,6 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed. 
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowRoot.applyAuthorStyles = true;
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     scope.$watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));

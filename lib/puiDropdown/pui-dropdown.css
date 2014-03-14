@@ -5,6 +5,7 @@
     zoom: 1;
     cursor: pointer;
     overflow: hidden;
+    border-spacing: 0px;
 }
 
 .pui-dropdown .pui-dropdown-trigger {
@@ -99,4 +100,16 @@
   font-family: Arial,sans-serif;
   font-size: 14px;
   height:16px;
+}
+
+.pui-inputtext {
+    margin: 0;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal;
+}
+
+.ui-widget-header .pui-inputtext,
+.ui-widget-content .pui-inputtext {
+    font-weight: normal;
 }

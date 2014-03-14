@@ -23,6 +23,7 @@ import 'dart:html';
     selector: 'pui-panel',
     templateUrl: 'packages/angularprime_dart/puiPanel/pui-panel.html',
     cssUrl: 'packages/angularprime_dart/puiPanel/pui-panel.css',  
+    applyAuthorStyles: true,
     publishAs: 'cmp'
 )
 class PuiPanelComponent extends NgShadowRootAware {
@@ -122,10 +123,7 @@ class PuiPanelComponent extends NgShadowRootAware {
   }
   
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowRoot.applyAuthorStyles = true;
-
     titlebar = shadowRoot.querySelector('.pui-panel-titlebar');
-    
     content = shadowRoot.querySelector('.pui-panel-content');
     convertAttributes();
     

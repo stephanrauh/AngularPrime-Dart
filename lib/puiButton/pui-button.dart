@@ -24,6 +24,7 @@ import 'package:angular/angular.dart';
     selector: 'pui-button', 
     templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html', 
     cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css', 
+    applyAuthorStyles: true,
     publishAs: 'cmp')
 class PuiButtonComponent extends NgShadowRootAware {
 
@@ -52,7 +53,6 @@ class PuiButtonComponent extends NgShadowRootAware {
   
   /** We add the optional icon to the button during the initialization of the shadow DOM tree. */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowRoot.applyAuthorStyles = true;
     button = shadowRoot.querySelector('button');
     
     if (disabled!=null)

@@ -18,7 +18,7 @@ library angularprime_dart;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
-
+import 'dart:async';
 
 /**
  * This class encapsulates common behaviour of the components of AngularPrime-Dart.
@@ -37,9 +37,10 @@ class PuiBaseComponent {
    * to the shadow tree.
    */
   void updateAttributesInShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
-    
-    puiInputElement.attributes.forEach((String key, String value) =>
-        updateAttributeInShadowDOM(shadowyInputField, key, value));
+    scheduleMicrotask(() {
+      puiInputElement.attributes.forEach((String key, String value) =>
+          updateAttributeInShadowDOM(shadowyInputField, key, value));
+    });
   }
 
   /** 
