@@ -115,6 +115,8 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
 //    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     scope.$watch(()=>ngmodel, (newVar, oldVar) => updateDisplayedValue());
     scope.$watch(()=>displayedValue, (newVar, oldVar) => updateNgModel());
+    addWatches(puiInputElement, shadowyInputField, scope);
+
   }
   
   /**

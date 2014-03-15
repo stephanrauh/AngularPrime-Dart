@@ -18,6 +18,7 @@ library puiPanel;
 
 import 'package:angular/angular.dart';
 import 'dart:html';
+import 'package:angularprime_dart/core/pui-base-component.dart';
 import 'package:animation/animation.dart';
 import 'package:animation/effect.dart';
 
@@ -29,7 +30,7 @@ import 'package:animation/effect.dart';
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiPanelComponent extends NgShadowRootAware {
+class PuiPanelComponent  extends PuiBaseComponent implements NgShadowRootAware  {
   @NgAttr("header")
   String header;
   
@@ -47,6 +48,19 @@ class PuiPanelComponent extends NgShadowRootAware {
   bool collapsedState;
   HtmlElement toggler;
   
+
+  /** The <pui-panel> field as defined in the HTML source code. */ 
+  Element puiPanelElement;
+ 
+  /** The scope is needed to add watches. */
+  Scope scope;
+  
+  /**
+   * Initializes the component by setting the <pui-panel> field and setting the scope.
+   */
+  PuiPanelComponent(this.scope, this.puiPanelElement) {
+  }
+
   
   void convertAttributes() {
     collapsedState = false;

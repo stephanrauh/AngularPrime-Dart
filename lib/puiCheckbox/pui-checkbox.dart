@@ -70,6 +70,9 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
     update();
     shadowyInputField.onChange.listen((Event e)=>update());
     shadowyInputField.onClick.listen((Event e)=>toggle());
+    
+    addWatches(puiCheckboxElement, shadowyInputField, scope);
+
     scope.$watch(()=>ngmodel, (newVar, oldVar) => update());
 
   }

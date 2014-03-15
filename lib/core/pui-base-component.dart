@@ -45,7 +45,11 @@ class PuiBaseComponent {
 
   /** 
    * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
-   * to the shadow tree.
+   * to the same component of the shadow tree.
+   * @param inputfield The component that play the same role of the pui-component in the shadow tree. For instance, pui-input
+   * is displayed by an input field in the shadow tree. If there no such component, the parameter may be null, and the method does
+   * nothing at all.
+   * In this case the method may still be useful if it's overridden (as is the case with pui-accordion).
    */
   void updateAttributeInShadowDOM(Element inputfield, String key, String value) {
     if (originalValues.containsKey(key)) {
@@ -63,6 +67,30 @@ class PuiBaseComponent {
     * to the shadow tree, and creates the map of original attribute values.
     */
 
+  void addWatches(Element puiInputElement, Element shadowyInputField, Scope scope) {
+    String w = puiInputElement.attributes["pui-toBeWatched"];
+    if (null != w && w.length>0)
+    {
+      List<String> list = w.split(" ");
+      list.forEach((String exp) => addWatch(scope, exp, puiInputElement, shadowyInputField));
+    }
+   }
+
+  /** This method is a little sophisticated.
+    * The current scope refers to the pui-component implementation itself.
+    * The parent scope refers to the outer world. That's where the pui-component is declared.
+    * We want to react on changes of the values of the pui-component declaration,
+    * so we add a watch to the parent scope.
+    */
+  addWatch(Scope scope, String exp, Element puiInputElement, Element shadowyInputField) => scope.$parent.$watch("$exp",  (newVar, oldVar){
+        updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope);
+      });
+
+  /** 
+    * Copies every attribute from the updated <pui-input> - which contains the current model values - 
+    * to the shadow tree, and creates the map of original attribute values.
+    */
+
   void copyAttributesToShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
      originalValues = new Map();
 
@@ -71,7 +99,6 @@ class PuiBaseComponent {
      
 //     scope.$watch(()=>puiInputElement.attributes["ng-model"], (newVar, oldVar) => 
 //          updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
-
    }
   /** 
     * Copies a single attribute from the updated <pui-input> - which contains the current model values - 

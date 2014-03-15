@@ -34,9 +34,9 @@
     I'm a shy one :).
     </pui-accordion>
     
-    <pui-accordion header="This accordion row can be hidden programmatically." collapse="{{ctrl.secondBoolean}}" ng-cloak>
+    <pui-accordion header="This accordion row can be hidden programmatically." collapsed="{{ctrl.secondBoolean}}" ng-cloak>
     Collapsed:
-    <pui-checkbox ng-model="ctrl.secondBoolean" ></pui-checkbox>
+    <pui-checkbox ng-model="ctrl.secondBoolean" ></pui-checkbox> ng-model={{ctrl.secondBoolean}}
     </pui-accordion>
     
   </div>

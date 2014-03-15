@@ -18,7 +18,7 @@ library puiButton;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
-//import 'dart:async';
+import 'package:angularprime_dart/core/pui-base-component.dart';
 
 @NgComponent(
     selector: 'pui-button', 
@@ -26,7 +26,7 @@ import 'package:angular/angular.dart';
     cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css', 
     applyAuthorStyles: true,
     publishAs: 'cmp')
-class PuiButtonComponent extends NgShadowRootAware {
+class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware {
 
   @NgAttr("onClick")
   String onClick;
@@ -72,6 +72,8 @@ class PuiButtonComponent extends NgShadowRootAware {
     } else {
       drawIcon();
     }
+    addWatches(puiButton, button, scope);
+
     
   }
 
