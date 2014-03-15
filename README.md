@@ -17,8 +17,8 @@ The project's still in its nascient state. Be prepared for rapid changes of the 
 <b>Components implemented so far</b>
 Structural components:
 <table>
-<tr><td>>&lt;pui-panel>&gt;</td><td>finished except shrink and grow effects</td></tr>
-<tr><td>>&lt;pui-accordion>&gt;</td><td>finished except shrink and grow effects and collapsing of the other accordion ribs after activating a rib</td></tr>
+<tr><td>&lt;pui-panel&gt;</td><td>finished except shrink and grow effects</td></tr>
+<tr><td>&lt;pui-accordion&gt;</td><td>finished except shrink and grow effects and collapsing of the other accordion ribs after activating a rib</td></tr>
 <tr><td>&lt;pui-tabview&gt;</td><td>coming soon</td></tr>
 </table>
 
