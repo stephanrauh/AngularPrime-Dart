@@ -90,16 +90,13 @@ class PuiBaseComponent {
     * Copies every attribute from the updated <pui-input> - which contains the current model values - 
     * to the shadow tree, and creates the map of original attribute values.
     */
-
   void copyAttributesToShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
      originalValues = new Map();
 
      puiInputElement.attributes.forEach((String key, String value) =>
          addAttributeToShadowDOM(shadowyInputField, key, value));
-     
-//     scope.$watch(()=>puiInputElement.attributes["ng-model"], (newVar, oldVar) => 
-//          updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
    }
+
   /** 
     * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
     * to the shadow tree, and adds to the map of original attribute values.

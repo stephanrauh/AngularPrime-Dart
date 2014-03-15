@@ -12,5 +12,24 @@ The goal of the project is to provide
 </ul> 
 
 <b>Current state of the art:</b>
-The project is in it's nascient state. Development takes place in the "experimental" packages until
-the sources become more mature.
+The project is in it's nascient state. Be prepared for rapid changes of the API.
+
+<b>Components implemented so far</b>
+Structural components:
+<table>
+<tr style="background-color:#CCC"><td>Component</td><td>State</td></tr>
+<tr><td>pui-panel</td><td>finished except shrink and grow effects</td></tr>
+<tr><td>pui-accordion</td><td>finished except shrink and grow effects</td></tr>
+<tr><td>&lt;pui-tabview&gt;</td><td>coming soon</td></tr>
+</table>
+
+Components dealing with input:
+<table>
+<tr style="background-color:#CCC"><td>Component</td><td>State</td></tr>
+<tr><td>&lt;pui-input&gt;</td><td> finished except "disabled" attribute</td></tr>
+<tr><td>&lt;pui-button&gt;</td><td>finished</td></tr>
+<tr><td>&lt;pui-checkbox&gt;</td><td>finished</td></tr>
+<tr><td>&lt;pui-textarea&gt;</td><td>coming soon</td></tr>
+<tr><td>&lt;pui-dropdown&gt;</td><td>finished except keyboard support of non-editable drop drop menus</td></tr>
+<tr><td>pui-panel</td><td></td></tr>
+</table>
