@@ -55,11 +55,12 @@ class PuiAccordionComponent extends NgShadowRootAware {
   bool collapsedState=false;
   
   /** Is the accordion panel currently collapsed? */
-  @NgOneWay("collapsed")
+  @NgTwoWay("collapsed")
   set collapsed(bool state) {
     collapsedState=(null!= state && state);
     if (collapsedState) collapse(); else expand();
    }
+  bool get collapsed => collapsedState;
   
   /** Allows accordions to collapse vertically (similar to the way Eclipse collapses views) */ 
   @NgAttr("toggleOrientation")
