@@ -18,6 +18,9 @@ library puiPanel;
 
 import 'package:angular/angular.dart';
 import 'dart:html';
+import 'package:animation/animation.dart';
+import 'package:animation/effect.dart';
+
 
 @NgComponent(
     selector: 'pui-panel',
@@ -98,10 +101,12 @@ class PuiPanelComponent extends NgShadowRootAware {
   }
   
   void _slideUp() {
+    //slideOut(content, direction: "up")
     content.hidden = true; 
    }
 
   void _slideDown() {  
+    //slideIn(content, direction: "down")
     content.hidden = false; 
   }
 

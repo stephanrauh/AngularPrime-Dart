@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>AngularDart-Prime: pui-accordion </title>
+    <link rel="stylesheet" href="themes/aristo/theme.css">
+    <link rel="stylesheet" href="themes/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div puiInputDemo>
+    <h3>&lt;pui-accordion&gt; - a way of grouping dialog contents that's suited particularly well for large dialogs</h3>
+    
+    <pui-accordion ng-cloak header="Click me to hide or show my contents!" >
+    Lorem ipsum sit dolorem!
+    </pui-accordion>
+    
+    
+    <pui-accordion header="Initially I'm collapsed." collapsed="true" ng-cloak >
+    Lorem ipsum sit dolorem!
+    </pui-accordion>
+    
+    <pui-accordion header="I can't be hidden." toggleable="false" ng-cloak>
+    Lorem ipsum sit dolorem!
+    </pui-accordion>
+    
+    <pui-accordion header="I can be hidden if the check box is checked." toggleable="{{ctrl.firstBoolean}}" ng-cloak>
+    Toggling enabled:
+    <pui-checkbox ng-model="ctrl.firstBoolean" ></pui-checkbox>
+    </pui-accordion>
+    
+
+    <pui-accordion header="This accordion collapses horizontally" toggleable="true" toggleOrientation="horizontal" ng-cloak>
+    I'm a shy one :).
+    </pui-accordion>
+    
+    <!-- Doesn't work yet 
+    <pui-accordion header="This accordion row can be hidden programmatically." collapse="{{ctrl.secondBoolean}}" ng-cloak>
+    Collapsed:
+    <pui-checkbox ng-model="ctrl.secondBoolean" ></pui-checkbox>
+    </pui-accordion>
+    -->
+    
+  </div>
+    
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>

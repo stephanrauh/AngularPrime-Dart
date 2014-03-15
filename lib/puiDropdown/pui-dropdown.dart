@@ -118,7 +118,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   }
   
   /**
-   * Enables key navigation.
+   * Enables keyboard navigation.
    */
   keyListener(KeyboardEvent e) {
     if (e.keyCode==KeyCode.ENTER)

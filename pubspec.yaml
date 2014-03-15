@@ -5,6 +5,7 @@ dependencies:
   js: any
   shadow_dom: any
   polymer: any
+  animation: any
   
 
 dev_dependencies:

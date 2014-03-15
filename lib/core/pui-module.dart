@@ -18,9 +18,11 @@ library angularprime_dart;
 
 import 'package:angular/angular.dart';
 import 'package:di/di.dart';
+import 'package:angularprime_dart/puiPanel/pui-panel.dart';
+import 'package:angularprime_dart/puiAccordion/pui-accordion.dart';
+
 import 'package:angularprime_dart/puiInput/pui-input.dart';
 import 'package:angularprime_dart/puiButton/pui-button.dart';
-import 'package:angularprime_dart/puiPanel/pui-panel.dart';
 import 'package:angularprime_dart/puiCheckbox/pui-checkbox.dart';
 import 'package:angularprime_dart/puiDropdown/pui-dropdown.dart';
 
@@ -30,9 +32,11 @@ import 'package:angularprime_dart/puiDropdown/pui-dropdown.dart';
  */
 class PuiModule extends Module {
   PuiModule() {
+    type(PuiPanelComponent);
+    type(PuiAccordionComponent);
+    
     type(PuiInputTextComponent);
     type(PuiButtonComponent);
-    type(PuiPanelComponent);
     type(PuiCheckboxComponent);
     type(PuiDropdownComponent);
   }
