@@ -122,3 +122,6 @@
     margin:0 0.2em 1px 0;
     border-left:0 none;
 }
+
+/* Added for AngularPrime/Dart because this CSS class seems to get lost in nested components */
+.ui-helper-hidden { display: none; }

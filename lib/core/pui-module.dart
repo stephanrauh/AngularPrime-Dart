@@ -21,7 +21,6 @@ import 'package:di/di.dart';
 import 'package:angularprime_dart/puiPanel/pui-panel.dart';
 import 'package:angularprime_dart/puiAccordion/pui-accordion.dart';
 import 'package:angularprime_dart/puiTabview/pui-tabview.dart';
-import 'package:angularprime_dart/puiTabview/pui-tab.dart';
 
 
 import 'package:angularprime_dart/puiInput/pui-input.dart';
@@ -32,6 +31,8 @@ import 'package:angularprime_dart/puiTextarea/pui-textarea.dart';
 import 'package:angularprime_dart/puiRadiobuttons/pui-radiobutton.dart';
 
 import 'dart:html';
+import 'package:logging/logging.dart';
+
 
 
 /**
@@ -81,11 +82,15 @@ class PuiModule extends Module {
 
 
   PuiModule() {
+    Logger.root.level = Level.FINEST;
+    Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
 
     findNodesToBeWatched();
 
     type(PuiPanelComponent);
     type(PuiAccordionComponent);
+//    type(TabPanelComponent);
+//    type(TabComponent);
     type(PuiTabviewComponent);
     type(PuiTabComponent);
 

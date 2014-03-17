@@ -1,7 +1,5 @@
-<li class="ui-state-default ui-corner-top pui-tabview-selected ui-state-active" aria-expanded="true"><a href="#d_tab1">Tab 1</a><span class="ui-icon ui-icon-close"></span>
-  <div class="pui-tabview-panels">
-    <div id="d_tab1" class="pui-tabview-panel ui-widget-content ui-corner-bottom" aria-hidden="false" style="display: block;">
-      <content></content>
-    </div>
+<div class="pui-tabview-panels {{cmp.hiddenClass()}}">
+  <div class="pui-tabview-panel ui-widget-content ui-corner-bottom" aria-hidden="{{!cmp.isSelected}}">
+    <content></content>
   </div>
-</li>
+</div>
