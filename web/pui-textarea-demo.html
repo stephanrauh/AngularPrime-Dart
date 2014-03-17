@@ -7,29 +7,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
+
   <div puiInputDemo>
     <h3>Text areas</h3>
-    
-    
+
+
     <table border="1" >
     <tr style="background-color:#CCC">
     <td>
-    
+
     </td>
     <td>
     </td>
     <td>
         Model values (expressions in curly braces)
     </td>
-    
+
     </tr>
     <tr>
     <td>
-    First input field:
+    Default text area:
     </td>
     <td>
-    <pui-input ng-model="ctrl.firstField" ></pui-input>
+    <pui-textarea ng-model="ctrl.firstField" ></pui-textarea>
     </td>
     <td>
         {{ctrl.firstField}}
@@ -37,10 +37,10 @@
     </tr>
     <tr>
     <td>
-    Second input field:
+    Autoresizeable textarea:
     </td>
     <td>
-    <pui-input ng-model="ctrl.secondField" style="background-color:#0F0"></pui-input>
+    <pui-textarea ng-model="ctrl.secondField" style="background-color:#0F0" autoresize="true"></pui-textarea>
     </td>
     <td>
         {{ctrl.secondField}}
@@ -48,19 +48,19 @@
     </tr>
     <tr>
     <td>
-    Input field with dynamic style:<br />(becomes red if empty)
+    Textarea with dynamic style:<br />(becomes red if empty)
     </td>
     <td>
-    <pui-input ng-model="ctrl.thirdField" style="{{ctrl.thirdFieldStyle}}"></pui-input>
+    <pui-textarea ng-model="ctrl.thirdField" style="{{ctrl.thirdFieldStyle}}"></pui-textarea>
     </td>
     <td>
         {{ctrl.thirdField}}
     </td>
     </tr>
-    
+
     </table>
   </div>
-    
+
   <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>
 </body>

@@ -45,7 +45,7 @@ class PuiModule extends Module {
   /** Analyses each pui component of the DOM tree and add register attributes to be watched. */
   static void findNodesToBeWatched()
   {
-    List<String> puiElements = ['pui-panel','pui-accordion', 'pui-input', 'pui-button', 'pui-checkbox', 'pui-dropdown'];
+    List<String> puiElements = ['pui-panel','pui-accordion', 'pui-input', 'pui-button', 'pui-checkbox', 'pui-dropdown', 'pui-textarea'];
     List<HtmlElement> myComponents = puiElements.fold(null, (List<HtmlElement> list, String puiType) => addTags(list, puiType));
     myComponents.forEach((HtmlElement n) => registerAttributesToBeWatched(n));
   }
@@ -89,8 +89,6 @@ class PuiModule extends Module {
 
     type(PuiPanelComponent);
     type(PuiAccordionComponent);
-//    type(TabPanelComponent);
-//    type(TabComponent);
     type(PuiTabviewComponent);
     type(PuiTabComponent);
 
@@ -99,6 +97,6 @@ class PuiModule extends Module {
     type(PuiCheckboxComponent);
     type(PuiDropdownComponent);
 //    type(PuiRadiobuttonComponent);
-//    type(PuiTextareaComponent);
+    type(PuiTextareaComponent);
   }
 }

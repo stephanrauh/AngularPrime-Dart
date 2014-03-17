@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,18 +22,18 @@ import 'dart:async';
 
 /**
  * This class encapsulates common behaviour of the components of AngularPrime-Dart.
- * Most notably, the values of the attributes of the PUI template and the HTML code written by the 
+ * Most notably, the values of the attributes of the PUI template and the HTML code written by the
  * user are merged into the shadow tree.
- * 
- * @Todo The merger should happen when the model changes. Current, it's triggered by the users key strokes.   
+ *
+ * @Todo The merger should happen when the model changes. Current, it's triggered by the users key strokes.
  */
 class PuiBaseComponent {
-  
+
   /** Stores the attributes originally defined by the user. */
   Map<String, String> originalValues;
- 
-  /** 
-   * Copies every attribute from the updated <pui-input> - which contains the current model values - 
+
+  /**
+   * Copies every attribute from the updated <pui-input> - which contains the current model values -
    * to the shadow tree.
    */
   void updateAttributesInShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
@@ -43,8 +43,8 @@ class PuiBaseComponent {
     });
   }
 
-  /** 
-   * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
+  /**
+   * Copies a single attribute from the updated <pui-input> - which contains the current model values -
    * to the same component of the shadow tree.
    * @param inputfield The component that play the same role of the pui-component in the shadow tree. For instance, pui-input
    * is displayed by an input field in the shadow tree. If there no such component, the parameter may be null, and the method does
@@ -62,8 +62,8 @@ class PuiBaseComponent {
     }
   }
 
-  /** 
-    * Copies every attribute from the updated <pui-input> - which contains the current model values - 
+  /**
+    * Copies every attribute from the updated <pui-input> - which contains the current model values -
     * to the shadow tree, and creates the map of original attribute values.
     */
 
@@ -86,8 +86,8 @@ class PuiBaseComponent {
         updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope);
       });
 
-  /** 
-    * Copies every attribute from the updated <pui-input> - which contains the current model values - 
+  /**
+    * Copies every attribute from the updated <pui-input> - which contains the current model values -
     * to the shadow tree, and creates the map of original attribute values.
     */
   void copyAttributesToShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
@@ -97,8 +97,8 @@ class PuiBaseComponent {
          addAttributeToShadowDOM(shadowyInputField, key, value));
    }
 
-  /** 
-    * Copies a single attribute from the updated <pui-input> - which contains the current model values - 
+  /**
+    * Copies a single attribute from the updated <pui-input> - which contains the current model values -
     * to the shadow tree, and adds to the map of original attribute values.
     */
  void addAttributeToShadowDOM(Element inputfield, String key, String value) {

@@ -36,18 +36,22 @@ class PuiTextareaComponent extends PuiBaseComponent implements NgShadowRootAware
   String ngmodel;
 
   /** The <textarea> field in the shadow DOM displaying the component. */
-  TextAreaElement shadowyInputField;
+  TextAreaElement shadowyTextareaField;
 
   /** The <pui-textarea> field as defined in the HTML source code. */
-  Element puiInputElement;
+  Element puiTextareaElement;
 
   /** The scope is needed to add watches. */
   Scope scope;
 
+  /** Does the text area grow automatically if more space is needed? */
+  @NgAttr("autoresize")
+  String autoresize;
+
   /**
    * Initializes the component by setting the <pui-textarea> field and setting the scope.
    */
-  PuiTextareaComponent(this.scope, this.puiInputElement) {
+  PuiTextareaComponent(this.scope, this.puiTextareaElement) {
   }
 
   /**
@@ -57,10 +61,15 @@ class PuiTextareaComponent extends PuiBaseComponent implements NgShadowRootAware
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowyInputField = shadowRoot.getElementsByTagName("textarea")[0];
-    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
-    addWatches(puiInputElement, shadowyInputField, scope);
-    scope.$watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
+    shadowyTextareaField = shadowRoot.getElementsByTagName("textarea")[0];
+    // @ToDo: the class shouldn't be added to the pui-class, but to the inner class
+    // (but the class definition is currently destroyed by copyAttributesToShadowDOM and
+    // updateAttributesInShadowDOM)
+    if (autoresize=="true")
+      puiTextareaElement.classes.add("pui-inputtextarea-resizable");
+    copyAttributesToShadowDOM(puiTextareaElement, shadowyTextareaField, scope);
+    addWatches(puiTextareaElement, shadowyTextareaField, scope);
+    scope.$watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiTextareaElement, shadowyTextareaField, scope));
   }
 }
 

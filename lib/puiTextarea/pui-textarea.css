@@ -10,6 +10,7 @@
     font-weight: normal;
 }
 
+/* Sort of a misnomer: the component is not by the user, but by filling the content area until more space is needed */
 .pui-inputtextarea-resizable {
     overflow: hidden;
     resize:none;
