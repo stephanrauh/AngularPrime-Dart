@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>AngularDart-Prime: pui-datatable </title>
+    <link rel="stylesheet" href="themes/aristo/theme.css">
+    <link rel="stylesheet" href="themes/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body ng-cloak>
+
+  <div puiInputDemo>
+     <h3>The &lt;pui-datatable&gt; is an advanced datatable widget insprired by the datatable component of PrimeFaces.</h3>
+
+     <pui-datatable table="ctrl.carTable">
+      <pui-column title="Marke">
+         {{row.brand}}
+       </pui-column>
+       <pui-column title="Baujahr" selected="true">
+         {{row.year}}
+       </pui-column>
+       <pui-column title="Farbe" closeable="true">
+         {{row.color}}
+       </pui-column>
+     </pui-datatable>
+  </div>
+
+
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>

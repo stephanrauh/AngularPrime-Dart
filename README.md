@@ -20,6 +20,7 @@ Structural components:
 <tr><td>&lt;pui-panel&gt;</td><td>finished except shrink and grow effects</td></tr>
 <tr><td>&lt;pui-accordion&gt;</td><td>finished except shrink and grow effects and collapsing of the other accordion ribs after activating a rib</td></tr>
 <tr><td>&lt;pui-tabview&gt;</td><td>finished except vertically orientated tabs</td></tr>
+<tr><td>&lt;pui-datatable&gt;</td><td>work in progress</td></tr>
 </table>
 
 Components dealing with input:

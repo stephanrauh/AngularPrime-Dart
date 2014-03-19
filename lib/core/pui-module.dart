@@ -22,6 +22,8 @@ import 'package:angularprime_dart/puiPanel/pui-panel.dart';
 import 'package:angularprime_dart/puiAccordion/pui-accordion.dart';
 import 'package:angularprime_dart/puiTabview/pui-tabview.dart';
 
+import 'package:angularprime_dart/puiDatatable/pui-datatable.dart';
+
 
 import 'package:angularprime_dart/puiInput/pui-input.dart';
 import 'package:angularprime_dart/puiButton/pui-button.dart';
@@ -91,6 +93,9 @@ class PuiModule extends Module {
     type(PuiAccordionComponent);
     type(PuiTabviewComponent);
     type(PuiTabComponent);
+
+    type(PuiDatatableComponent);
+    type(PuiColumnComponent);
 
     type(PuiInputTextComponent);
     type(PuiButtonComponent);

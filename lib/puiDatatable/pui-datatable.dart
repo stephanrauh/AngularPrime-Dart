@@ -1,17 +1,17 @@
-library puiTabview;
+library puiDatatable;
 
 import 'package:angularprime_dart/core/pui-base-component.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
 
 /**
- * A <pui-tabview> consists of a number of <pui-tabs>, each containing content that's hidden of shown
+ * A <pui-datatable> consists of a number of <pui-tabs>, each containing content that's hidden of shown
  * depending on whether the tab is active or not. Only one tab can be active at a time.
  *
  * The programming model is much like the API of the PrimeFaces <tabView> component.
  *
  * Usage:
- * <pui-tabview>
+ * <pui-datatable>
  *   <pui-tab title="first tab">
  *      content of first tab
  *   </pui-tab>
@@ -21,54 +21,54 @@ import 'dart:html';
  *   <pui-tab title="closable tab" closeable="true">
  *      content of closeable tab
  *   </pui-tab>
- * </pui-tabview>
+ * </pui-datatable>
  *
  * Kudos: This component's development was helped a lot by a stackoverflow answer:
  * http://stackoverflow.com/questions/20531349/struggling-to-implement-tabs-in-angulardart.
  */
 @NgComponent(
   visibility: NgDirective.CHILDREN_VISIBILITY,
-  selector: 'pui-tabview',
-  templateUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.html',
-  cssUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.css',
+  selector: 'pui-datatable',
+  templateUrl: 'packages/angularprime_dart/puiDatatable/pui-datatable.html',
+  cssUrl: 'packages/angularprime_dart/puiDatatable/pui-datatable.css',
   applyAuthorStyles: true,
   publishAs: 'cmp'
 )
-class PuiTabviewComponent extends PuiBaseComponent implements NgShadowRootAware {
+class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAware {
 
-  /** Which tabs does this <pui-tabview> consist of? */
-  List<PuiTabComponent> panes = new List();
+  /** Which tabs does this <pui-datatable> consist of? */
+  List<PuiColumnComponent> panes = new List();
 
   /** The <pui-input> field as defined in the HTML source code. */
-  Element puiTabviewElement;
+  Element puiDatatableElement;
 
   /** The scope is needed to add watches. */
   Scope scope;
 
   /**
-   * Initializes the component by setting the <pui-tabview> field and setting the scope.
+   * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiTabviewComponent(this.scope, this.puiTabviewElement) {}
+  PuiDatatableComponent(this.scope, this.puiDatatableElement) {}
 
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    copyAttributesToShadowDOM(puiTabviewElement, null, scope);
-    addWatches(puiTabviewElement, null, scope);
+    copyAttributesToShadowDOM(puiDatatableElement, null, scope);
+    addWatches(puiDatatableElement, null, scope);
   }
 
   /** This is the mouse click listener activating a certain tab. */
-  select(MouseEvent evt, PuiTabComponent selectedPane ) {
-    for (PuiTabComponent pane in panes) {
+  select(MouseEvent evt, PuiColumnComponent selectedPane ) {
+    for (PuiColumnComponent pane in panes) {
       pane.setSelected(pane == selectedPane);
     }
     evt.preventDefault();
   }
 
   /** This is the mouse click listener closing a certain tab. */
-  close(MouseEvent evt, PuiTabComponent toBeClosed) {
+  close(MouseEvent evt, PuiColumnComponent toBeClosed) {
     bool hasBeenSelected = toBeClosed.isSelected;
     int index = panes.indexOf(toBeClosed);
     if (hasBeenSelected)
@@ -87,69 +87,69 @@ class PuiTabviewComponent extends PuiBaseComponent implements NgShadowRootAware 
   }
 
 
-  /** This method is called automatically by the <pui-tabs> when they register themselves to the <pui-tabview>. */
-  add(PuiTabComponent pane) {
+  /** This method is called automatically by the <pui-columns> when they register themselves to the <pui-datatable>. */
+  add(PuiColumnComponent pane) {
     panes.add(pane);
   }
 }
 
-/** <pui-tab> is a single tab. The <pui-tabview> consists of several <pui-tabs>. */
+/** <pui-column> is a single column. The <pui-datatable> consists of several <pui-columns>. */
 @NgComponent(
-    selector: 'pui-tab',
-    templateUrl: 'packages/angularprime_dart/puiTabview/pui-tab.html',
-    cssUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.css',
+    selector: 'pui-column',
+    templateUrl: 'packages/angularprime_dart/puiDatatable/pui-column.html',
+    cssUrl: 'packages/angularprime_dart/puiDatatable/pui-datatable.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiTabComponent {
+class PuiColumnComponent {
 
   /** The caption of the tab. */
   @NgAttr("title")
   String name;
 
-  /** Can the tab be closed? */
+  /** Can the column be removed? */
   bool _closeable;
 
-  /** Can the tab be closed? */
+  /** Can the column be closed? */
   @NgAttr("closeable")
   set closeable(String s){_closeable="true"==s; }
 
-  /** The parent <pui-tabview>. Needed to register the tab. */
-  PuiTabviewComponent _tab;
+  /** The parent <pui-datatable>. Needed to register the column. */
+  PuiDatatableComponent _tab;
 
   /** Is the current tab active? */
   bool _selected = false;
 
-  /** The constructor of the tab initializes the reference to the parent <pui-tabview>, the scope
-   * and the HTML code of the <pui-tab> itself.
+  /** The constructor of the column initializes the reference to the parent <pui-datatable>, the scope
+   * and the HTML code of the <pui-column> itself.
    */
-  PuiTabComponent(this._tab) {
+  PuiColumnComponent(this._tab) {
     _tab.add(this);
   }
 
-  /** Is the current tab active? This method is exposed to the declaration in the HTML code. */
+  /** Is the current column active? This method is exposed to the declaration in the HTML code. */
   @NgAttr("selected")
   set isSelectedByDefault(String selected) {
     _selected = selected == "true";
   }
 
-  /** Is the current tab active? */
+  /** Is the current column active? */
   bool get isSelected => _selected;
 
-  /** Is the current tab active? */
+  /** Is the current column active? */
   void setSelected(bool b){_selected=b;}
 
-  /** returns the CSS class PrimeUI uses to display an activated or deactivated tab. */
+  /** returns the CSS class PrimeUI uses to display an activated or deactivated column. */
   String selectedClass() {
-    return _selected ? "pui-tabview-selected ui-state-active" : "";
+    return _selected ? "pui-datatable-selected ui-state-active" : "";
   }
 
-  /** returns the CSS class to hide a tab's content. */
+  /** returns the CSS class to hide a column's content. */
   String hiddenClass(){
      return _selected ? "" : "ui-helper-hidden";
   }
 
-  /** returns the CSS class to hide a tab's close button. */
+  /** returns the CSS class to hide a column's close button. */
   String closeableClass(){
      return _closeable ? "" : "ui-helper-hidden";
   }
