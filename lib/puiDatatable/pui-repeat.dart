@@ -2,6 +2,9 @@ library puiRepeat;
 
 import 'package:angular/angular.dart';
 import 'dart:html';
+import 'dart:async';
+import 'pui-datatable.dart';
+
 
 
 class _Row {
@@ -84,18 +87,9 @@ class _Row {
     children: NgAnnotation.TRANSCLUDE_CHILDREN,
     selector: '[pui-repeat]',
     map: const {'.': '@expression'})
-class PuiRepeatDirective extends AbstractPuiRepeatDirective {
-  PuiRepeatDirective(BlockHole blockHole,
-                    BoundBlockFactory boundBlockFactory,
-                    Parser parser,
-                    Scope scope)
-      : super(blockHole, boundBlockFactory, parser, scope);
+class PuiRepeatDirective {
+  PuiDatatableComponent _container;
 
-  get _shallow => false;
-}
-
-
-abstract class AbstractPuiRepeatDirective  {
   static RegExp _SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
   static RegExp _LHS_SYNTAX = new RegExp(r'^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$');
 
@@ -113,9 +107,12 @@ abstract class AbstractPuiRepeatDirective  {
   Function _removeWatch = () => null;
   Iterable _lastCollection;
 
-  AbstractPuiRepeatDirective(this._blockHole, this._boundBlockFactory, this._parser, this._scope);
+  PuiRepeatDirective(this._blockHole,
+                    this._boundBlockFactory,
+                    this._parser,
+                    this._scope,
+                    this._container) {}
 
-  get _shallow;
 
   set expression(value) {
     _expression = value;
@@ -151,7 +148,7 @@ abstract class AbstractPuiRepeatDirective  {
     _keyIdentifier = match.group(2);
 
     _removeWatch = _scope.$watchCollection(_listExpr, _onCollectionChange,
-        value, _shallow);
+        value, false);
   }
 
   List<_Row> _computeNewRows(Iterable collection, trackById) {
@@ -224,7 +221,7 @@ abstract class AbstractPuiRepeatDirective  {
         previousNode = row.endNode;
       } else {
         // new item which we don't know about
-        childScope = _scope.$new(lazy: _shallow);
+        childScope = _scope.$new(lazy: false);
       }
 
       if (!identical(childScope[_valueIdentifier], value)) {
@@ -238,7 +235,7 @@ abstract class AbstractPuiRepeatDirective  {
           ..[r'$middle'] = !(childScope.$first || childScope.$last)
           ..[r'$odd'] = index & 1 == 1
           ..[r'$even'] = index & 1 == 0;
-      if (arrayChange && _shallow) childScope.$dirty();
+      if (arrayChange && false) childScope.$dirty();
 
       if (row.startNode == null) {
         var block = _boundBlockFactory(childScope);
@@ -252,5 +249,6 @@ abstract class AbstractPuiRepeatDirective  {
       }
       cursor = row.block;
     }
+    scheduleMicrotask(() { _container.redrawTable(collection); });
   }
 }

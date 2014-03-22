@@ -40,6 +40,21 @@ class PuiInputDemoController {
     else return
         "background-color:#F00";
   }
+
+  addCar()
+  {
+    int idx = carTable.length % 4;
+    if (idx==0)
+      carTable.add(new Car('Scoda', 'Octavia', (2000+idx).toString(), 'silver'));
+    else if (idx==1)
+      carTable.add(new Car('Renault', 'R4', (1970+idx).toString(), 'red'));
+    else if (idx==1)
+      carTable.add(new Car('BMW', 'E30', (1980+idx).toString(), 'blue'));
+    else if (idx==2)
+      carTable.add(new Car('Volvo', 'V70', (2006+idx).toString(), 'red'));
+    else if (idx==3)
+      carTable.add(new Car('Fiat', 'Panda', (2003+idx).toString(), 'black'));
+  }
 }
 
 class Car {

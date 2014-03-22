@@ -52,6 +52,8 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
   /** List of the columns registered until now */
   List<Column> _columnHeaders = new List<Column>();
 
+  bool initialized = false;
+
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
@@ -63,33 +65,60 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    var rows = puiDatatableElement.children;
     shadowTableContent = shadowRoot.getElementById("pui-content");
 
-    DivElement header=new DivElement();
-      header.classes.add("thead ui-widget-header");
-      header.style.display="table-row";
-      shadowTableContent.children.insert(0, header);
+    var rows = puiDatatableElement.children;
+     DivElement header=new DivElement();
+       header.classes.add("thead ui-widget-header");
+       header.style.display="table-row";
+       shadowTableContent.children.insert(0, header);
 
-      _columnHeaders.forEach((Column col){
-      _addColumnToHeader(shadowTableContent, col);
-    });
+       _columnHeaders.forEach((Column col){
+       _addColumnToHeader(shadowTableContent, col);
+     });
 
-    bool even=false;
-    int index=0;
-    rows.forEach((Element r){
-      DivElement shadowTableRow = new DivElement();
-      shadowTableRow.attributes["data-ri"]=index.toString();
-      shadowTableRow.attributes["role"]="row";
-      shadowTableRow.style.display="table-row";
-      shadowTableRow.classes.add("tr");
-      shadowTableRow.classes.add("ui-widget-content");
-      shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
-          even=!even;
-      shadowTableContent.children.add(shadowTableRow);
-      r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c);});
-      index++;
-    });
+     bool even=false;
+     int index=0;
+     rows.forEach((Element r){
+       DivElement shadowTableRow = new DivElement();
+       shadowTableRow.attributes["data-ri"]=index.toString();
+       shadowTableRow.attributes["role"]="row";
+       shadowTableRow.style.display="table-row";
+       shadowTableRow.classes.add("tr");
+       shadowTableRow.classes.add("ui-widget-content");
+       shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
+           even=!even;
+       shadowTableContent.children.add(shadowTableRow);
+       r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c);});
+       index++;
+     });
+     initialized=true;
+  }
+
+  void redrawTable(Iterable collection) {
+    if (initialized)
+    {
+      var rows = puiDatatableElement.children;
+
+      while (shadowTableContent.children.length>1) shadowTableContent.children.removeAt(1);
+
+
+      bool even=false;
+      int index=0;
+      rows.forEach((Element r){
+        DivElement shadowTableRow = new DivElement();
+        shadowTableRow.attributes["data-ri"]=index.toString();
+        shadowTableRow.attributes["role"]="row";
+        shadowTableRow.style.display="table-row";
+        shadowTableRow.classes.add("tr");
+        shadowTableRow.classes.add("ui-widget-content");
+        shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
+            even=!even;
+        shadowTableContent.children.add(shadowTableRow);
+        r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c);});
+        index++;
+      });
+    }
   }
 
   void _addColumnToHeader(Element shadowTableContent, Column col) {
