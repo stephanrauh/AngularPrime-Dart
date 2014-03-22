@@ -19,13 +19,22 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
   bool _even=true;
 
   /** Can the tab be closed? */
-  bool _closeable=false;
+  bool _closable=false;
 
   /** Can the tab be closed? */
-  @NgAttr("closeable")
-  set closeable(String s){_closeable="true"==s;}
+  @NgAttr("closable")
+  set closable(String s){_closable="true"==s;}
 
-  bool isCloseable() => _closeable;
+  bool isClosable() => _closable;
+
+  /** Can the tab be closed? */
+  bool _sortable=false;
+
+  /** Can the tab be closed? */
+  @NgAttr("sortable")
+  set sortable(String s){_sortable="true"==s;}
+
+  bool isSortable() => _sortable;
 
   /** Caption of the row */
   @NgAttr("header")
@@ -38,21 +47,26 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
   PuiColumnComponent(this._scope, this._puiColumnElement, this.puiDatatableComponent ) {
-    var element = _puiColumnElement.parent.parent;
   }
 
 
   @override
   void onShadowRoot(ShadowRoot shadowRoot) {
-    puiDatatableComponent.addColumn(new Column(header, isCloseable()));
+    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable()));
   }
 }
 
+/** Abstract description of the colum. */
 class Column {
-  bool closeable;
+  bool closable;
 
   String header;
 
-  Column(this.header, this.closeable);
+  bool sortable;
+
+  /** 0=not sorted, 1=sort upwards, 2=sort downwards */
+  int sortDirection=0;
+
+  Column(this.header, this.closable, this.sortable);
 }
 

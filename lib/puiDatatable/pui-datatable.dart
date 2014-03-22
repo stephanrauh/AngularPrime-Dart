@@ -107,14 +107,25 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
 
 
     header.children.add(captionCell);
-    if (col.closeable)
+    if (col.closable)
     {
-      SpanElement close = new SpanElement();
-      close.style.float="right";
-      close.classes.add("ui-icon");
-      close.classes.add("ui-icon-close");
-      close.onClick.listen((MouseEvent event){closeColumn(event, captionCell);});
-      captionCell.children.add(close);
+      SpanElement closeIcon = new SpanElement();
+      closeIcon.style.float="right";
+      closeIcon.classes.add("ui-icon");
+      closeIcon.classes.add("ui-icon-close");
+      closeIcon.onClick.listen((MouseEvent event){closeColumn(event, captionCell);});
+      captionCell.children.add(closeIcon);
+    }
+    if (col.sortable)
+    {
+      SpanElement sortIcon = new SpanElement();
+      sortIcon.style.float="right";
+      sortIcon.classes.add("ui-icon");
+      sortIcon.classes.add("ui-sortable-column-icon");
+      sortIcon.classes.add("ui-icon-carat-2-n-s");
+      sortIcon.onClick.listen((MouseEvent event){sortColumn(event, captionCell);});
+      captionCell.children.add(sortIcon);
+
     }
   }
 
@@ -131,6 +142,51 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
       }
     }
   }
+
+  sortColumn(MouseEvent event, DivElement sortColumn) {
+    DivElement headerRow = shadowTableContent.children[0];
+    int index=0;
+    for (; index < headerRow.children.length; index++)
+    {
+      if (headerRow.children[index]==sortColumn)
+      {
+        bool sortUp;
+        List<SpanElement> iconDivs = headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
+        int dir = _columnHeaders[index].sortDirection;
+        if (dir==0)
+        {
+          iconDivs[0].classes.remove("ui-icon-carat-2-n-s");
+          iconDivs[0].classes.add("ui-icon-triangle-1-n");
+          dir=1;
+        }
+        else if (dir==1)
+        {
+          iconDivs[0].classes.remove("ui-icon-triangle-1-n");
+          iconDivs[0].classes.add("ui-icon-triangle-1-s");
+          dir=2;
+        }
+        else
+        {
+          iconDivs[0].classes.remove("ui-icon-triangle-1-s");
+          iconDivs[0].classes.add("ui-icon-triangle-1-n");
+          dir=1;
+        }
+        _columnHeaders[index].sortDirection=dir;
+      }
+      else
+      {
+        // remove sort icon (if necessary)
+        List<SpanElement> iconDivs = headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
+        if (iconDivs.isNotEmpty)
+        {
+          iconDivs[0].classes.add("ui-icon-carat-2-n-s");
+          iconDivs[0].classes.remove("ui-icon-triangle-1-n");
+          iconDivs[0].classes.remove("ui-icon-triangle-1-s");
+        }
+      }
+    }
+  }
+
 
   void _addColumnToRow(DivElement row, Element c) {
     DivElement cell = new DivElement();
