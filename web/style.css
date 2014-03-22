@@ -5,3 +5,8 @@
 .ng-hide {
   visibility:hidden;
 }
+
+.ui-widget
+{
+  font-size: 14px;
+}

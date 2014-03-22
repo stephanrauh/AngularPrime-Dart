@@ -18,8 +18,17 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
   /** Needed to provide alternating row colors */
   bool _even=true;
 
+  /** Can the tab be closed? */
+  bool _closeable=false;
+
+  /** Can the tab be closed? */
+  @NgAttr("closeable")
+  set closeable(String s){_closeable="true"==s;}
+
+  bool isCloseable() => _closeable;
+
   /** Caption of the row */
-  // @NgOneWay("header") //@ToDo: doesn't seem to work for some reason. Temporarily using work-around
+  @NgAttr("header")
   String header;
 
   /** This is the datatable component the column is part of */
@@ -30,15 +39,20 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
    */
   PuiColumnComponent(this._scope, this._puiColumnElement, this.puiDatatableComponent ) {
     var element = _puiColumnElement.parent.parent;
-    String h = _puiColumnElement.attributes["header"];
-    header=h;
-    puiDatatableComponent.addColumn(header);
   }
 
 
   @override
   void onShadowRoot(ShadowRoot shadowRoot) {
-    // TODO: implement onShadowRoot
+    puiDatatableComponent.addColumn(new Column(header, isCloseable()));
   }
+}
+
+class Column {
+  bool closeable;
+
+  String header;
+
+  Column(this.header, this.closeable);
 }
 

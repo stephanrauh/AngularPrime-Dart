@@ -13,7 +13,7 @@
 <hr>
     <pui-datatable>
         <pui-row pui-repeat="row in ctrl.carTable">
-          <pui-column header="Brand">{{row.brand}}</pui-column>
+          <pui-column header="Brand" closeable="true">{{row.brand}}</pui-column>
           <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
           <pui-column header="Color" closeable="true">{{row.color}}</pui-column>
         </pui-row>

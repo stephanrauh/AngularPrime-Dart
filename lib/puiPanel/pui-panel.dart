@@ -141,6 +141,7 @@ class PuiPanelComponent  extends PuiBaseComponent implements NgShadowRootAware  
     text.hidden=false;
   }
 
+  /** Adds toggle functionality to the HTML code */
   void onShadowRoot(ShadowRoot shadowRoot) {
     titlebar = shadowRoot.querySelector('.pui-panel-titlebar');
     content = shadowRoot.querySelector('.pui-panel-content');

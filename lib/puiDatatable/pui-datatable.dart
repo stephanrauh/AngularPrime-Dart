@@ -40,6 +40,9 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
   /** The <pui-input> field as defined in the HTML source code. */
   Element puiDatatableElement;
 
+  /** This is the table content that's really displayed. */
+  DivElement shadowTableContent;
+
   /** The scope is needed to add watches. */
   Scope scope;
 
@@ -47,7 +50,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
   bool even=true;
 
   /** List of the columns registered until now */
-  List<String> _columnHeaders = new List<String>();
+  List<Column> _columnHeaders = new List<Column>();
 
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
@@ -61,22 +64,15 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     var rows = puiDatatableElement.children;
-    Element shadowTableContent = shadowRoot.getElementById("pui-content");
+    shadowTableContent = shadowRoot.getElementById("pui-content");
 
     DivElement header=new DivElement();
       header.classes.add("thead ui-widget-header");
       header.style.display="table-row";
       shadowTableContent.children.insert(0, header);
 
-      _columnHeaders.forEach((String caption){
-      DivElement header = shadowTableContent.children[0];
-      header.attributes["role"]="row";
-      DivElement captionCell=new DivElement();
-      captionCell.classes.add("th");
-      captionCell.style.display="table-cell";
-      captionCell.attributes["role"]="columnheader";
-      captionCell.innerHtml=caption;
-      header.children.add(captionCell);
+      _columnHeaders.forEach((Column col){
+      _addColumnToHeader(shadowTableContent, col);
     });
 
     bool even=false;
@@ -91,12 +87,52 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
       shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
           even=!even;
       shadowTableContent.children.add(shadowTableRow);
-      r.children.forEach((Element c){addColumnToRow(shadowTableRow, c);});
+      r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c);});
       index++;
     });
   }
 
-  addColumnToRow(DivElement row, Element c) {
+  void _addColumnToHeader(Element shadowTableContent, Column col) {
+    DivElement header = shadowTableContent.children[0];
+    header.attributes["role"]="row";
+    DivElement captionCell=new DivElement();
+    captionCell.classes.add("th");
+    captionCell.style.display="table-cell";
+    captionCell.attributes["role"]="columnheader";
+    captionCell.style.whiteSpace="nowrap";
+    SpanElement caption = new SpanElement();
+    caption.innerHtml=col.header;
+    caption.style.float="left";
+    captionCell.children.add(caption);
+
+
+    header.children.add(captionCell);
+    if (col.closeable)
+    {
+      SpanElement close = new SpanElement();
+      close.style.float="right";
+      close.classes.add("ui-icon");
+      close.classes.add("ui-icon-close");
+      close.onClick.listen((MouseEvent event){closeColumn(event, captionCell);});
+      captionCell.children.add(close);
+    }
+  }
+
+  closeColumn(MouseEvent event, DivElement close) {
+    DivElement headerRow = shadowTableContent.children[0];
+    int index=0;
+    for (; index < headerRow.children.length; index++)
+    {
+      if (headerRow.children[index]==close)
+      {
+        _columnHeaders.removeAt(index);
+        shadowTableContent.children.forEach((DivElement row){row.children.removeAt(index);});
+        break;
+      }
+    }
+  }
+
+  void _addColumnToRow(DivElement row, Element c) {
     DivElement cell = new DivElement();
     cell.attributes["role"]="gridcell";
     cell.style.display="table-cell";
@@ -106,11 +142,12 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
   }
 
   /** Adds a column and adds it to the list of headers */
-  addColumn(String caption)
+  void addColumn(Column col)
   {
-    if (!(_columnHeaders.contains(caption)))
+
+    if (!(_columnHeaders.any((Column c)=> c.header==col.header)))
     {
-       _columnHeaders.add(caption);
+       _columnHeaders.add(col);
     }
   }
 }
