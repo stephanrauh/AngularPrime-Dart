@@ -26,8 +26,10 @@ class PuiInputDemoController {
   bool secondBoolean=true;
   bool thirdBoolean=false;
   List<Car> carTable = [
-                         new Car('Honda', '2008', 'silver'),
-                         new Car('Volvo', '2002', 'green')
+                         new Car('Honda', 'Civic', '2008', 'silver'),
+                         new Car('Volvo', 'V40', '2002', 'green'),
+                         new Car('Opel', 'Corsa', '1997', 'red'),
+                         new Car('Opel', 'Kadett', '1990', 'white')
                                        ];
 
   List<Car> emptyCarTable = [];
@@ -42,7 +44,8 @@ class PuiInputDemoController {
 
 class Car {
   String brand;
+  String type;
   String year;
   String color;
-  Car(this.brand, this.year, this.color);
+  Car(this.brand, this.type, this.year, this.color);
 }

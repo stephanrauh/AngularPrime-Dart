@@ -172,6 +172,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
           dir=1;
         }
         _columnHeaders[index].sortDirection=dir;
+        sortRows(shadowTableContent.children, index, dir);
       }
       else
       {
@@ -185,6 +186,33 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
         }
       }
     }
+  }
+
+  /** Sorts the rows alphabetically */
+  void sortRows(List<Element> rows, int index, int dir) {
+    List<Element> myRows = new List<Element>();
+    var v = rows.sublist(1);
+    v.forEach((DivElement e){myRows.add(e);});
+    myRows.sort((DivElement r1, DivElement r2) => compare(r1, r2, index, dir));
+    myRows.insert(0, rows[0]);
+    rows.clear();
+    for (int i=0; i < myRows.length; i++){
+      rows.add(myRows[i]);
+    }
+  }
+
+  int compare(DivElement r1, DivElement r2, int index, int dir) {
+    if (r1.classes.contains("thead")) return -1;
+    if (r2.classes.contains("thead")) return 1;
+    var cell1 = r1.children[index];
+    String caption1 = cell1.innerHtml;
+    var cell2 = r2.children[index];
+    String caption2 = cell2.innerHtml;
+    if (dir==1)
+      return caption1.compareTo(caption2);
+    else
+      return caption2.compareTo(caption1);
+
   }
 
 
