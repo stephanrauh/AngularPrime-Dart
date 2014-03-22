@@ -61,8 +61,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     var rows = puiDatatableElement.children;
-    print(rows.length.toString() + " Zeilen");
-    rows.forEach((Element e) => print(e));
     Element shadowTableContent = shadowRoot.getElementById("pui-content");
 
     DivElement header=new DivElement();
@@ -72,47 +70,42 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
 
       _columnHeaders.forEach((String caption){
       DivElement header = shadowTableContent.children[0];
+      header.attributes["role"]="row";
       DivElement captionCell=new DivElement();
       captionCell.classes.add("th");
       captionCell.style.display="table-cell";
+      captionCell.attributes["role"]="columnheader";
       captionCell.innerHtml=caption;
       header.children.add(captionCell);
     });
 
-
+    bool even=false;
+    int index=0;
     rows.forEach((Element r){
       DivElement shadowTableRow = new DivElement();
+      shadowTableRow.attributes["data-ri"]=index.toString();
+      shadowTableRow.attributes["role"]="row";
       shadowTableRow.style.display="table-row";
       shadowTableRow.classes.add("tr");
+      shadowTableRow.classes.add("ui-widget-content");
+      shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
+          even=!even;
       shadowTableContent.children.add(shadowTableRow);
       r.children.forEach((Element c){addColumnToRow(shadowTableRow, c);});
+      index++;
     });
   }
 
   addColumnToRow(DivElement row, Element c) {
     DivElement cell = new DivElement();
+    cell.attributes["role"]="gridcell";
     cell.style.display="table-cell";
     cell.classes.add("td");
     cell.innerHtml=c.innerHtml;
     row.children.add(cell);
   }
 
-
-  /** Returns the class for alternating row colors */
-  String getRowClass()
-  {
-    if (even)
-    {
-      return "pui-datatable-even";
-    }
-    else
-    {
-      return "pui-datatable-odd";
-    }
-    even=!even;
-  }
-
-  /** Adds a column and draws the columns header */
+  /** Adds a column and adds it to the list of headers */
   addColumn(String caption)
   {
     if (!(_columnHeaders.contains(caption)))

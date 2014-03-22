@@ -9,8 +9,8 @@ part of puiDatatable;
 )
 class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
 
-  /** The <pui-input> field as defined in the HTML source code. */
-  Element _puiDatatableElement;
+  /** The <pui-column> field as defined in the HTML source code. */
+  Element _puiColumnElement;
 
   /** The scope is needed to add watches. */
   Scope _scope;
@@ -19,7 +19,7 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
   bool _even=true;
 
   /** Caption of the row */
-//  @NgOneWay("header") @ToDo: doesn't seem to work for some reason. Temporarily using work-around
+  // @NgOneWay("header") //@ToDo: doesn't seem to work for some reason. Temporarily using work-around
   String header;
 
   /** This is the datatable component the column is part of */
@@ -28,12 +28,10 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiColumnComponent(this._scope, this._puiDatatableElement, this.puiDatatableComponent ) {
-    var element = _puiDatatableElement.parent.parent;
-    String h = _puiDatatableElement.attributes["header"];
+  PuiColumnComponent(this._scope, this._puiColumnElement, this.puiDatatableComponent ) {
+    var element = _puiColumnElement.parent.parent;
+    String h = _puiColumnElement.attributes["header"];
     header=h;
-    print("puiDataTable=$puiDatatableComponent");
-    print("element=${element.classes}");
     puiDatatableComponent.addColumn(header);
   }
 

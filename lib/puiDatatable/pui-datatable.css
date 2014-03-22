@@ -29,9 +29,34 @@
     padding: 4px 10px;
     overflow: hidden;
     white-space: nowrap;
-    border-width: 1px;
     border-style: solid;
 }
+
+.pui-datatable .td,
+.pui-datatable .tfoot .td {
+    border-bottom-width: 1px;
+    border-top-width: 0px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+}
+
+.pui-datatable .thead .th {
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+}
+
+.pui-datatable .thead .th + .th {
+    border-left-width: 0px;
+}
+
+.pui-datatable .td + .td {
+    border-left-width: 0px;
+}
+
 
 .pui-datatable .td {
     border-color: inherit;
