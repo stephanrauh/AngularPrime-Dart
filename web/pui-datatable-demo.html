@@ -10,21 +10,28 @@
 
   <div puiInputDemo>
      <h3>The &lt;pui-datatable&gt; is an advanced datatable widget insprired by the datatable component of PrimeFaces.</h3>
+<hr>
+    <pui-datatable>
+        <pui-row pui-repeat="row in ctrl.carTable">
+          <pui-column header="Brand">{{row.brand}}</pui-column>
+          <pui-column header="Year">{{row.year}}</pui-column>
+          <pui-column header="Color">{{row.color}}</pui-column>
+        </pui-row>
+    </pui-datatable>
 
-     <pui-datatable table="ctrl.carTable">
-      <pui-column title="Marke">
-         {{row.brand}}
-       </pui-column>
-       <pui-column title="Baujahr" selected="true">
-         {{row.year}}
-       </pui-column>
-       <pui-column title="Farbe" closeable="true">
-         {{row.color}}
-       </pui-column>
-     </pui-datatable>
+<hr>
+<!--
+<h3>Empty table:</h3>
+    <pui-datatable>
+        <pui-row ng-repeat="row in ctrl.emptyCarTable">
+          <pui-column>{{row.brand}}</pui-column>
+          <pui-column>{{row.year}}</pui-column>
+          <pui-column>{{row.color}}</pui-column>
+        </pui-row>
+    </pui-datatable>
+-->
+    <hr>
   </div>
-
-
   <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>
 </body>

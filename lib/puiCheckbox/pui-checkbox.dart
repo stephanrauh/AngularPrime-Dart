@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,7 +18,7 @@ library puiCheckbox;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 
 /**
  * <pui-checkbox> adds AngularDart to an checkbox styled by PrimeFaces.
@@ -31,26 +31,26 @@ import 'package:angularprime_dart/core/pui-base-component.dart';
     publishAs: 'cmp'
 )
 class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware  {
-  /** The <pui-checkbox> field as defined in the HTML source code. */ 
+  /** The <pui-checkbox> field as defined in the HTML source code. */
   Element puiCheckboxElement;
- 
+
   /** The <input> field in the shadow DOM displaying the component. */
   Element shadowyInputField;
-  
+
   Element iconElement;
-  
+
   /** <pui-input> fields require an ng-model attribute. */
   @NgTwoWay("ng-model")
   bool ngmodel;
-  
+
   /** <pui-input> fields require an ng-model attribute. */
   @NgOneWay("disabled")
   bool disabled;
 
-  
+
   /** The scope is needed to add watches. */
   Scope scope;
-  
+
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
@@ -60,8 +60,8 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
-   * 
-   * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed. 
+   *
+   * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementById("checkboxVisibleItemId");
@@ -70,13 +70,13 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
     update();
     shadowyInputField.onChange.listen((Event e)=>update());
     shadowyInputField.onClick.listen((Event e)=>toggle());
-    
+
     addWatches(puiCheckboxElement, shadowyInputField, scope);
 
     scope.$watch(()=>ngmodel, (newVar, oldVar) => update());
 
   }
-  
+
   /**
    * Called by onClick to toggle the value of the check box.
    */
@@ -89,9 +89,9 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
       update();
     }
   }
-  
+
   /**
-   * Updates the CSS classes to update model changes and the checkbox state. 
+   * Updates the CSS classes to update model changes and the checkbox state.
    */
   update() {
     updateAttributesInShadowDOM(puiCheckboxElement, shadowyInputField, scope);

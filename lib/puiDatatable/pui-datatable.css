@@ -19,13 +19,13 @@
     border-top: 0px none;
 }
 
-.pui-datatable thead th, .pui-datatable tfoot td {
+.pui-datatable .thead .th, .pui-datatable .tfoot .td {
     text-align: center;
 }
 
-.pui-datatable thead th,
-.pui-datatable tbody td,
-.pui-datatable tfoot td {
+.pui-datatable .thead .th,
+.pui-datatable .td,
+.pui-datatable .tfoot .td {
     padding: 4px 10px;
     overflow: hidden;
     white-space: nowrap;
@@ -33,7 +33,7 @@
     border-style: solid;
 }
 
-.pui-datatable tbody td {
+.pui-datatable .td {
     border-color: inherit;
 }
 
@@ -50,11 +50,11 @@
     border-top: 0 none;
 }
 
-.pui-datatable .pui-datatable-data tr.ui-state-hover {
+.pui-datatable .pui-datatable-data .tr .ui-state-hover {
     font-weight: inherit;
     cursor: pointer;
 }
 
-.pui-datatable tr.ui-state-highlight {
+.pui-datatable .tr.ui-state-highlight {
     cursor: pointer;
 }

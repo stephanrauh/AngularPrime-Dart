@@ -1,8 +1,9 @@
 library puiDatatable;
 
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
+part "pui-column.dart";
 
 /**
  * A <pui-datatable> consists of a number of <pui-tabs>, each containing content that's hidden of shown
@@ -36,122 +37,89 @@ import 'dart:html';
 )
 class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAware {
 
-  /** Which tabs does this <pui-datatable> consist of? */
-  List<PuiColumnComponent> panes = new List();
-
   /** The <pui-input> field as defined in the HTML source code. */
   Element puiDatatableElement;
 
   /** The scope is needed to add watches. */
   Scope scope;
 
+  /** Needed to provide alternating row colors */
+  bool even=true;
+
+  /** List of the columns registered until now */
+  List<String> _columnHeaders = new List<String>();
+
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiDatatableComponent(this.scope, this.puiDatatableElement) {}
+  PuiDatatableComponent(this.scope, this.puiDatatableElement) {
+  }
 
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    copyAttributesToShadowDOM(puiDatatableElement, null, scope);
-    addWatches(puiDatatableElement, null, scope);
+    var rows = puiDatatableElement.children;
+    print(rows.length.toString() + " Zeilen");
+    rows.forEach((Element e) => print(e));
+    Element shadowTableContent = shadowRoot.getElementById("pui-content");
+
+    DivElement header=new DivElement();
+      header.classes.add("thead ui-widget-header");
+      header.style.display="table-row";
+      shadowTableContent.children.insert(0, header);
+
+      _columnHeaders.forEach((String caption){
+      DivElement header = shadowTableContent.children[0];
+      DivElement captionCell=new DivElement();
+      captionCell.classes.add("th");
+      captionCell.style.display="table-cell";
+      captionCell.innerHtml=caption;
+      header.children.add(captionCell);
+    });
+
+
+    rows.forEach((Element r){
+      DivElement shadowTableRow = new DivElement();
+      shadowTableRow.style.display="table-row";
+      shadowTableRow.classes.add("tr");
+      shadowTableContent.children.add(shadowTableRow);
+      r.children.forEach((Element c){addColumnToRow(shadowTableRow, c);});
+    });
   }
 
-  /** This is the mouse click listener activating a certain tab. */
-  select(MouseEvent evt, PuiColumnComponent selectedPane ) {
-    for (PuiColumnComponent pane in panes) {
-      pane.setSelected(pane == selectedPane);
-    }
-    evt.preventDefault();
+  addColumnToRow(DivElement row, Element c) {
+    DivElement cell = new DivElement();
+    cell.style.display="table-cell";
+    cell.classes.add("td");
+    cell.innerHtml=c.innerHtml;
+    row.children.add(cell);
   }
 
-  /** This is the mouse click listener closing a certain tab. */
-  close(MouseEvent evt, PuiColumnComponent toBeClosed) {
-    bool hasBeenSelected = toBeClosed.isSelected;
-    int index = panes.indexOf(toBeClosed);
-    if (hasBeenSelected)
+
+  /** Returns the class for alternating row colors */
+  String getRowClass()
+  {
+    if (even)
     {
-      toBeClosed.setSelected(false); // hide the contents
-      if (panes.length>0)
-      {
-        if (index==0)
-          panes[0].setSelected(true);
-        else
-          panes[index-1].setSelected(true);
-      }
+      return "pui-datatable-even";
     }
-    panes.removeAt(index);
-    evt.preventDefault();
+    else
+    {
+      return "pui-datatable-odd";
+    }
+    even=!even;
   }
 
-
-  /** This method is called automatically by the <pui-columns> when they register themselves to the <pui-datatable>. */
-  add(PuiColumnComponent pane) {
-    panes.add(pane);
+  /** Adds a column and draws the columns header */
+  addColumn(String caption)
+  {
+    if (!(_columnHeaders.contains(caption)))
+    {
+       _columnHeaders.add(caption);
+    }
   }
 }
 
-/** <pui-column> is a single column. The <pui-datatable> consists of several <pui-columns>. */
-@NgComponent(
-    selector: 'pui-column',
-    templateUrl: 'packages/angularprime_dart/puiDatatable/pui-column.html',
-    cssUrl: 'packages/angularprime_dart/puiDatatable/pui-datatable.css',
-    applyAuthorStyles: true,
-    publishAs: 'cmp'
-)
-class PuiColumnComponent {
 
-  /** The caption of the tab. */
-  @NgAttr("title")
-  String name;
-
-  /** Can the column be removed? */
-  bool _closeable;
-
-  /** Can the column be closed? */
-  @NgAttr("closeable")
-  set closeable(String s){_closeable="true"==s; }
-
-  /** The parent <pui-datatable>. Needed to register the column. */
-  PuiDatatableComponent _tab;
-
-  /** Is the current tab active? */
-  bool _selected = false;
-
-  /** The constructor of the column initializes the reference to the parent <pui-datatable>, the scope
-   * and the HTML code of the <pui-column> itself.
-   */
-  PuiColumnComponent(this._tab) {
-    _tab.add(this);
-  }
-
-  /** Is the current column active? This method is exposed to the declaration in the HTML code. */
-  @NgAttr("selected")
-  set isSelectedByDefault(String selected) {
-    _selected = selected == "true";
-  }
-
-  /** Is the current column active? */
-  bool get isSelected => _selected;
-
-  /** Is the current column active? */
-  void setSelected(bool b){_selected=b;}
-
-  /** returns the CSS class PrimeUI uses to display an activated or deactivated column. */
-  String selectedClass() {
-    return _selected ? "pui-datatable-selected ui-state-active" : "";
-  }
-
-  /** returns the CSS class to hide a column's content. */
-  String hiddenClass(){
-     return _selected ? "" : "ui-helper-hidden";
-  }
-
-  /** returns the CSS class to hide a column's close button. */
-  String closeableClass(){
-     return _closeable ? "" : "ui-helper-hidden";
-  }
-
-}

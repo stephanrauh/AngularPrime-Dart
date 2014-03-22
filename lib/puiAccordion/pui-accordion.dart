@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,22 +19,23 @@ library puiAccordion;
 import 'package:angular/angular.dart';
 import 'dart:html';
 import 'dart:async';
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 import 'package:animation/animation.dart';
 import 'package:animation/effect.dart';
 
 /**
- * The pui-accordion component is a panel group that can be shrinked to a single line. Typically, there are multiple accordions on a dialog, and expanding one of them hides the other ones. 
+ * The pui-accordion component is a panel group that can be shrinked to a single line. Typically, there are multiple accordions on a dialog, and expanding one of them hides the other ones.
  */
-@NgComponent(selector: 'pui-accordion', templateUrl:
-    'packages/angularprime_dart/puiAccordion/pui-accordion.html', cssUrl:
-    'packages/angularprime_dart/puiAccordion/pui-accordion.css', applyAuthorStyles:
-    true, publishAs: 'cmp')
+@NgComponent(selector: 'pui-accordion',
+    templateUrl:       'packages/angularprime_dart/puiAccordion/pui-accordion.html',
+    cssUrl:            'packages/angularprime_dart/puiAccordion/pui-accordion.css',
+    applyAuthorStyles: true,
+    publishAs:         'cmp')
 class PuiAccordionComponent  extends PuiBaseComponent implements NgShadowRootAware  {
 
   /** This mouse listener is exposed so it can be removed again. */
   StreamSubscription<MouseEvent> listenOnMouseEnter = null;
-  
+
   /** This mouse listener is exposed so it can be removed again. */
   StreamSubscription<MouseEvent> listenOnMouseLeave = null;
 
@@ -174,8 +175,8 @@ class PuiAccordionComponent  extends PuiBaseComponent implements NgShadowRootAwa
     addWatches(puiAccordionElement, null, scope);
   }
 
-  /** 
-    * Copies a single attribute from the updated <pui-accordion> declaration - which contains 
+  /**
+    * Copies a single attribute from the updated <pui-accordion> declaration - which contains
     * the current model values - to the shadow tree, and adds to the map of original attribute values.
     * In this case the collapsed state is updated.
     */

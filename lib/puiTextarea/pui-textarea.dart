@@ -18,7 +18,7 @@ library puiTextarea;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 
 /**
  * <pui-input> adds AngularDart to an input field styled by PrimeFaces.

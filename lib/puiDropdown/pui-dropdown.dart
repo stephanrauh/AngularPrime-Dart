@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,7 @@ library puiDropdown;
 import 'dart:html';
 import 'dart:async';
 import 'package:angular/angular.dart';
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 
 /**
  * <pui-input> adds AngularDart to an input field styled by PrimeFaces.
@@ -32,54 +32,54 @@ import 'package:angularprime_dart/core/pui-base-component.dart';
     publishAs: 'cmp'
 )
 class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware  {
-  /** The <pui-input> field as defined in the HTML source code. */ 
+  /** The <pui-input> field as defined in the HTML source code. */
   Element puiInputElement;
-  
+
   /** The <input> field in the shadow DOM displaying the component if the drop-down menu is editable. */
   InputElement shadowyInputField;
-  
+
   /** The <input> field in the shadow DOM displaying the component if the drop-down menu is not editable. */
   LabelElement shadowySelection;
-  
+
   /** This panel contains the list of predefined values. */
   DivElement dropDownPanel;
-  
+
   /** We need this variable to hide a recently opened drop down panel before showing a new one */
   static DivElement currentlyOpenedDropDownPanel;
-  
+
   /** put the predefined values into this container */
   UListElement dropDownItems;
 
-  
+
   /** <pui-dropdown> fields require an ng-model attribute. */
   @NgTwoWay("ng-model")
   String ngmodel;
-  
+
   /** The clear text value that's displayed to the user (instead of the internal ng-model) */
   String displayedValue;
-  
+
   /** Is it an editable field, or is it restricted to the predefined list of options? */
   @NgOneWay("editable")
   bool editable;
-  
+
   /** prevent endless loop caused by watches watching other watches */
   bool dontWatch=false;
-  
+
   /** The scope is needed to add watches. */
   Scope scope;
-  
+
   /** Map containing the selectable items of the drop down menu */
   Map<String, String> predefinedOptions = new Map<String, String>();
 
   /** Map containing the selectable items of the drop down menu */
   List<String> predefinedValuesAsList = new List<String>();
-  
+
   /** The mouse click listener is needed to close the drop down menu by clicking somewhere outside. It has to be static
    * to be able to cancel it from another drop down menu.
    */
   static StreamSubscription<MouseEvent> mouseClickListenerSubscription=null;
-  
- 
+
+
   /**
    * Initializes the component by setting the <pui-dropdown> field and setting the scope.
    */
@@ -89,8 +89,8 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
-   * 
-   * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed. 
+   *
+   * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
@@ -98,7 +98,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     shadowySelection.parent.onClick.listen((Event) => toggleOptionBox());
     dropDownPanel = shadowRoot.getElementsByClassName("pui-dropdown-panel")[0];
     dropDownItems = shadowRoot.getElementsByClassName('pui-dropdown-items')[0];
-    
+
     if (editable==true) {
       shadowySelection.style.display="none";
       shadowySelection.classes.add("ui-helper-hidden");
@@ -109,7 +109,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
       shadowyInputField.classes.add("ui-helper-hidden");
       // Todo: shadowySelection.onKeyDown.listen((KeyboardEvent e){keyListener(e);});
     }
-    
+
     var children = puiInputElement.children;
     children.forEach((Element option) => add(option));
 //    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
@@ -118,7 +118,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     addWatches(puiInputElement, shadowyInputField, scope);
 
   }
-  
+
   /**
    * Enables keyboard navigation.
    */
@@ -135,7 +135,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
       for (int i = 0; i < predefinedValuesAsList.length;i++)
       {
         if (predefinedValuesAsList[i]==displayedValue) {
-          currentSelectedIndex=i; 
+          currentSelectedIndex=i;
           break;
         }
       }
@@ -168,7 +168,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     }
 
   }
-  
+
   /**
    * Every change of the angular model has to result in a change of the displayed and the selected value of the drop down menu.
    */
@@ -185,7 +185,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     }
     else dontWatch=false;
   }
-  
+
   /**
    * Every key stroke in the input field has to modify the angular model.
    */
@@ -193,7 +193,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     if (dontWatch)
     {
       dontWatch=false;
-      return;      
+      return;
     }
     dontWatch=true;
     if (predefinedOptions.containsKey(ngmodel))
@@ -201,7 +201,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     else
       displayedValue="";
   }
-  
+
   /**
    * Adds an item to the drop down menu.
    */
@@ -216,9 +216,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     dropDownItems.children.add(li);
     predefinedOptions[v]=description;
     predefinedValuesAsList.add(description);
-    
+
   }
-  
+
   /**
    * Highlight the selected item (while removing the highlight effect from the previously selected item).
    */
@@ -226,9 +226,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     dropDownItems.children.forEach((LIElement li) => li.classes.remove("ui-state-highlight"));
     ngmodel=v;
     selectedLIElement.classes.add('ui-state-highlight');
-    
+
   }
-  
+
   /**
    * Show or hide the menu. Hide any menu that's previously been active.
    */
@@ -236,7 +236,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   {
     String s = dropDownPanel.style.display;
     String v = dropDownPanel.style.visibility;
-    
+
     if (s.contains("none")) {
       cancelMouseClickListener();
       if (null != currentlyOpenedDropDownPanel)
@@ -245,14 +245,14 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
       }
       dropDownPanel.style.display="block";
       currentlyOpenedDropDownPanel=dropDownPanel;
-      dropDownPanel.parent.onMouseOver.listen((Event e){cancelMouseClickListener();}); 
+      dropDownPanel.parent.onMouseOver.listen((Event e){cancelMouseClickListener();});
       dropDownPanel.parent.onMouseOut.listen((Event e){activateMouseClickListener();});
     }
     else {
       dropDownPanel.style.display="none";
       currentlyOpenedDropDownPanel=null;
       cancelMouseClickListener();
-        
+
     }
   }
 

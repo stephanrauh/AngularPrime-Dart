@@ -25,10 +25,12 @@ class PuiInputDemoController {
   bool firstBoolean = true;
   bool secondBoolean=true;
   bool thirdBoolean=false;
-  List<List> carTable = [
-                         ['Honda', '2008', 'silver'],
-                         ['Volvo', '2002', 'green']
+  List<Car> carTable = [
+                         new Car('Honda', '2008', 'silver'),
+                         new Car('Volvo', '2002', 'green')
                                        ];
+
+  List<Car> emptyCarTable = [];
 
   get thirdFieldStyle {
     if (thirdField.isNotEmpty)
@@ -36,4 +38,11 @@ class PuiInputDemoController {
     else return
         "background-color:#F00";
   }
+}
+
+class Car {
+  String brand;
+  String year;
+  String color;
+  Car(this.brand, this.year, this.color);
 }

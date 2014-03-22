@@ -1,6 +1,6 @@
 library puiTabview;
 
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
 

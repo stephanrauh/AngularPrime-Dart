@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,12 +18,12 @@ library puiButton;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:angularprime_dart/core/pui-base-component.dart';
+import '../core/pui-base-component.dart';
 
 @NgComponent(
-    selector: 'pui-button', 
-    templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html', 
-    cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css', 
+    selector: 'pui-button',
+    templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html',
+    cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css',
     applyAuthorStyles: true,
     publishAs: 'cmp')
 class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware {
@@ -36,7 +36,7 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
   String icon;
   @NgAttr("iconPos")
   String iconPos;
-  
+
   @NgAttr("disabled")
   String disabled;
 
@@ -50,11 +50,11 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
   ButtonElement button;
 
   PuiButtonComponent(this.scope, this.puiButton) {}
-  
+
   /** We add the optional icon to the button during the initialization of the shadow DOM tree. */
   void onShadowRoot(ShadowRoot shadowRoot) {
     button = shadowRoot.querySelector('button');
-    
+
     if (disabled!=null)
     {
       button.classes.add("ui-state-disabled");
@@ -74,12 +74,12 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
     }
     addWatches(puiButton, button, scope);
 
-    
+
   }
 
   /** adds the icon as a span element */
   void drawIcon() {
-    
+
     if ("right" == iconPos) {
       button.classes.add('pui-button-text-icon-right');
     } else {
@@ -88,7 +88,7 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
     SpanElement iconSpan = new SpanElement();
     iconSpan.classes.add(iconSpanClass());
     button.children.insert(0, iconSpan);
-        
+
   }
 
   /** return the CSS class defining the icon position */
@@ -100,7 +100,7 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
     }
     return c;
   }
-  
+
   /** returns the CSS classes defining the icon */
   String iconSpanClass()
   {
@@ -108,7 +108,7 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
     if ("right" == iconPos) {
       c = "pui-button-icon-right";
     }
-    
+
     c+= " ui-icon ";
     if (icon.startsWith("ui-icon-"))
       c+=icon;

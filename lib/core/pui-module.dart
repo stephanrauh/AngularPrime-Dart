@@ -18,19 +18,20 @@ library angularprime_dart;
 
 import 'package:angular/angular.dart';
 import 'package:di/di.dart';
-import 'package:angularprime_dart/puiPanel/pui-panel.dart';
-import 'package:angularprime_dart/puiAccordion/pui-accordion.dart';
-import 'package:angularprime_dart/puiTabview/pui-tabview.dart';
+import '../puiPanel/pui-panel.dart';
+import '../puiAccordion/pui-accordion.dart';
+import '../puiTabview/pui-tabview.dart';
 
-import 'package:angularprime_dart/puiDatatable/pui-datatable.dart';
+import '../puiDatatable/pui-datatable.dart';
+import '../puiDatatable/pui-repeat.dart';
 
 
-import 'package:angularprime_dart/puiInput/pui-input.dart';
-import 'package:angularprime_dart/puiButton/pui-button.dart';
-import 'package:angularprime_dart/puiCheckbox/pui-checkbox.dart';
-import 'package:angularprime_dart/puiDropdown/pui-dropdown.dart';
-import 'package:angularprime_dart/puiTextarea/pui-textarea.dart';
-import 'package:angularprime_dart/puiRadiobuttons/pui-radiobutton.dart';
+import '../puiInput/pui-input.dart';
+import '../puiButton/pui-button.dart';
+import '../puiCheckbox/pui-checkbox.dart';
+import '../puiDropdown/pui-dropdown.dart';
+import '../puiTextarea/pui-textarea.dart';
+import '../puiRadiobuttons/pui-radiobutton.dart';
 
 import 'dart:html';
 import 'package:logging/logging.dart';
@@ -95,6 +96,7 @@ class PuiModule extends Module {
     type(PuiTabComponent);
 
     type(PuiDatatableComponent);
+//    type(PuiRowComponent);
     type(PuiColumnComponent);
 
     type(PuiInputTextComponent);
@@ -103,5 +105,6 @@ class PuiModule extends Module {
     type(PuiDropdownComponent);
 //    type(PuiRadiobuttonComponent);
     type(PuiTextareaComponent);
+    type(PuiRepeatDirective);
   }
 }
