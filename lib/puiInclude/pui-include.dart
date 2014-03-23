@@ -14,32 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-library puiInput;
+library puiInclude;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
 
 /**
- * <pui-input> adds AngularDart to an input field styled by PrimeFaces.
+ * <pui-include> allows you to split large HTML file into smaller ones.
  */
 @NgComponent(
-    selector: 'pui-input',
-    templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
-    cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',
+    selector: 'pui-include',
+    templateUrl: 'packages/angularprime_dart/puiInclude/pui-include.html',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiIncludeComponent extends PuiBaseComponent implements NgShadowRootAware  {
   /** <pui-input> fields require an ng-model attribute. */
-  @NgTwoWay("ng-model")
-  String ngmodel;
+  @NgAttr("file")
+  String file;
 
   /** The <input> field in the shadow DOM displaying the component. */
-  InputElement shadowyInputField;
+  Element shadowFile;
 
   /** The <pui-input> field as defined in the HTML source code. */
-  Element puiInputElement;
+  Element puiInclude;
 
   /** The scope is needed to add watches. */
   Scope scope;
@@ -47,7 +46,8 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiInputTextComponent(this.scope, this.puiInputElement) {
+  PuiIncludeComponent(this.scope, this.puiInclude) {
+
   }
 
   /**
@@ -57,10 +57,6 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-    shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
-    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
-    addWatches(puiInputElement, shadowyInputField, scope);
-    scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
   }
 }
 

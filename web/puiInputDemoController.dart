@@ -23,7 +23,7 @@ class PuiInputDemoController {
   String secondField = "second model value";
   String thirdField = "third model value";
   bool firstBoolean = true;
-  bool secondBoolean=true;
+  bool secondBoolean=false;
   bool thirdBoolean=false;
   List<Car> carTable = [
                          new Car('Honda', 'Civic', '2008', 'silver'),

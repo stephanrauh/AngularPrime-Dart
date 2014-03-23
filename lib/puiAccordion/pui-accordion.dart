@@ -20,8 +20,8 @@ import 'package:angular/angular.dart';
 import 'dart:html';
 import 'dart:async';
 import '../core/pui-base-component.dart';
-import 'package:animation/animation.dart';
-import 'package:animation/effect.dart';
+//import 'package:animation/animation.dart';
+//import 'package:animation/effect.dart';
 
 /**
  * The pui-accordion component is a panel group that can be shrinked to a single line. Typically, there are multiple accordions on a dialog, and expanding one of them hides the other ones.

@@ -1,19 +1,22 @@
 library puiRepeat;
 
-import 'package:angular/angular.dart';
-import 'dart:html';
-import 'dart:async';
+import 'dart:html' as dom;
+import 'package:angular/core/module.dart';
+import 'package:angular/core/parser/parser.dart';
+import 'package:angular/core_dom/module.dart';
+import 'package:angular/utils.dart';
+import 'package:angular/change_detection/watch_group.dart';
+import 'package:angular/change_detection/change_detection.dart';
 import 'pui-datatable.dart';
-
-
+import 'dart:async';
 
 class _Row {
   var id;
   Scope scope;
-  Block block;
-  Element startNode;
-  Element endNode;
-  List<Element> elements;
+  View view;
+  dom.Element startNode;
+  dom.Element endNode;
+  List<dom.Element> nodes;
 
   _Row(this.id);
 }
@@ -85,18 +88,18 @@ class _Row {
 
 @NgDirective(
     children: NgAnnotation.TRANSCLUDE_CHILDREN,
-    selector: '[pui-repeat]',
+    selector: '[ng-repeat]',
     map: const {'.': '@expression'})
 class PuiRepeatDirective {
-  PuiDatatableComponent _container;
-
   static RegExp _SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
   static RegExp _LHS_SYNTAX = new RegExp(r'^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$');
 
-  final BlockHole _blockHole;
-  final BoundBlockFactory _boundBlockFactory;
-  final Parser _parser;
+  final ViewPort _viewPort;
+  final BoundViewFactory _boundViewFactory;
   final Scope _scope;
+  final Parser _parser;
+  final AstParser _astParser;
+  final FilterMap filters;
 
   String _expression;
   String _valueIdentifier;
@@ -104,26 +107,33 @@ class PuiRepeatDirective {
   String _listExpr;
   Map<dynamic, _Row> _rows = {};
   Function _trackByIdFn = (key, value, index) => value;
-  Function _removeWatch = () => null;
+  Watch _watch = null;
   Iterable _lastCollection;
 
-  PuiRepeatDirective(this._blockHole,
-                    this._boundBlockFactory,
-                    this._parser,
-                    this._scope,
-                    this._container) {}
+  // added for pui-repeat
+  PuiRowComponent _container;
+  // end of addition
 
+
+  PuiRepeatDirective(this._viewPort, this._boundViewFactory,
+                    this._scope, this._parser, this._astParser,
+                    this.filters
+                    // added for pui-repeat
+                    //this._container
+                    // end of addition
+                    );
 
   set expression(value) {
+    assert(value != null);
     _expression = value;
-    _removeWatch();
+    if (_watch != null) _watch.remove();
     Match match = _SYNTAX.firstMatch(_expression);
     if (match == null) {
       throw "[NgErr7] ngRepeat error! Expected expression in form of '_item_ "
           "in _collection_[ track by _id_]' but got '$_expression'.";
     }
     _listExpr = match.group(2);
-    var trackByExpr = match.group(3);
+    var trackByExpr = match.group(4);
     if (trackByExpr != null) {
       Expression trackBy = _parser(trackByExpr);
       _trackByIdFn = ((key, value, index) {
@@ -133,7 +143,7 @@ class PuiRepeatDirective {
             ..[_valueIdentifier] = value
             ..[r'$index'] = index
             ..[r'$id'] = (obj) => obj;
-        return relaxFnArgs(trackBy.eval)(new ScopeLocals(_scope, trackByLocals));
+        return relaxFnArgs(trackBy.eval)(new ScopeLocals(_scope.context, trackByLocals));
       });
     }
     var assignExpr = match.group(1);
@@ -147,14 +157,19 @@ class PuiRepeatDirective {
     if (_valueIdentifier == null) _valueIdentifier = match.group(1);
     _keyIdentifier = match.group(2);
 
-    _removeWatch = _scope.$watchCollection(_listExpr, _onCollectionChange,
-        value, false);
+    _watch = _scope.watch(
+        _astParser(_listExpr, collection: true, filters: filters),
+        (CollectionChangeRecord collection, _) {
+          //TODO(misko): we should take advantage of the CollectionChangeRecord!
+          _onCollectionChange(collection == null ? [] : collection.iterable);
+        }
+    );
   }
 
   List<_Row> _computeNewRows(Iterable collection, trackById) {
     final newRowOrder = new List<_Row>(collection.length);
-    // Same as lastBlockMap but it has the current state. It will become the
-    // lastBlockMap on the next iteration.
+    // Same as lastViewMap but it has the current state. It will become the
+    // lastViewMap on the next iteration.
     final newRows = <dynamic, _Row>{};
     // locate existing items
     for (var index = 0; index < newRowOrder.length; index++) {
@@ -166,7 +181,7 @@ class PuiRepeatDirective {
         newRows[trackById] = row;
         newRowOrder[index] = row;
       } else if (newRows.containsKey(trackById)) {
-        // restore lastBlockMap
+        // restore lastViewMap
         newRowOrder.forEach((row) {
           if (row != null && row.startNode != null) _rows[row.id] = row;
         });
@@ -181,24 +196,22 @@ class PuiRepeatDirective {
       }
     }
     // remove existing items
-    _rows.forEach((key, row){
-      row.block.remove();
-      row.scope.$destroy();
+    _rows.forEach((key, row) {
+      _viewPort.remove(row.view);
+      row.scope.destroy();
     });
     _rows = newRows;
     return newRowOrder;
   }
 
   _onCollectionChange(Iterable collection) {
-    var previousNode = _blockHole.elements[0], // current position of the node
-        nextNode,
-        childScope,
-        trackById,
-        cursor = _blockHole,
-        arrayChange = _lastCollection != collection;
-
-    if (arrayChange) _lastCollection = collection;
-    if (collection is! Iterable) collection = [];
+    dom.Node previousNode = _viewPort.placeholder; // current position of the
+    // node
+    dom.Node nextNode;
+    Scope childScope;
+    Map childContext;
+    Scope trackById;
+    View cursor;
 
     List<_Row> newRowOrder = _computeNewRows(collection, trackById);
 
@@ -210,45 +223,52 @@ class PuiRepeatDirective {
         // if we have already seen this object, then we need to reuse the
         // associated scope/element
         childScope = row.scope;
+        childContext = childScope.context as Map;
 
         nextNode = previousNode;
         do {
           nextNode = nextNode.nextNode;
-        } while(nextNode != null);
+        } while (nextNode != null);
 
-        // existing item which got moved
-        if (row.startNode != nextNode) row.block.moveAfter(cursor);
+        if (row.startNode != nextNode) {
+          // existing item which got moved
+          _viewPort.move(row.view, moveAfter: cursor);
+        }
         previousNode = row.endNode;
       } else {
         // new item which we don't know about
-        childScope = _scope.$new(lazy: false);
+        childScope = _scope.createChild(childContext = new PrototypeMap(_scope.context));
       }
 
-      if (!identical(childScope[_valueIdentifier], value)) {
-        childScope[_valueIdentifier] = value;
-        childScope.$dirty();
+      if (!identical(childScope.context[_valueIdentifier], value)) {
+        childContext[_valueIdentifier] = value;
       }
-      childScope
+      var first = (index == 0);
+      var last = (index == collection.length - 1);
+      childContext
           ..[r'$index'] = index
-          ..[r'$first'] = (index == 0)
-          ..[r'$last'] = (index == (collection.length - 1))
-          ..[r'$middle'] = !(childScope.$first || childScope.$last)
+          ..[r'$first'] = first
+          ..[r'$last'] = last
+          ..[r'$middle'] = !first && !last
           ..[r'$odd'] = index & 1 == 1
           ..[r'$even'] = index & 1 == 0;
-      if (arrayChange && false) childScope.$dirty();
 
       if (row.startNode == null) {
-        var block = _boundBlockFactory(childScope);
+        var view = _boundViewFactory(childScope);
         _rows[row.id] = row
-            ..block = block
+            ..view = view
             ..scope = childScope
-            ..elements = block.elements
-            ..startNode = row.elements[0]
-            ..endNode = row.elements[row.elements.length - 1];
-        block.insertAfter(cursor);
+            ..nodes = view.nodes
+            ..startNode = row.nodes[0]
+            ..endNode = row.nodes[row.nodes.length - 1];
+        _viewPort.insert(view, insertAfter: cursor);
       }
-      cursor = row.block;
+      cursor = row.view;
     }
-    scheduleMicrotask(() { _container.redrawTable(collection); });
+
+    // added for pui-repeat
+//    scheduleMicrotask(() { _container.redrawTable(collection); });
+    // end of addition
   }
 }
+

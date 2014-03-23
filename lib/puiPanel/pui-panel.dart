@@ -19,8 +19,8 @@ library puiPanel;
 import 'package:angular/angular.dart';
 import 'dart:html';
 import '../core/pui-base-component.dart';
-import 'package:animation/animation.dart';
-import 'package:animation/effect.dart';
+//import 'package:animation/animation.dart';
+//import 'package:animation/effect.dart';
 
 
 @NgComponent(

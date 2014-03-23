@@ -69,7 +69,7 @@ class PuiTextareaComponent extends PuiBaseComponent implements NgShadowRootAware
       puiTextareaElement.classes.add("pui-inputtextarea-resizable");
     copyAttributesToShadowDOM(puiTextareaElement, shadowyTextareaField, scope);
     addWatches(puiTextareaElement, shadowyTextareaField, scope);
-    scope.$watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiTextareaElement, shadowyTextareaField, scope));
+    scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiTextareaElement, shadowyTextareaField, scope));
   }
 }
 

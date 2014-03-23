@@ -25,15 +25,18 @@ import '../puiTabview/pui-tabview.dart';
 import '../puiDatatable/pui-datatable.dart';
 import '../puiDatatable/pui-repeat.dart';
 
+import '../puiInclude/pui-include.dart';
+
 
 import '../puiInput/pui-input.dart';
 import '../puiButton/pui-button.dart';
 import '../puiCheckbox/pui-checkbox.dart';
 import '../puiDropdown/pui-dropdown.dart';
 import '../puiTextarea/pui-textarea.dart';
-import '../puiRadiobuttons/pui-radiobutton.dart';
+//import '../puiRadiobuttons/pui-radiobutton.dart';
 
 import 'dart:html';
+import 'dart:async';
 import 'package:logging/logging.dart';
 
 
@@ -46,15 +49,19 @@ class PuiModule extends Module {
   static NodeList nodesToBeWatched = null;
 
   /** Analyses each pui component of the DOM tree and add register attributes to be watched. */
-  static void findNodesToBeWatched()
+  static void _findNodesToBeWatched()
   {
-    List<String> puiElements = ['pui-panel','pui-accordion', 'pui-input', 'pui-button', 'pui-checkbox', 'pui-dropdown', 'pui-textarea'];
-    List<HtmlElement> myComponents = puiElements.fold(null, (List<HtmlElement> list, String puiType) => addTags(list, puiType));
-    myComponents.forEach((HtmlElement n) => registerAttributesToBeWatched(n));
+    List<String> puiElements = ['pui-button', 'pui-accordion',
+                                'pui-datatable', 'pui-row', 'pui-column',
+                                 'pui-checkbox', 'pui-dropdown','pui-input', 'pui-panel',
+                                 'pui-radiobutton',
+                                 'pui-tabview', 'pui-tab', 'pui-textarea'];
+    List<HtmlElement> myComponents = puiElements.fold(null, (List<HtmlElement> list, String puiType) => _addTags(list, puiType));
+    myComponents.forEach((HtmlElement n) => _registerAttributesToBeWatched(n));
   }
 
   /** Scans the entire document for a particular component type. */
-  static List<HtmlElement> addTags(List<HtmlElement> initial, String puiType) {
+  static List<HtmlElement> _addTags(List<HtmlElement> initial, String puiType) {
     NodeList list = window.document.getElementsByTagName(puiType);
     List<Element> result = initial;
     if (null==result) result = new List<HtmlElement>();
@@ -62,17 +69,24 @@ class PuiModule extends Module {
     return result;
   }
 
-  static void registerAttributesToBeWatched(HtmlElement puiComponent)
+  static void _registerAttributesToBeWatched(HtmlElement puiComponent)
   {
     String watches = "";
-    puiComponent.attributes.forEach((String key, String value) { if (value.contains("{{") && value.contains("}}")) watches+=" "+innerExpression(value);});
+    puiComponent.attributes.forEach((String key, String value) {
+      if (value.contains("{{") && value.contains("}}"))
+      {
+        watches+=" "+_innerExpression(value);
+        // puiComponent.attributes.remove(key);
+      }
+     });
+
     if (watches.length>0)
     {
       puiComponent.attributes["pui-toBeWatched"]=watches.trim();
     }
   }
 
-  static String innerExpression(String value) {
+  static String _innerExpression(String value) {
     int start = value.indexOf("{{");
     int end = value.indexOf("}}", start);
     if (start>=0 && end>start)
@@ -82,13 +96,44 @@ class PuiModule extends Module {
     else return "";
   }
 
+  /** Loads the file included via <pui-include> (if any) and initializes AngularDart after incorporating the include files' content */
+  void _loadIncludeFiles()
+  {
+    NodeList list = window.document.getElementsByTagName('pui-include');
+    if (list.length==0)
+    {
+       // _findNodesToBeWatched();
+        ngBootstrap(module: this);
+    }
+    else
+    {
+      List<Future> futures = new List<Future>();
+      list.forEach((Node puiIncludeTag){
+        String file=puiIncludeTag.attributes["file"];
+        Future future = HttpRequest.getString(file).then((resp) {
+          var includedElement = _parseResponse(resp);
+          puiIncludeTag.children.add(includedElement);
+        });
+        futures.add(future);
+      });
+      Future.wait(futures).then((List l) {
+         _findNodesToBeWatched();
+         ngBootstrap(module: this);});
+    }
+  }
 
+  /* Converts the HTML fragment to a partial DOM tree */
+  _parseResponse(resp) {
+    NodeValidator nodeValidator=new TolerantNodeValidator();
 
+    var includedElement = new Element.html(resp, validator:nodeValidator);
+    return includedElement;
+  }
+
+  /** Registers the PUI modules, loads the pui-include files, takes care of any attribute that has to be watched and initializes AngularDart */
   PuiModule() {
     Logger.root.level = Level.FINEST;
     Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
-
-    findNodesToBeWatched();
 
     type(PuiPanelComponent);
     type(PuiAccordionComponent);
@@ -96,8 +141,10 @@ class PuiModule extends Module {
     type(PuiTabComponent);
 
     type(PuiDatatableComponent);
-//    type(PuiRowComponent);
+    type(PuiRowComponent);
     type(PuiColumnComponent);
+
+    type(PuiIncludeComponent);
 
     type(PuiInputTextComponent);
     type(PuiButtonComponent);
@@ -106,5 +153,24 @@ class PuiModule extends Module {
 //    type(PuiRadiobuttonComponent);
     type(PuiTextareaComponent);
     type(PuiRepeatDirective);
+
+    _loadIncludeFiles();
+  }
+}
+
+/** By default HTML.element() remove the pui elements, so we need a more tolerant validator */
+class TolerantNodeValidator implements NodeValidator
+{
+
+  /** allow every attribute */
+  @override
+  bool allowsAttribute(Element element, String attributeName, String value) {
+    return true;
+  }
+
+  /** allow every element */
+  @override
+  bool allowsElement(Element element) {
+    return true;
   }
 }

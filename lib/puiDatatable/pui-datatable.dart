@@ -4,6 +4,7 @@ import '../core/pui-base-component.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
 part "pui-column.dart";
+part "pui-row.dart";
 
 /**
  * A <pui-datatable> consists of a number of <pui-tabs>, each containing content that's hidden of shown

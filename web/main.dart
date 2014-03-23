@@ -26,5 +26,6 @@ class MyAppModule extends PuiModule {
 }
 
 void main() {
-  ngBootstrap(module: new MyAppModule());
+  new MyAppModule();
+  //ngBootstrap(module: new MyAppModule());
 }

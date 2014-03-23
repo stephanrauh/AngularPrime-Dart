@@ -73,7 +73,7 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
 
     addWatches(puiCheckboxElement, shadowyInputField, scope);
 
-    scope.$watch(()=>ngmodel, (newVar, oldVar) => update());
+    scope.watch("ngmodel", (newVar, oldVar) => update());
 
   }
 
@@ -85,7 +85,10 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
       if (disabled != false) {
         disabled=false;
       }
-      ngmodel=!ngmodel;
+      if (null==ngmodel)
+        ngmodel=true;
+      else
+        ngmodel=!ngmodel;
       update();
     }
   }
