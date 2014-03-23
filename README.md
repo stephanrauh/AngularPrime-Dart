@@ -2,6 +2,7 @@ AngularPrime-Dart
 =================
 
 AngularPrime-Dart is a Dart port of Rudy de Busscher's AngularPrime component library.
+It also runs in native Javascript (by using Dart's cross-compiler dart2js).
 
 The goal of the project is to provide
 <ul>
@@ -19,8 +20,8 @@ Structural components:
 <table>
 <tr><td>&lt;pui-panel&gt;</td><td>finished except shrink and grow effects</td></tr>
 <tr><td>&lt;pui-accordion&gt;</td><td>finished except shrink and grow effects and collapsing of the other accordion ribs after activating a rib</td></tr>
-<tr><td>&lt;pui-tabview&gt;</td><td>finished except vertically orientated tabs</td></tr>
-<tr><td>&lt;pui-datatable&gt;</td><td>work in progress</td></tr>
+<tr><td>&lt;pui-tabview&gt;</td><td>finished except vertically orientated tabs + defect caused by API change</td></tr>
+<tr><td>&lt;pui-datatable&gt;</td><td>33% finished / work in progress</td></tr>
 </table>
 
 Components dealing with input:
@@ -29,6 +30,6 @@ Components dealing with input:
 <tr><td>&lt;pui-button&gt;</td><td>finished</td></tr>
 <tr><td>&lt;pui-checkbox&gt;</td><td>finished</td></tr>
 <tr><td>&lt;pui-textarea&gt;</td><td>50% finished</td></tr>
-<tr><td>&lt;pui-dropdown&gt;</td><td>finished except keyboard support of non-editable drop drop menus</td></tr>
+<tr><td>&lt;pui-dropdown&gt;</td><td>currently out of order due to API change / formerly finished except keyboard support of non-editable drop drop menus</td></tr>
 <tr><td>&lt;pui-radiobutton&gt;</td><td></td></tr>
 </table>
