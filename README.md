@@ -4,9 +4,12 @@ AngularPrime-Dart
 AngularPrime-Dart is a Dart port of Rudy de Busscher's AngularPrime component library.
 It also runs in native Javascript (by using Dart's cross-compiler dart2js).
 
+Have a look at the <a href="http://showcase.angularfaces.com/AngularPrimeDart/">showcase</a> and the project blog at http://www.beyondjava.net.
+
 The goal of the project is to provide
 <ul>
-<li>A similar (maybe even identical) API as the original AngularPrime.</li>
+<li>A similar API as the original AngularPrime.</li>
+<li>When it's impossible to provide the same API, AngularPrime-Dart strives for an even better API.</li>
 <li>A Dart widget library blending seamlessly into the PrimeFaces look and feel</li>
 <li>and that's even compatible to the JSF version of PrimeFaces.</li>
 <li>Ultimately, AngularPrime-Dart is going to be used as the widget library of AngularFaces (unless technical obstacles arise).</li>
@@ -22,6 +25,7 @@ Structural components:
 <tr><td>&lt;pui-accordion&gt;</td><td>finished except shrink and grow effects and collapsing of the other accordion ribs after activating a rib</td></tr>
 <tr><td>&lt;pui-tabview&gt;</td><td>finished except vertically orientated tabs + defect caused by API change</td></tr>
 <tr><td>&lt;pui-datatable&gt;</td><td>33% finished / work in progress</td></tr>
+<tr><td>&lt;pui-include&gt;</td><td>finished</td></tr>
 </table>
 
 Components dealing with input:
@@ -30,6 +34,6 @@ Components dealing with input:
 <tr><td>&lt;pui-button&gt;</td><td>finished</td></tr>
 <tr><td>&lt;pui-checkbox&gt;</td><td>finished</td></tr>
 <tr><td>&lt;pui-textarea&gt;</td><td>50% finished</td></tr>
-<tr><td>&lt;pui-dropdown&gt;</td><td>currently out of order due to API change / formerly finished except keyboard support of non-editable drop drop menus</td></tr>
+<tr><td>&lt;pui-dropdown&gt;</td><td>finished except keyboard support of non-editable drop drop menus</td></tr>
 <tr><td>&lt;pui-radiobutton&gt;</td><td></td></tr>
 </table>

@@ -14,8 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'package:angular/angular.dart';
-// import 'package:angularprime_dart/core/pui-module.dart';
+
 import '../lib/core/pui-module.dart';
 import 'puiInputDemoController.dart';
 

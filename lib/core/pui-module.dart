@@ -23,10 +23,8 @@ import '../puiAccordion/pui-accordion.dart';
 import '../puiTabview/pui-tabview.dart';
 
 import '../puiDatatable/pui-datatable.dart';
-import '../puiDatatable/pui-repeat.dart';
 
 import '../puiInclude/pui-include.dart';
-
 
 import '../puiInput/pui-input.dart';
 import '../puiButton/pui-button.dart';
@@ -102,7 +100,7 @@ class PuiModule extends Module {
     NodeList list = window.document.getElementsByTagName('pui-include');
     if (list.length==0)
     {
-       // _findNodesToBeWatched();
+        _findNodesToBeWatched();
         ngBootstrap(module: this);
     }
     else
@@ -152,9 +150,10 @@ class PuiModule extends Module {
     type(PuiDropdownComponent);
 //    type(PuiRadiobuttonComponent);
     type(PuiTextareaComponent);
-    type(PuiRepeatDirective);
 
-    _loadIncludeFiles();
+    scheduleMicrotask(() {
+      _loadIncludeFiles();
+    });
   }
 }
 
