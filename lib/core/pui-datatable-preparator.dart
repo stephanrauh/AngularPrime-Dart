@@ -25,9 +25,11 @@ _prepareDatatable(Element puiDatatable) {
     ngRepeatStatement=rows[0].attributes["ng-repeat"];
   }
   print("ng-repeat = $ngRepeatStatement");
-
-  var toBeWatched = extractNameOfCollection(ngRepeatStatement);
-  puiDatatable.attributes["puiDatatableWatch"]=toBeWatched;
+  if (null!=ngRepeatStatement)
+  {
+    var toBeWatched = extractNameOfCollection(ngRepeatStatement);
+    puiDatatable.attributes["puiDatatableWatch"]=toBeWatched;
+  }
 }
 
 /** Copied from ng-repeat.dart */

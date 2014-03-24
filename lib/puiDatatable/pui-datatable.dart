@@ -88,8 +88,13 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
      });
 
      var toBeWatched = puiDatatableElement.attributes["puiDatatableWatch"];
-     toBeWatched = toBeWatched + ".length";
-     scope.parentScope.watch(toBeWatched, (oldVal, newVal)=> redrawTable(), readOnly: true);
+     if (toBeWatched!=null)
+     {
+       toBeWatched = toBeWatched + ".length";
+       scope.parentScope.watch(toBeWatched, (oldVal, newVal)=> redrawTable(), readOnly: true);
+     }
+     else
+       redrawTable();
      initialized=true;
   }
 
