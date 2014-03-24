@@ -37,6 +37,8 @@ import 'dart:html';
 import 'dart:async';
 import 'package:logging/logging.dart';
 
+part "pui-datatable-preparator.dart";
+
 
 
 /**
@@ -100,8 +102,7 @@ class PuiModule extends Module {
     NodeList list = window.document.getElementsByTagName('pui-include');
     if (list.length==0)
     {
-        _findNodesToBeWatched();
-        ngBootstrap(module: this);
+        startAngular();
     }
     else
     {
@@ -115,9 +116,14 @@ class PuiModule extends Module {
         futures.add(future);
       });
       Future.wait(futures).then((List l) {
-         _findNodesToBeWatched();
-         ngBootstrap(module: this);});
+         startAngular();});
     }
+  }
+
+  void startAngular() {
+    prepareDatatables();
+     _findNodesToBeWatched();
+    ngBootstrap(module: this);
   }
 
   /* Converts the HTML fragment to a partial DOM tree */

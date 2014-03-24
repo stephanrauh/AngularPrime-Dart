@@ -52,7 +52,7 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
 
   @override
   void onShadowRoot(ShadowRoot shadowRoot) {
-    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable()));
+//    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable()));
   }
 }
 

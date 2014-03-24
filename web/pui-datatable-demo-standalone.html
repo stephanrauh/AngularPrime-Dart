@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="themes/aristo/theme.css">
     <link rel="stylesheet" href="themes/jquery-ui.css">
     <link rel="stylesheet" href="style.css">
+    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
 </head>
 <body ng-cloak>
 
   <div puiInputDemo="">
-     First field = {{ctrl.firstField}}
+     Number of cars: {{ctrl.carTable.length}}
      <pui-datatable>
        <pui-row ng-repeat="row in ctrl.carTable" />
             <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
@@ -19,6 +20,19 @@
         </pui-row>
       </pui-datatable>
     <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
+
+<hr />
+Empty table:
+     <pui-datatable>
+       <pui-row ng-repeat="row in ctrl.emptyCarTable" />
+            <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+            <pui-column header="Type" >{{row.type}}</pui-column>
+            <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
+            <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+        </pui-row>
+      </pui-datatable>
+
+
   </div>
   <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>

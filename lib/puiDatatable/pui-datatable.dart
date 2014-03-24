@@ -59,6 +59,15 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
   PuiDatatableComponent(this.scope, this.puiDatatableElement) {
+    List<Element> headers = puiDatatableElement.querySelectorAll("header");
+    headers.forEach((Element header) {
+      String h = header.attributes["header"];
+      String closable = header.attributes["closable"];
+      String sortable = header.attributes["sortable"];
+      _columnHeaders.add(new Column(h, "true"==closable, "true"==sortable));
+    });
+
+
   }
 
   /**
@@ -78,25 +87,13 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
        _addColumnToHeader(shadowTableContent, col);
      });
 
-     bool even=false;
-     int index=0;
-     rows.forEach((Element r){
-       DivElement shadowTableRow = new DivElement();
-       shadowTableRow.attributes["data-ri"]=index.toString();
-       shadowTableRow.attributes["role"]="row";
-       shadowTableRow.style.display="table-row";
-       shadowTableRow.classes.add("tr");
-       shadowTableRow.classes.add("ui-widget-content");
-       shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
-           even=!even;
-       shadowTableContent.children.add(shadowTableRow);
-       r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c);});
-       index++;
-     });
+     var toBeWatched = puiDatatableElement.attributes["puiDatatableWatch"];
+     toBeWatched = toBeWatched + ".length";
+     scope.parentScope.watch(toBeWatched, (oldVal, newVal)=> redrawTable(), readOnly: true);
      initialized=true;
   }
 
-  void redrawTable(Iterable collection) {
+  void redrawTable() {
     if (initialized)
     {
       var rows = puiDatatableElement.children;
