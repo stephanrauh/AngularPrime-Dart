@@ -62,9 +62,6 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   @NgOneWay("editable")
   bool editable;
 
-  /** prevent endless loop caused by watches watching other watches */
-  bool dontWatch=false;
-
   /** The scope is needed to add watches. */
   Scope scope;
 
@@ -112,9 +109,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
 
     var children = puiInputElement.children;
     children.forEach((Element option) => add(option));
-//    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
-    scope.watch("ng-model", (newVar, oldVar) => updateDisplayedValue());
-    scope.watch("displayedValue", (newVar, oldVar) => updateNgModel());
+    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
+    scope.watch("cmp.ngmodel", (newVar, oldVar) => updateDisplayedValue());
+    scope.watch("cmp.displayedValue", (newVar, oldVar) => updateNgModel());
     addWatches(puiInputElement, shadowyInputField, scope);
 
   }
@@ -173,33 +170,22 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
    * Every change of the angular model has to result in a change of the displayed and the selected value of the drop down menu.
    */
   updateNgModel() {
-    if (!dontWatch)
-    {
-      dontWatch=true;
      if (predefinedOptions.containsValue(displayedValue))
      {
        predefinedOptions.forEach((K, V) => (ngmodel=V==displayedValue?K:ngmodel));
      }
      else
        ngmodel=displayedValue;
-    }
-    else dontWatch=false;
   }
 
   /**
    * Every key stroke in the input field has to modify the angular model.
    */
   updateDisplayedValue() {
-    if (dontWatch)
-    {
-      dontWatch=false;
-      return;
-    }
-    dontWatch=true;
     if (predefinedOptions.containsKey(ngmodel))
       displayedValue=predefinedOptions[ngmodel];
     else
-      displayedValue="";
+      displayedValue=ngmodel;
   }
 
   /**
@@ -212,7 +198,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     li.attributes["data-label"] =description;
     li.classes.add('pui-dropdown-item pui-dropdown-list-item ui-corner-all pui-dropdown-label');
     li.innerHtml=description;
-    li.onClick.listen((Event) => select(li, v));
+    li.onClick.listen((Event) => select(li, v, description));
     dropDownItems.children.add(li);
     predefinedOptions[v]=description;
     predefinedValuesAsList.add(description);
@@ -222,11 +208,12 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   /**
    * Highlight the selected item (while removing the highlight effect from the previously selected item).
    */
-  select(LIElement selectedLIElement, String v) {
+  select(LIElement selectedLIElement, String v, String description) {
     dropDownItems.children.forEach((LIElement li) => li.classes.remove("ui-state-highlight"));
     ngmodel=v;
+    displayedValue=description;
     selectedLIElement.classes.add('ui-state-highlight');
-
+    toggleOptionBox();
   }
 
   /**
