@@ -1,9 +1,8 @@
   <div puiInputDemo>
      <h3>The &lt;pui-datatable&gt; is an advanced datatable widget insprired by the datatable component of PrimeFaces.</h3>
-     The current version is an early prototype that only just works. Be prepared for API changes.<p>
+     The current version is an early prototype. Be prepared for API changes.<p>
      Planned changes:
      <ul>
-      <li>Get rid of <pui-row> by moving the pui-repeat directive to <pui-datatable>.</li>
       <li>Allow arbitrary content in the table cell (for instance, editable input fields).</li>
       <li>Add filters.</li>
       <li>Add paginators.</li>
@@ -25,14 +24,14 @@
      <pui-panel header="source code">
 
  <pre>
-    &lt;pui-datatable>
-        &lt;pui-row ng-repeat="row in ctrl.carTable" />
-           &lt;pui-column header="Brand">&#x007B;{row.brand}}&lt;/pui-column>
-           &lt;pui-column header="Type"> &#x007B;{row.type}}&lt;/pui-column>
-           &lt;pui-column header="Year"> &#x007B;{row.year}}&lt;/pui-column>
-           &lt;pui-column header="Color">&#x007B;{row.color}}&lt;/pui-column>
-        &lt;/pui-row>
-    &lt;/pui-datatable>
+&lt;pui-datatable>
+    &lt;pui-row ng-repeat="row in ctrl.carTable" />
+       &lt;pui-column header="Brand">&#x007B;{row.brand}}&lt;/pui-column>
+       &lt;pui-column header="Type"> &#x007B;{row.type}}&lt;/pui-column>
+       &lt;pui-column header="Year"> &#x007B;{row.year}}&lt;/pui-column>
+       &lt;pui-column header="Color">&#x007B;{row.color}}&lt;/pui-column>
+    &lt;/pui-row>
+&lt;/pui-datatable>
 </pre>
 
       </pui-panel>
@@ -74,26 +73,20 @@
               </pui-row>
           </pui-datatable>
           <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
-          (doesn't work yet)
 
      </pui-panel>
      <pui-panel header="source code">
-
-
-       <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
-   <![CDATA[
-         <pui-datatable>
-              <pui-row ng-repeat="row in ctrl.carTable" />
-                <pui-column header="Brand">{{row.brand}}</pui-column>
-                <pui-column header="Type"> {{row.type}}</pui-column>
-                <pui-column header="Year"> {{row.year}}</pui-column>
-                <pui-column header="Color">{{row.color}}</pui-column>
-              </pui-row>
-          </pui-datatable>
-          <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
-]]></script>
-      <br />
-      Note we don't use ng-repeat here. It is important to use pui-repeat to update the table.
+      <pre>
+&lt;pui-datatable>
+    &lt;pui-row ng-repeat="row in ctrl.carTable" />
+      &lt;pui-column header="Brand">{{row.brand}}&lt;/pui-column>
+      &lt;pui-column header="Type"> {{row.type}}&lt;/pui-column>
+      &lt;pui-column header="Year"> {{row.year}}&lt;/pui-column>
+      &lt;pui-column header="Color">{{row.color}}&lt;/pui-column>
+    &lt;/pui-row>
+&lt;/pui-datatable>
+&lt;pui-button icon="plus" ng-click="ctrl.addCar()" value="add car">&lt;/pui-button>
+        </pre>
       </pui-panel>
     </pui-tab>
 
@@ -112,16 +105,50 @@
      <pui-panel header="source code">
 
  <pre>
-     &lt;pui-datatable>
-          &lt;pui-row ng-repeat="row in ctrl.emptyCarTable">
-            &lt;pui-column header="Brand" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
-            &lt;pui-column header="Year" sortable="true"> &#x007B;{row.year}} &lt;/pui-column>
-            &lt;pui-column header="Color" closable="true">&#x007B;{row.color}}&lt;/pui-column>
-          &lt;/pui-row>
-      &lt;/pui-datatable>
+&lt;pui-datatable>
+    &lt;pui-row ng-repeat="row in ctrl.emptyCarTable">
+      &lt;pui-column header="Brand" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
+      &lt;pui-column header="Year" sortable="true"> &#x007B;{row.year}} &lt;/pui-column>
+      &lt;pui-column header="Color" closable="true">&#x007B;{row.color}}&lt;/pui-column>
+    &lt;/pui-row>
+&lt;/pui-datatable>
 </pre>
 
       </pui-panel>
+    </pui-tab>
+
+    <pui-tab title="putting it all together"  style="height:500px">
+      <h3>Putting it all together</h3>
+          <pui-datatable>
+              <pui-row ng-repeat="row in ctrl.carTable" />
+                <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+                <pui-column header="Type">                                 {{row.type}} </pui-column>
+                <pui-column header="Year" sortable="true">                 {{row.year}} </pui-column>
+                <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+              </pui-row>
+              </pui-row>
+          </pui-datatable>
+          <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
+    </pui-panel>
+     <pui-panel header="source code">
+
+ <pre>
+&lt;pui-datatable>
+    &lt;pui-row ng-repeat="row in ctrl.carTable">
+    &lt;pui-row ng-repeat="row in ctrl.carTable" />
+      &lt;pui-column header="Brand" sortable="true" closable="true">{{row.brand}}&lt;/pui-column>
+      &lt;pui-column header="Type">                                 {{row.type}} &lt;/pui-column>
+      &lt;pui-column header="Year" sortable="true">                 {{row.year}} &lt;/pui-column>
+      &lt;pui-column header="Color" sortable="true" closable="true">{{row.color}}&lt;/pui-column>
+    &lt;/pui-row>
+    &lt;/pui-row>
+&lt;/pui-datatable>
+&lt;pui-button icon="plus" ng-click="ctrl.addCar()" value="add car">&lt;/pui-button>
+</pre>
+
+      </pui-panel>
+    </pui-tab>
+
       </div>
 
 
