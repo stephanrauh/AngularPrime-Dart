@@ -58,14 +58,20 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
 
 /** Abstract description of the colum. */
 class Column {
+  /** Can the column be hidden hy hitting the close button? */
   bool closable;
 
+  /** Caption of the column. */
   String header;
 
+  /** Can the table be sorted by hitting the columns sort button? */
   bool sortable;
 
   /** 0=not sorted, 1=sort upwards, 2=sort downwards */
   int sortDirection=0;
+
+  /** Is the current row hidden? */
+  bool hidden=false;
 
   Column(this.header, this.closable, this.sortable);
 }

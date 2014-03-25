@@ -15,14 +15,16 @@ _prepareDatatable(Element puiDatatable) {
   ElementList columns = puiDatatable.querySelectorAll('pui-column');
   _addHeaderTags(puiDatatable, columns);
   String ngRepeatStatement;
+  Element puiRow;
   if (rows.isEmpty)
   {
     ngRepeatStatement=puiDatatable.attributes["ng-repeat"];
-    _addRowTag(puiDatatable, columns);
+    puiRow=_addRowTag(puiDatatable, columns);
   }
   else
   {
     ngRepeatStatement=rows[0].attributes["ng-repeat"];
+    puiRow=rows[0];
   }
   print("ng-repeat = $ngRepeatStatement");
   if (null!=ngRepeatStatement)
@@ -44,9 +46,13 @@ String extractNameOfCollection(String ngRepeatStatement) {
   return _listExpr;
 }
 
-_addHeaderTags(Element puiDatatable, ElementList columns) {
+
+/** Creates the header of a table and counts the number of columns */
+int _addHeaderTags(Element puiDatatable, ElementList columns) {
+  int count=0;
   print("Add Headers");
   columns.forEach((Element column){
+    count++;
     Element h = new Element.header();
     h.attributes["header"]=column.attributes["header"];
     String s = column.attributes["sortable"];
@@ -57,6 +63,7 @@ _addHeaderTags(Element puiDatatable, ElementList columns) {
     h.attributes["closable"]=c;
     puiDatatable.children.add(h);
   });
+  return count;
 }
 
 _addRowTag(Element puiDatatable, ElementList columns) {

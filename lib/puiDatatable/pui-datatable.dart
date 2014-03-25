@@ -109,18 +109,34 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
       bool even=false;
       int index=0;
       rows.forEach((Element r){
-        DivElement shadowTableRow = new DivElement();
-        shadowTableRow.attributes["data-ri"]=index.toString();
-        shadowTableRow.attributes["role"]="row";
-        shadowTableRow.style.display="table-row";
-        shadowTableRow.classes.add("tr");
-        shadowTableRow.classes.add("ui-widget-content");
-        shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
-            even=!even;
-        shadowTableContent.children.add(shadowTableRow);
-        r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c);});
-        index++;
+        if (r.tagName!="HEADER")
+        {
+          DivElement shadowTableRow = new DivElement();
+          shadowTableRow.attributes["data-ri"]=index.toString();
+          shadowTableRow.attributes["role"]="row";
+          shadowTableRow.style.display="table-row";
+          shadowTableRow.classes.add("tr");
+          shadowTableRow.classes.add("ui-widget-content");
+          shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
+          even=!even;
+          shadowTableContent.children.add(shadowTableRow);
+          int col=0;
+          r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c, col); col=(1+col)%_columnHeaders.length;});
+          index++;
+        }
       });
+      if (0==index)
+      {
+        DivElement emptyRow = new DivElement();
+        int numberOfColumns = _columnHeaders.length;
+        emptyRow.attributes['colspan']=numberOfColumns.toString();
+        emptyRow.attributes["role"]="gridcell";
+        emptyRow.style.display="table-cell";
+        emptyRow.classes.add("td");
+        emptyRow.innerHtml="No records found";
+        shadowTableContent.children.add(emptyRow);
+      }
+      _drawLeftBoundaryLine();
     }
   }
 
@@ -161,6 +177,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
     }
   }
 
+  /** Called by the action listener of the close button. Hides a particular column. */
   closeColumn(MouseEvent event, DivElement close) {
     DivElement headerRow = shadowTableContent.children[0];
     int index=0;
@@ -168,11 +185,12 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
     {
       if (headerRow.children[index]==close)
       {
-        _columnHeaders.removeAt(index);
-        shadowTableContent.children.forEach((DivElement row){row.children.removeAt(index);});
+        _columnHeaders[index].hidden=true;
+        shadowTableContent.children.forEach((DivElement row){row.children[index].style.display="none";});
         break;
       }
     }
+    _drawLeftBoundaryLine();
   }
 
   sortColumn(MouseEvent event, DivElement sortColumn) {
@@ -225,7 +243,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
     List<Element> myRows = new List<Element>();
     var v = rows.sublist(1);
     v.forEach((DivElement e){myRows.add(e);});
-    myRows.sort((DivElement r1, DivElement r2) => compare(r1, r2, index, dir));
+    myRows.sort((DivElement r1, DivElement r2) => _compare(r1, r2, index, dir));
     myRows.insert(0, rows[0]);
     rows.clear();
     for (int i=0; i < myRows.length; i++){
@@ -233,7 +251,8 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
     }
   }
 
-  int compare(DivElement r1, DivElement r2, int index, int dir) {
+  /** Compares the content of two cell alphabetically. Used by sort(). */
+  int _compare(DivElement r1, DivElement r2, int index, int dir) {
     if (r1.classes.contains("thead")) return -1;
     if (r2.classes.contains("thead")) return 1;
     var cell1 = r1.children[index];
@@ -247,25 +266,42 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
 
   }
 
-
-  void _addColumnToRow(DivElement row, Element c) {
+  /** Called when the table is drawn or redrawn. Adds a column to a particular row. */
+  void _addColumnToRow(DivElement row, Element c, int colIndex) {
     DivElement cell = new DivElement();
     cell.attributes["role"]="gridcell";
-    cell.style.display="table-cell";
     cell.classes.add("td");
     cell.innerHtml=c.innerHtml;
+    if (_columnHeaders[colIndex].hidden)
+    {
+      cell.style.display="none";
+    }
+    else
+    {
+      cell.style.display="table-cell";
+    }
     row.children.add(cell);
   }
 
-  /** Adds a column and adds it to the list of headers */
-  void addColumn(Column col)
-  {
-
-    if (!(_columnHeaders.any((Column c)=> c.header==col.header)))
+  /** If the first column(s) is/are hidden, the left border line has to be provided by the first visible cell of each row. */
+  void _drawLeftBoundaryLine() {
+    if (_columnHeaders[0].hidden)
     {
-       _columnHeaders.add(col);
+      int firstVisibleIndex = 0;
+      for (;firstVisibleIndex<_columnHeaders.length;firstVisibleIndex++)
+      {
+        if (!(_columnHeaders[firstVisibleIndex].hidden))
+          break;
+      }
+      shadowTableContent.children.forEach((Element row) {
+        if (row.children.length>firstVisibleIndex)
+        {
+          row.children[firstVisibleIndex].style.borderLeftWidth="1px";
+        }
+      });
     }
   }
+
 }
 
 
