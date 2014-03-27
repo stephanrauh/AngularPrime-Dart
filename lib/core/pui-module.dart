@@ -16,7 +16,10 @@
  */
 library angularprime_dart;
 
+import 'dart:html';
 import 'package:angular/angular.dart';
+import 'dart:async';
+
 import 'package:di/di.dart';
 import '../puiPanel/pui-panel.dart';
 import '../puiAccordion/pui-accordion.dart';
@@ -33,13 +36,10 @@ import '../puiDropdown/pui-dropdown.dart';
 import '../puiTextarea/pui-textarea.dart';
 //import '../puiRadiobuttons/pui-radiobutton.dart';
 
-import 'dart:html';
-import 'dart:async';
 import 'package:logging/logging.dart';
 
+part 'pui-html-utils.dart';
 part "pui-datatable-preparator.dart";
-
-
 
 /**
  * AngularPrime-Dart applications can get access to every PUI component by deriving from this class.
@@ -126,13 +126,6 @@ class PuiModule extends Module {
     ngBootstrap(module: this);
   }
 
-  /* Converts the HTML fragment to a partial DOM tree */
-  _parseResponse(resp) {
-    NodeValidator nodeValidator=new TolerantNodeValidator();
-
-    var includedElement = new Element.html(resp, validator:nodeValidator);
-    return includedElement;
-  }
 
   /** Registers the PUI modules, loads the pui-include files, takes care of any attribute that has to be watched and initializes AngularDart */
   PuiModule() {
@@ -163,19 +156,3 @@ class PuiModule extends Module {
   }
 }
 
-/** By default HTML.element() remove the pui elements, so we need a more tolerant validator */
-class TolerantNodeValidator implements NodeValidator
-{
-
-  /** allow every attribute */
-  @override
-  bool allowsAttribute(Element element, String attributeName, String value) {
-    return true;
-  }
-
-  /** allow every element */
-  @override
-  bool allowsElement(Element element) {
-    return true;
-  }
-}

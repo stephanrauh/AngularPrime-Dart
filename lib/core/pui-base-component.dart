@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-library angularprime_dart;
+library puiBaseComponent;
 
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'dart:async';
+
 
 /**
  * This class encapsulates common behaviour of the components of AngularPrime-Dart.
@@ -52,12 +53,15 @@ class PuiBaseComponent {
    * In this case the method may still be useful if it's overridden (as is the case with pui-accordion).
    */
   void updateAttributeInShadowDOM(Element inputfield, String key, String value) {
-    if (originalValues.containsKey(key)) {
-      String s = originalValues[key];
-      if (s == null) {
-        inputfield.attributes[key] = value;
-      } else {
-        inputfield.attributes[key] = "$s $value";
+    if (null != originalValues)
+    {
+      if (originalValues.containsKey(key)) {
+        String s = originalValues[key];
+        if (s == null) {
+          inputfield.attributes[key] = value;
+        } else {
+          inputfield.attributes[key] = "$s $value";
+        }
       }
     }
   }

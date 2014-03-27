@@ -1,6 +1,7 @@
 library puiDatatable;
 
 import '../core/pui-base-component.dart';
+import '../core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
 part "pui-column.dart";
@@ -55,10 +56,16 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
 
   bool initialized = false;
 
+  Compiler compiler;
+  Injector injector;
+  DirectiveMap directives;
+
+
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiDatatableComponent(this.scope, this.puiDatatableElement) {
+  PuiDatatableComponent(this.scope, this.puiDatatableElement,
+                            this.compiler, this.injector, this.directives) {
     List<Element> headers = puiDatatableElement.querySelectorAll("header");
     headers.forEach((Element header) {
       String h = header.attributes["header"];
@@ -120,8 +127,13 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
           shadowTableRow.classes.add(even?"ui-datatable-even":"ui-datatable-odd");
           even=!even;
           shadowTableContent.children.add(shadowTableRow);
-          int col=0;
-          r.children.forEach((Element c){_addColumnToRow(shadowTableRow, c, col); col=(1+col)%_columnHeaders.length;});
+          int len = r.children.length;
+          for (int cc=0; cc<len; cc++)
+          {
+            Element c=r.children[cc];
+            int col=cc%_columnHeaders.length;
+            _addColumnToRow(shadowTableRow, c, col);
+          }
           index++;
         }
       });
@@ -271,7 +283,36 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
     DivElement cell = new DivElement();
     cell.attributes["role"]="gridcell";
     cell.classes.add("td");
-    cell.innerHtml=c.innerHtml;
+    var innerHtml = c.innerHtml;
+    if (c.children.isEmpty)
+    {
+      cell.innerHtml=innerHtml;
+    }
+    else
+    {
+      /** ToDo: use NgIncludeDirective instead */
+      print(innerHtml);
+      try
+      {
+      Element inside = PuiHtmlUtils.parseResponse(innerHtml);
+      ViewFactory template = compiler([inside], directives);
+      Scope childScope = scope.createChild(scope.context);
+      Module module = new Module()..value(Scope, childScope);
+      List<Module> modules = new List<Module>();
+      modules.add(module);
+      Injector childInjector =
+      injector.createChild(modules);
+      template(childInjector, [inside]);
+      cell.children.add(inside);
+      }
+      catch (error)
+      {
+        print("Error: $error");
+        cell.innerHtml="error";
+      }
+
+//      cell.children.add(c);
+    }
     if (_columnHeaders[colIndex].hidden)
     {
       cell.style.display="none";
@@ -303,5 +344,3 @@ class PuiDatatableComponent extends PuiBaseComponent implements NgShadowRootAwar
   }
 
 }
-
-

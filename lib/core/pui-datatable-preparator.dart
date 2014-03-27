@@ -50,7 +50,6 @@ String extractNameOfCollection(String ngRepeatStatement) {
 /** Creates the header of a table and counts the number of columns */
 int _addHeaderTags(Element puiDatatable, ElementList columns) {
   int count=0;
-  print("Add Headers");
   columns.forEach((Element column){
     count++;
     Element h = new Element.header();

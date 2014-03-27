@@ -17,12 +17,19 @@
             <pui-column header="Type" >{{row.type}}</pui-column>
             <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
             <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+            <pui-column header="delete">
+              <pui-button icon="plus" ng-click="row.deleteCar(row)" value="delete car {{row.year}}"></pui-button>
+            </pui-column>
+            <pui-column header="edit">
+              <button onClick="editCar(row)">edit car</button>
+            </pui-column>
         </pui-row>
       </pui-datatable>
     <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
 
 <hr />
 Empty table:
+<!--
      <pui-datatable>
        <pui-row ng-repeat="row in ctrl.emptyCarTable" />
             <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
@@ -32,7 +39,7 @@ Empty table:
         </pui-row>
       </pui-datatable>
 
-
+-->
   </div>
   <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>

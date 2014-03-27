@@ -55,7 +55,18 @@ class PuiInputDemoController {
     else if (idx==3)
       carTable.add(new Car('Fiat', 'Panda', (2003+idx).toString(), 'black'));
   }
+
 }
+
+void deleteCar(Car car)
+{
+  print("delete");
+}
+void editCar(Car car)
+{
+  print("delete");
+}
+
 
 class Car {
   String brand;
