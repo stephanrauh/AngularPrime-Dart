@@ -110,7 +110,7 @@ class PuiModule extends Module {
       list.forEach((Node puiIncludeTag){
         String file=puiIncludeTag.attributes["file"];
         Future future = HttpRequest.getString(file).then((resp) {
-          var includedElement = _parseResponse(resp);
+          var includedElement = PuiHtmlUtils.parseResponse(resp);
           puiIncludeTag.children.add(includedElement);
         });
         futures.add(future);
@@ -138,8 +138,8 @@ class PuiModule extends Module {
     type(PuiTabComponent);
 
     type(PuiDatatableComponent);
-    type(PuiRowComponent);
-    type(PuiColumnComponent);
+//    type(PuiRowComponent);
+    type(PuiColumnHeaderComponent);
 
     type(PuiIncludeComponent);
 

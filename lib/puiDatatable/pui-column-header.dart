@@ -2,21 +2,19 @@ part of puiDatatable;
 
 @NgComponent(
   visibility: NgDirective.CHILDREN_VISIBILITY,
-  selector: 'pui-column',
+  selector: 'pui-column-header',
+  cssUrl:       'packages/angularprime_dart/puiDatatable/pui-datatable.css',
   template: '',
   applyAuthorStyles: true,
   publishAs: 'cmp'
 )
-class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
+class PuiColumnHeaderComponent extends PuiBaseComponent implements NgShadowRootAware {
 
-  /** The <pui-column> field as defined in the HTML source code. */
-  Element _puiColumnElement;
+  /** The <pui-column-header> field as defined in the HTML source code. */
+  Element _puiColumnHeaderElement;
 
   /** The scope is needed to add watches. */
   Scope _scope;
-
-  /** Needed to provide alternating row colors */
-  bool _even=true;
 
   /** Can the tab be closed? */
   bool _closable=false;
@@ -46,13 +44,13 @@ class PuiColumnComponent extends PuiBaseComponent implements NgShadowRootAware {
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiColumnComponent(this._scope, this._puiColumnElement, this.puiDatatableComponent ) {
+  PuiColumnHeaderComponent(this._scope, this._puiColumnHeaderElement, this.puiDatatableComponent ) {
   }
 
 
   @override
   void onShadowRoot(ShadowRoot shadowRoot) {
-//    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable()));
+    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable()));
   }
 }
 

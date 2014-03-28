@@ -11,27 +11,53 @@ void prepareDatatables()
 
 
 _prepareDatatable(Element puiDatatable) {
-  ElementList rows = puiDatatable.querySelectorAll('pui-row');
   ElementList columns = puiDatatable.querySelectorAll('pui-column');
-  _addHeaderTags(puiDatatable, columns);
-  String ngRepeatStatement;
-  Element puiRow;
+  String headers="";
+  int c = 0;
+  columns.forEach((Element col) {
+    col.attributes["data-ci"]=c.toString(); c++;
+    col.classes.add("pui-datatable-td");
+    col.classes.add("ui-widget-content");
+    col.style.display="table-cell";
+    col.attributes["role"]="gridcell";
+    String closable=col.attributes["closable"];
+    if (closable==null) closable="false";
+    String sortable=col.attributes["sortable"];
+    if (sortable==null) sortable="false";
+
+    headers += """<pui-column-header header="${col.attributes["header"]}" closable="$closable"  sortable="$sortable"></pui-column-header>\n""";
+
+  });
+
+  String content = puiDatatable.innerHtml;
+  ElementList rows = puiDatatable.querySelectorAll('pui-row');
   if (rows.isEmpty)
   {
-    ngRepeatStatement=puiDatatable.attributes["ng-repeat"];
-    puiRow=_addRowTag(puiDatatable, columns);
+    String ngRepeat = puiDatatable.attributes["ng-repeat"];
+    content = """<pui-row ng-repeat="$ngRepeat" data-ri="{{index}}" role="row" style="display:table-row" class="tr ui-widget-content {{rowClass()}}">$content</pui-row>""";
+    puiDatatable.attributes["ng-repeat"]=null;
   }
   else
   {
-    ngRepeatStatement=rows[0].attributes["ng-repeat"];
-    puiRow=rows[0];
+    rows.forEach((Element row){
+      row.attributes["data-ri"]="{{index}}";
+      row.classes.add("tr");
+      row.classes.add("ui-widget-content");
+      row.style.display="table-row";
+      row.attributes["role"]="row";
+    });
+    content = puiDatatable.innerHtml;
   }
-  print("ng-repeat = $ngRepeatStatement");
-  if (null!=ngRepeatStatement)
-  {
-    var toBeWatched = extractNameOfCollection(ngRepeatStatement);
-    puiDatatable.attributes["puiDatatableWatch"]=toBeWatched;
-  }
+  content=headers + content;
+  print(content);
+  String newContent = content.replaceAll("<pui-row", """<div """)
+      .replaceAll("</pui-row>", "</div>")
+      .replaceAll("<pui-column ", """<div """)
+      .replaceAll("</pui-column>", "</div>");
+  Element inside = PuiHtmlUtils.parseResponse("<span>$newContent</span>");
+  puiDatatable.children.clear();
+  puiDatatable.children.addAll(inside.children);
+
 }
 
 /** Copied from ng-repeat.dart */
@@ -61,6 +87,7 @@ int _addHeaderTags(Element puiDatatable, ElementList columns) {
     if (c==null)c="false";
     h.attributes["closable"]=c;
     puiDatatable.children.add(h);
+    print(column.innerHtml);
   });
   return count;
 }
