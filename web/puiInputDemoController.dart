@@ -23,8 +23,8 @@ class PuiInputDemoController {
   String secondField = "second model value";
   String thirdField = "third model value";
   bool firstBoolean = true;
-  bool secondBoolean=false;
-  bool thirdBoolean=false;
+  bool secondBoolean = false;
+  bool thirdBoolean = false;
   List<Car> carTable = [
                          new Car('Honda', 'Civic', '2008', 'silver'),
                          new Car('Volvo', 'V40', '2002', 'green'),
@@ -35,38 +35,20 @@ class PuiInputDemoController {
   List<Car> emptyCarTable = [];
 
   get thirdFieldStyle {
-    if (thirdField.isNotEmpty)
-      return "background-color:#FF0";
-    else return
+    if (thirdField.isNotEmpty) return "background-color:#FF0"; else return
         "background-color:#F00";
   }
 
-  addCar()
-  {
+  addCar() {
     int idx = carTable.length % 4;
-    if (idx==0)
-      carTable.add(new Car('Scoda', 'Octavia', (2000+idx).toString(), 'silver'));
-    else if (idx==1)
-      carTable.add(new Car('Renault', 'R4', (1970+idx).toString(), 'red'));
-    else if (idx==1)
-      carTable.add(new Car('BMW', 'E30', (1980+idx).toString(), 'blue'));
-    else if (idx==2)
-      carTable.add(new Car('Volvo', 'V70', (2006+idx).toString(), 'red'));
-    else if (idx==3)
-      carTable.add(new Car('Fiat', 'Panda', (2003+idx).toString(), 'black'));
+    if (idx == 0)      carTable.add(new Car('Scoda',   'Octavia', (2000 + idx).toString(), 'silver'));
+    else if (idx == 1) carTable.add(new Car('Renault', 'R4',      (1970 + idx).toString(), 'red'));
+    else if (idx == 1) carTable.add(new Car('BMW',     'E30',     (1980 + idx).toString(), 'blue'));
+    else if (idx == 2) carTable.add(new Car('Volvo',   'V70',     (2006 + idx).toString(), 'red'));
+    else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx).toString(), 'black'));
   }
 
 }
-
-void deleteCar(Car car)
-{
-  print("delete");
-}
-void editCar(Car car)
-{
-  print("delete");
-}
-
 
 class Car {
   String brand;
@@ -74,4 +56,11 @@ class Car {
   String year;
   String color;
   Car(this.brand, this.type, this.year, this.color);
+
+  void deleteCar() {
+    print("Car.delete");
+  }
+  void editCar() {
+    print("Car.edit");
+  }
 }

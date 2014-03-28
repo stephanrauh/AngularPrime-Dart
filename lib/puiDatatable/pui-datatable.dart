@@ -122,7 +122,13 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     for ( ; index < headerRow.children.length; index++) {
       if (headerRow.children[index] == close) {
         _columnHeaders[index].hidden = true;
-        shadowTableContent.children.forEach((DivElement row) {
+        ElementList headers = shadowTableContent.querySelectorAll(".pui-datatable-th");
+        headers[index].style.display = "none";
+//        shadowTableContent.children.forEach((DivElement row) {
+//          row.children[index].style.display = "none";
+//        });
+        ElementList rows = puiDatatableElement.querySelectorAll(".tr");
+        rows.forEach((Element row) {
           row.children[index].style.display = "none";
         });
         break;
@@ -154,7 +160,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
           dir = 1;
         }
         _columnHeaders[index].sortDirection = dir;
-        sortRows(shadowTableContent.children, index, dir);
+        print("TODO: sortRows(shadowTableContent.children, index, dir);");
       } else {
         // remove sort icon (if necessary)
         List<SpanElement> iconDivs =
@@ -165,21 +171,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
           iconDivs[0].classes.remove("ui-icon-triangle-1-s");
         }
       }
-    }
-  }
-
-  /** Sorts the rows alphabetically */
-  void sortRows(List<Element> rows, int index, int dir) {
-    List<Element> myRows = new List<Element>();
-    var v = rows.sublist(1);
-    v.forEach((DivElement e) {
-      myRows.add(e);
-    });
-    myRows.sort((DivElement r1, DivElement r2) => _compare(r1, r2, index, dir));
-    myRows.insert(0, rows[0]);
-    rows.clear();
-    for (int i = 0; i < myRows.length; i++) {
-      rows.add(myRows[i]);
     }
   }
 
@@ -233,4 +224,5 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   addColumn(Column column) {
     _columnHeaders.add(column);
   }
+
 }

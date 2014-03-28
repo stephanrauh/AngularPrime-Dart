@@ -15,7 +15,7 @@ _prepareDatatable(Element puiDatatable) {
   String headers="";
   int c = 0;
   columns.forEach((Element col) {
-    col.attributes["data-ci"]=c.toString(); c++;
+    col.attributes["data-ci"]=c.toString();
     col.classes.add("pui-datatable-td");
     col.classes.add("ui-widget-content");
     col.style.display="table-cell";
@@ -26,7 +26,7 @@ _prepareDatatable(Element puiDatatable) {
     if (sortable==null) sortable="false";
 
     headers += """<pui-column-header header="${col.attributes["header"]}" closable="$closable"  sortable="$sortable"></pui-column-header>\n""";
-
+    c++;
   });
 
   String content = puiDatatable.innerHtml;
@@ -49,7 +49,6 @@ _prepareDatatable(Element puiDatatable) {
     content = puiDatatable.innerHtml;
   }
   content=headers + content;
-  print(content);
   String newContent = content.replaceAll("<pui-row", """<div """)
       .replaceAll("</pui-row>", "</div>")
       .replaceAll("<pui-column ", """<div """)
