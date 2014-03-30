@@ -11,12 +11,13 @@
 
   <div puiInputDemo="">
      Number of cars: {{ctrl.carTable.length}}
-     <pui-datatable>
+     <pui-datatable test="{{cmp.test}}">
        <pui-row ng-repeat="row in ctrl.carTable" />
             <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
             <pui-column header="Type" >{{row.type}}</pui-column>
             <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
             <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+            <pui-column header="Test" sortable="true" closable="true">{{ctrl.firstField}}</pui-column>
             <pui-column header="delete">
               <pui-button icon="plus" ng-click="row.deleteCar()" value="delete car {{row.year}}"></pui-button>
             </pui-column>

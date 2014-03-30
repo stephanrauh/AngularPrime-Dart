@@ -26,6 +26,7 @@ import '../puiAccordion/pui-accordion.dart';
 import '../puiTabview/pui-tabview.dart';
 
 import '../puiDatatable/pui-datatable.dart';
+import '../puiDatatable/pui-repeat.dart';
 
 import '../puiInclude/pui-include.dart';
 
@@ -138,8 +139,9 @@ class PuiModule extends Module {
     type(PuiTabComponent);
 
     type(PuiDatatableComponent);
-//    type(PuiRowComponent);
+    type(PuiRepeatDirective);
     type(PuiColumnHeaderComponent);
+    type(PuiFilter);
 
     type(PuiIncludeComponent);
 

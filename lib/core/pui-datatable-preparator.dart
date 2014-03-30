@@ -33,14 +33,26 @@ _prepareDatatable(Element puiDatatable) {
   ElementList rows = puiDatatable.querySelectorAll('pui-row');
   if (rows.isEmpty)
   {
+    /** add pui-datatable functionality to ng-repeat */
     String ngRepeat = puiDatatable.attributes["ng-repeat"];
-    content = """<pui-row ng-repeat="$ngRepeat" data-ri="{{index}}" role="row" style="display:table-row" class="tr ui-widget-content {{rowClass()}}">$content</pui-row>""";
-    puiDatatable.attributes["ng-repeat"]=null;
+    String listName = extractNameOfCollection(ngRepeat);
+    ngRepeat = ngRepeat + " | puiFilter:listName";
+    puiDatatable.attributes["puiListVariableName"]=listName;
+    content = """<pui-row pui-repeat="$ngRepeat" role="row" style="display:table-row" class="tr ui-widget-content {{rowClass()}}">$content</pui-row>""";
+    row.attributes.remove("ng-repeat");
   }
   else
   {
     rows.forEach((Element row){
-      row.attributes["data-ri"]="{{index}}";
+      /** add pui-datatable functionality to ng-repeat */
+      String ngRepeat = row.attributes["ng-repeat"];
+      String listName = extractNameOfCollection(ngRepeat);
+      ngRepeat = ngRepeat + " | puiFilter:'$listName'";
+      puiDatatable.attributes["puiListVariableName"]=listName;
+      row.attributes["pui-repeat"]=ngRepeat;
+      row.attributes.remove("ng-repeat");
+
+      row.attributes["data-ri"]=r'{{$index.toString()}}';
       row.classes.add("tr");
       row.classes.add("ui-widget-content");
       row.style.display="table-row";
@@ -69,26 +81,6 @@ String extractNameOfCollection(String ngRepeatStatement) {
   }
   String _listExpr = match.group(2);
   return _listExpr;
-}
-
-
-/** Creates the header of a table and counts the number of columns */
-int _addHeaderTags(Element puiDatatable, ElementList columns) {
-  int count=0;
-  columns.forEach((Element column){
-    count++;
-    Element h = new Element.header();
-    h.attributes["header"]=column.attributes["header"];
-    String s = column.attributes["sortable"];
-    if (s==null) s="false";
-    h.attributes["sortable"]=s;
-    String c = column.attributes["closable"];
-    if (c==null)c="false";
-    h.attributes["closable"]=c;
-    puiDatatable.children.add(h);
-    print(column.innerHtml);
-  });
-  return count;
 }
 
 _addRowTag(Element puiDatatable, ElementList columns) {

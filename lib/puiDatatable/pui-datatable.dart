@@ -47,7 +47,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   Scope scope;
 
   /** List of the columns registered until now */
-  List<Column> _columnHeaders = new List<Column>();
+  List<Column> columnHeaders = new List<Column>();
 
   bool initialized = false;
 
@@ -55,11 +55,14 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   Injector injector;
   DirectiveMap directives;
 
+  String test="Ich bin hier";
 
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiDatatableComponent(this.scope, this.puiDatatableElement, this.compiler, this.injector, this.directives) {}
+  PuiDatatableComponent(this.scope, this.puiDatatableElement, this.compiler, this.injector, this.directives) {
+    PuiFilter.register(puiDatatableElement.attributes["puiListVariableName"], this);
+  }
 
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
@@ -68,7 +71,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowTableContent = shadowRoot.getElementById("pui-content");
 
-    _columnHeaders.forEach((Column col) {
+    columnHeaders.forEach((Column col) {
       _addColumnToHeader(shadowTableContent, col);
     });
 
@@ -121,7 +124,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     int index = 0;
     for ( ; index < headerRow.children.length; index++) {
       if (headerRow.children[index] == close) {
-        _columnHeaders[index].hidden = true;
+        columnHeaders[index].hidden = true;
         ElementList headers = shadowTableContent.querySelectorAll(".pui-datatable-th");
         headers[index].style.display = "none";
 //        shadowTableContent.children.forEach((DivElement row) {
@@ -140,12 +143,12 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   sortColumn(MouseEvent event, DivElement sortColumn) {
     DivElement headerRow = shadowTableContent.children[0];
     int index = 0;
+    int dir = columnHeaders[index].sortDirection;
     for ( ; index < headerRow.children.length; index++) {
       if (headerRow.children[index] == sortColumn) {
         bool sortUp;
         List<SpanElement> iconDivs =
             headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
-        int dir = _columnHeaders[index].sortDirection;
         if (dir == 0) {
           iconDivs[0].classes.remove("ui-icon-carat-2-n-s");
           iconDivs[0].classes.add("ui-icon-triangle-1-n");
@@ -159,9 +162,10 @@ class PuiDatatableComponent extends PuiBaseComponent implements
           iconDivs[0].classes.add("ui-icon-triangle-1-n");
           dir = 1;
         }
-        _columnHeaders[index].sortDirection = dir;
+        columnHeaders[index].sortDirection = dir;
         print("TODO: sortRows(shadowTableContent.children, index, dir);");
       } else {
+        columnHeaders[index].sortDirection=0;
         // remove sort icon (if necessary)
         List<SpanElement> iconDivs =
             headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
@@ -207,10 +211,10 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
   /** If the first column(s) is/are hidden, the left border line has to be provided by the first visible cell of each row. */
   void _drawLeftBoundaryLine() {
-    if (_columnHeaders[0].hidden) {
+    if (columnHeaders[0].hidden) {
       int firstVisibleIndex = 0;
-      for ( ; firstVisibleIndex < _columnHeaders.length; firstVisibleIndex++) {
-        if (!(_columnHeaders[firstVisibleIndex].hidden)) break;
+      for ( ; firstVisibleIndex < columnHeaders.length; firstVisibleIndex++) {
+        if (!(columnHeaders[firstVisibleIndex].hidden)) break;
       }
       shadowTableContent.children.forEach((Element row) {
         if (row.children.length > firstVisibleIndex) {
@@ -222,7 +226,37 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
 
   addColumn(Column column) {
-    _columnHeaders.add(column);
+    columnHeaders.add(column);
   }
 
+  List sortAndFilter(List originalList)
+  {
+    return originalList;
+  }
+
+}
+
+@NgFilter(name: 'puiFilter')
+class PuiFilter {
+  static Map<String, PuiDatatableComponent> tables = new Map<String, PuiDatatableComponent>();
+  List call(List original, String tableName) {
+    PuiDatatableComponent pui = tables[tableName];
+    try
+    {
+      Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
+      List newList = original.toList(growable: false);
+      newList.sort();
+      return newList;
+    }
+    catch (notSortedException)
+    {
+      return original;
+    }
+  }
+
+  static register(String name, PuiDatatableComponent puiDatatableComponent) {
+    tables[name]=puiDatatableComponent;
+  }
+
+  static test() => "test";
 }

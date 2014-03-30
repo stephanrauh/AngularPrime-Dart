@@ -63,4 +63,9 @@ class Car {
   void editCar() {
     print("Car.edit");
   }
+  String toString()
+  {
+    return "$brand $type $year $color";
+  }
 }
+
