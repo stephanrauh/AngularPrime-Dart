@@ -49,6 +49,10 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   /** List of the columns registered until now */
   List<Column> columnHeaders = new List<Column>();
 
+  /** The list to be displayed */
+  @NgTwoWay("list")
+  List myList;
+
   bool initialized = false;
 
   Compiler compiler;
@@ -141,6 +145,16 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   }
 
   sortColumn(MouseEvent event, DivElement sortColumn) {
+    // ugly hack to force the ng-repeat watch to fire
+    if (myList.any((e)=> e==null))
+    {
+      myList.retainWhere((e)=>e!=null);
+    }
+    else
+    {
+      myList.insert(0, null);
+    }
+    // end of the ugly hack
     DivElement headerRow = shadowTableContent.children[0];
     int index = 0;
     int dir = columnHeaders[index].sortDirection;
@@ -163,7 +177,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
           dir = 1;
         }
         columnHeaders[index].sortDirection = dir;
-        print("TODO: sortRows(shadowTableContent.children, index, dir);");
       } else {
         columnHeaders[index].sortDirection=0;
         // remove sort icon (if necessary)
@@ -244,9 +257,16 @@ class PuiFilter {
     try
     {
       Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
-      List newList = original.toList(growable: false);
-      newList.sort();
-      return newList;
+      List newList = new List();
+      // fix the null values introduced by the ugly hack in sortColumn()
+     original.forEach((r){ if (null!=r) newList.add(r);});
+     // ugly hack end
+      newList.sort((a, b) => a.compareTo(b, firstWhere.header));
+      if (firstWhere.sortDirection==1)
+        return newList;
+      else
+        return newList.reversed;
+
     }
     catch (notSortedException)
     {

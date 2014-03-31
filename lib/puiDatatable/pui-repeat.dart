@@ -4,7 +4,6 @@ import 'package:angular/angular.dart';
 import 'package:angular/change_detection/watch_group.dart';
 import 'package:angular/change_detection/change_detection.dart';
 import 'dart:html' as dom;
-import 'dart:mirrors';
 import 'package:angular/core/module.dart';
 import 'package:angular/core/parser/parser.dart';
 import 'package:angular/core_dom/module.dart';
@@ -152,8 +151,9 @@ class PuiRepeatDirective {
     if (_valueIdentifier == null) _valueIdentifier = match.group(1);
     _keyIdentifier = match.group(2);
 
+    var _astParseResult = _astParser(_listExpr, collection: true, filters: filters, context:_scope.context);
     _watch = _scope.watch(
-        _astParser(_listExpr, collection: true, filters: filters),
+        _astParseResult,
         (CollectionChangeRecord collection, _) {
           //TODO(misko): we should take advantage of the CollectionChangeRecord!
           _onCollectionChange(collection == null ? [] : collection.iterable);
@@ -162,10 +162,6 @@ class PuiRepeatDirective {
   }
 
   List<_Row> _computeNewRows(Iterable collection, trackById) {
-    if (datatable.columnHeaders.length>0)
-    {
-    collection=sortCollection(collection);
-    }
     final newRowOrder = new List<_Row>(collection.length);
     // Same as lastViewMap but it has the current state. It will become the
     // lastViewMap on the next iteration.
@@ -203,23 +199,6 @@ class PuiRepeatDirective {
     return newRowOrder;
   }
 
-  Iterable sortCollection(Iterable collection) {
-    collection.forEach((e)=>print(e));
-    List newList = new List();
-    collection.forEach((a){newList.add(a);});
-    newList.sort((a, b) => compare(a,b));
-    print("--");
-    newList.forEach((e)=>print(e));
-    return newList;
-  }
-
-  int compare(dynamic a, dynamic b) {
-    var ar = reflect(a);
-    var br = reflect(b);
-    var fielda = ar.getField(#year).reflectee;
-    var fieldb = br.getField(#year).reflectee;
-    return -fieldb.compareTo(fielda);
-  }
 
   _onCollectionChange(Iterable collection) {
     dom.Node previousNode = _viewPort.placeholder; // current position of the
@@ -284,3 +263,4 @@ class PuiRepeatDirective {
     }
   }
 }
+

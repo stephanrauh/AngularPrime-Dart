@@ -67,5 +67,26 @@ class Car {
   {
     return "$brand $type $year $color";
   }
+
+  int compareTo(Car other, String header)
+  {
+    if (header=="Brand")
+    {
+      return brand.compareTo(other.brand);
+    }
+    if (header=="Type")
+    {
+      return type.compareTo(other.type);
+    }
+    if (header=="Year")
+    {
+      return year.compareTo(other.year);
+    }
+    if (header=="Color")
+    {
+      return color.compareTo(other.color);
+    }
+    return 0;
+  }
 }
 
