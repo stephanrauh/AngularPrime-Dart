@@ -157,9 +157,9 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     // end of the ugly hack
     DivElement headerRow = shadowTableContent.children[0];
     int index = 0;
-    int dir = columnHeaders[index].sortDirection;
     for ( ; index < headerRow.children.length; index++) {
       if (headerRow.children[index] == sortColumn) {
+        int dir = columnHeaders[index].sortDirection;
         bool sortUp;
         List<SpanElement> iconDivs =
             headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
@@ -251,8 +251,15 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
 @NgFilter(name: 'puiFilter')
 class PuiFilter {
+
+  OrderByFilter _orderBy;
+
+  PuiFilter(Parser parser){
+    _orderBy=new OrderByFilter(parser);
+  }
+
   static Map<String, PuiDatatableComponent> tables = new Map<String, PuiDatatableComponent>();
-  List call(List original, String tableName) {
+  List call(List original, String tableName, [bool descending=false]) {
     PuiDatatableComponent pui = tables[tableName];
     try
     {
@@ -261,12 +268,7 @@ class PuiFilter {
       // fix the null values introduced by the ugly hack in sortColumn()
      original.forEach((r){ if (null!=r) newList.add(r);});
      // ugly hack end
-      newList.sort((a, b) => a.compareTo(b, firstWhere.header));
-      if (firstWhere.sortDirection==1)
-        return newList;
-      else
-        return newList.reversed;
-
+     return _orderBy.call(newList, firstWhere.header.toLowerCase(), firstWhere.sortDirection==2);
     }
     catch (notSortedException)
     {
