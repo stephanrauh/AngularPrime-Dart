@@ -71,6 +71,11 @@ class Column {
   /** Is the current row hidden? */
   bool hidden=false;
 
-  Column(this.header, this.closable, this.sortable);
+  /** Attribute name of the column */
+  String varName;
+
+  Column(this.header, this.closable, this.sortable) {
+    varName=this.header.toLowerCase();
+  }
 }
 

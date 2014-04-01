@@ -4,6 +4,7 @@ import '../core/pui-base-component.dart';
 import '../core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
+import 'dart:async';
 part "pui-column-header.dart";
 
 /**
@@ -65,7 +66,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
   PuiDatatableComponent(this.scope, this.puiDatatableElement, this.compiler, this.injector, this.directives) {
-    PuiFilter.register(puiDatatableElement.attributes["puiListVariableName"], this);
+    PuiDatatableSortFilter.register(puiDatatableElement.attributes["puiListVariableName"], this);
   }
 
   /**
@@ -115,7 +116,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       sortIcon.classes.add("ui-sortable-column-icon");
       sortIcon.classes.add("ui-icon-carat-2-n-s");
       sortIcon.onClick.listen((MouseEvent event) {
-        sortColumn(event, captionCell);
+        _sortColumn(event, captionCell);
       });
       captionCell.children.add(sortIcon);
 
@@ -144,7 +145,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     _drawLeftBoundaryLine();
   }
 
-  sortColumn(MouseEvent event, DivElement sortColumn) {
+  _sortColumn(MouseEvent event, DivElement sortColumn) {
     // ugly hack to force the ng-repeat watch to fire
     if (myList.any((e)=> e==null))
     {
@@ -249,36 +250,53 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
 }
 
-@NgFilter(name: 'puiFilter')
-class PuiFilter {
+/** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
+@NgFilter(name: 'puiEmptyRowsFilter')
+class PuiEmptyRowsFilter {
 
+  List call(List original, PuiDatatableComponent pui) {
+      List newList = new List();
+      // fix the null values introduced by the ugly hack in sortColumn()
+     original.forEach((r){ if (null!=r) newList.add(r);});
+     scheduleMicrotask((){pui.myList.retainWhere((e)=>e!=null);});
+     return newList;
+  }
+}
+
+/** The puiSortFilter sorts a ng-repeat list according to the sort order of the puiDatatable */
+@NgFilter(name: 'puiDatatableSortFilter')
+class PuiDatatableSortFilter {
+  /** AngularDart's orderBy filter sorts a list by a column name (which is given as a String) */
   OrderByFilter _orderBy;
 
-  PuiFilter(Parser parser){
+  /** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
+  PuiEmptyRowsFilter _emptyRowsFilter;
+
+  PuiDatatableSortFilter(Parser parser){
     _orderBy=new OrderByFilter(parser);
+    _emptyRowsFilter=new PuiEmptyRowsFilter();
   }
 
+  /** PuiFilters aren't bound to a particular component, so every PuiDatatable registers itself to the filter in order to link filters and table */
   static Map<String, PuiDatatableComponent> tables = new Map<String, PuiDatatableComponent>();
+
+  /** PuiFilters aren't bound to a particular component, so every PuiDatatable registers itself to the filter in order to link filters and table */
+  static register(String name, PuiDatatableComponent puiDatatableComponent) {
+    tables[name]=puiDatatableComponent;
+  }
+
+  /** Finds out, which PuiDatatable is to be sorted, finds out, by which column and in which order it is to be sorted and delegates sorting the Angular's OrderByFilter */
   List call(List original, String tableName, [bool descending=false]) {
     PuiDatatableComponent pui = tables[tableName];
     try
     {
       Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
-      List newList = new List();
-      // fix the null values introduced by the ugly hack in sortColumn()
-     original.forEach((r){ if (null!=r) newList.add(r);});
-     // ugly hack end
-     return _orderBy.call(newList, firstWhere.header.toLowerCase(), firstWhere.sortDirection==2);
+      List nonEmptyRows = _emptyRowsFilter.call(original, pui);
+      return _orderBy.call(nonEmptyRows, firstWhere.varName, firstWhere.sortDirection==2);
     }
     catch (notSortedException)
     {
       return original;
     }
   }
-
-  static register(String name, PuiDatatableComponent puiDatatableComponent) {
-    tables[name]=puiDatatableComponent;
-  }
-
-  static test() => "test";
 }

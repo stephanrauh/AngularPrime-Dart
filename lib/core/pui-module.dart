@@ -141,7 +141,8 @@ class PuiModule extends Module {
     type(PuiDatatableComponent);
     type(PuiRepeatDirective);
     type(PuiColumnHeaderComponent);
-    type(PuiFilter);
+    type(PuiEmptyRowsFilter);
+    type(PuiDatatableSortFilter);
 
     type(PuiIncludeComponent);
 

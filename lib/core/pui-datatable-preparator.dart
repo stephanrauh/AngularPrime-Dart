@@ -36,7 +36,7 @@ _prepareDatatable(Element puiDatatable) {
     /** add pui-datatable functionality to ng-repeat */
     String ngRepeat = puiDatatable.attributes["ng-repeat"];
     String listName = extractNameOfCollection(ngRepeat);
-    ngRepeat = ngRepeat + " | puiFilter:listName";
+    ngRepeat = ngRepeat + " | puiDatatableSortFilter:$listName";
     puiDatatable.attributes["puiListVariableName"]=listName;
     content = """<pui-row pui-repeat="$ngRepeat" role="row" style="display:table-row" class="tr ui-widget-content {{rowClass()}}">$content</pui-row>""";
     row.attributes.remove("ng-repeat");
@@ -47,7 +47,7 @@ _prepareDatatable(Element puiDatatable) {
       /** add pui-datatable functionality to ng-repeat */
       String ngRepeat = row.attributes["ng-repeat"];
       String listName = extractNameOfCollection(ngRepeat);
-      ngRepeat = ngRepeat + " | puiFilter:'$listName'";
+      ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName'";
       puiDatatable.attributes["puiListVariableName"]=listName;
       row.attributes["pui-repeat"]=ngRepeat;
       row.attributes.remove("ng-repeat");
