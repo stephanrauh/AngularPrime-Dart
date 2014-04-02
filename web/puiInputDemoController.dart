@@ -49,6 +49,11 @@ class PuiInputDemoController {
     else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx).toString(), 'black'));
   }
 
+  deleteCar(Car c)
+  {
+    carTable.remove(c);
+  }
+
 }
 
 class Car {
@@ -58,9 +63,6 @@ class Car {
   String color;
   Car(this.brand, this.type, this.year, this.color);
 
-  void deleteCar() {
-    print("Car.delete");
-  }
   void editCar() {
     print("Car.edit");
   }
