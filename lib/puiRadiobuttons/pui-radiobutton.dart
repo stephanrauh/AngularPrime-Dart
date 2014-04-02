@@ -60,7 +60,7 @@ class PuiRadiobuttonComponent extends PuiBaseComponent implements NgShadowRootAw
     shadowyRadiobutton = shadowRoot.getElementsByTagName("input")[0];
     copyAttributesToShadowDOM(puiInputElement, shadowyRadiobutton, scope);
     addWatches(puiInputElement, shadowyRadiobutton, scope);
-    scope.$watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyRadiobutton, scope));
+    scope.watch(()=>ngmodel, (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyRadiobutton, scope));
   }
 }
 

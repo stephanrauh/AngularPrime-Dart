@@ -1,5 +1,8 @@
 part of angularprime_dart;
 
+final RegExp VARIABLE_EXPRESSION = new RegExp(r'^{{([a-zA-Z0-9_\(\)\.]+)}}?$');
+final RegExp _SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
+
 /**
  * Converts <pui-datatable> to a format that can be processed by AngularDart.
  * In general, AngularDart is very flexible. However, as we want to provide
@@ -103,8 +106,29 @@ String _prepareTableHeader(ElementList columns) {
     if (closable==null) closable="false";
     String sortable=col.attributes["sortable"];
     if (sortable==null) sortable="false";
+    String sortBy=col.attributes["sortBy"];
+    if (sortBy!=null) {
+      sortable="true";
+    }
+    else if (sortable=="true"){
+      String inner = col.innerHtml;
+      Match match = VARIABLE_EXPRESSION.firstMatch(inner);
+      if (match == null) {
+        throw "[pui-datatable-error] Can't find out by which row variable the column is to be sorted. Please specify sortBy attribute.";
+      }
+      sortBy=match.group(1);
+      int pos = sortBy.indexOf("\.");
+      if (pos>0)
+      {
+        sortBy=sortBy.substring(pos+1);
+      }
+    }
+    String sortByAttribute="";
+    if (null!=sortBy) {
+      sortByAttribute=""" sortby="$sortBy" """;
+    }
 
-    headers += """<pui-column-header header="${col.attributes["header"]}" closable="$closable"  sortable="$sortable"></pui-column-header>\n""";
+    headers += """<pui-column-header header="${col.attributes["header"]}" closable="$closable"  sortable="$sortable" $sortByAttribute></pui-column-header>\n""";
     c++;
   });
   return headers;
@@ -112,7 +136,6 @@ String _prepareTableHeader(ElementList columns) {
 
 /** Copied from ng-repeat.dart. Extracts the name of the list from an ng-repeat statement. */
 String extractNameOfCollection(String ngRepeatStatement) {
-  RegExp _SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
   Match match = _SYNTAX.firstMatch(ngRepeatStatement);
   if (match == null) {
     throw "[NgErr7] ngRepeat error! Expected expression in form of '_item_ "

@@ -108,7 +108,7 @@ class PuiModule extends Module {
     else
     {
       List<Future> futures = new List<Future>();
-      list.forEach((Node puiIncludeTag){
+      list.forEach((Element puiIncludeTag){
         String file=puiIncludeTag.attributes["file"];
         Future future = HttpRequest.getString(file).then((resp) {
           var includedElement = PuiHtmlUtils.parseResponse(resp);

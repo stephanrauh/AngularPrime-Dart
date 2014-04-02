@@ -87,7 +87,7 @@ class PuiBaseComponent {
     * so we add a watch to the parent scope.
     */
   addWatch(Scope scope, String exp, Element puiInputElement, Element shadowyInputField) =>
-      scope.parentScope.watch("$exp",  (newVar, oldVar){
+      scope.parentScope.watch(exp,  (newVar, oldVar){
         updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope);
       });
 

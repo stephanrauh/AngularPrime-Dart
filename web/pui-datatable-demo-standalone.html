@@ -12,16 +12,16 @@
   <div puiInputDemo="">
      Number of cars: {{ctrl.carTable.length}}
      <pui-datatable value="ctrl.carTable" var="row">
-            <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
-            <pui-column header="Type" >{{row.type}}</pui-column>
-            <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
-            <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
-            <pui-column header="delete">
-              <pui-button icon="plus" ng-click="row.deleteCar()" value="delete car {{row.year}}"></pui-button>
-            </pui-column>
-            <pui-column header="edit">
-              <button ng-click="row.editCar()">edit car</button>
-            </pui-column>
+        <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+        <pui-column header="Type" >{{row.type}}</pui-column>
+        <pui-column header="Year" sortBy="toNumber(year)">{{row.year}}</pui-column>
+        <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+        <pui-column header="">
+          <pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
+        </pui-column>
+        <pui-column header="">
+          <pui-button icon="pencil" ng-click="row.editCar()" value="edit"></pui-button>
+        </pui-column>
       </pui-datatable>
     <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
 

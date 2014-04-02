@@ -282,7 +282,7 @@ class PuiDatatableSortFilter {
     {
       Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
       List nonEmptyRows = _emptyRowsFilter.call(original, pui);
-      return _orderBy.call(nonEmptyRows, firstWhere.varName, firstWhere.sortDirection==2);
+      return _orderBy.call(nonEmptyRows, firstWhere.sortBy, firstWhere.sortDirection==2);
     }
     catch (notSortedException)
     {

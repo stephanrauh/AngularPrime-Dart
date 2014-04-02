@@ -50,7 +50,7 @@ class PuiColumnHeaderComponent extends PuiBaseComponent implements NgShadowRootA
 
   @override
   void onShadowRoot(ShadowRoot shadowRoot) {
-    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable()));
+    puiDatatableComponent.addColumn(new Column(header, isClosable(), isSortable(), _puiColumnHeaderElement.attributes["sortby"]));
   }
 }
 
@@ -65,17 +65,16 @@ class Column {
   /** Can the table be sorted by hitting the columns sort button? */
   bool sortable;
 
+  /** By which variable or function is the table to be sorted? */
+  String sortBy;
+
   /** 0=not sorted, 1=sort upwards, 2=sort downwards */
   int sortDirection=0;
 
   /** Is the current row hidden? */
   bool hidden=false;
 
-  /** Attribute name of the column */
-  String varName;
-
-  Column(this.header, this.closable, this.sortable) {
-    varName=this.header.toLowerCase();
+  Column(this.header, this.closable, this.sortable, this.sortBy) {
   }
 }
 
