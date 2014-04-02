@@ -51,7 +51,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   List<Column> columnHeaders = new List<Column>();
 
   /** The list to be displayed */
-  @NgTwoWay("list")
+  @NgTwoWay("value")
   List myList;
 
   bool initialized = false;
@@ -59,8 +59,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   Compiler compiler;
   Injector injector;
   DirectiveMap directives;
-
-  String test="Ich bin hier";
 
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
@@ -132,9 +130,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
         columnHeaders[index].hidden = true;
         ElementList headers = shadowTableContent.querySelectorAll(".pui-datatable-th");
         headers[index].style.display = "none";
-//        shadowTableContent.children.forEach((DivElement row) {
-//          row.children[index].style.display = "none";
-//        });
         ElementList rows = puiDatatableElement.querySelectorAll(".tr");
         rows.forEach((Element row) {
           row.children[index].style.display = "none";
@@ -241,11 +236,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
   addColumn(Column column) {
     columnHeaders.add(column);
-  }
-
-  List sortAndFilter(List originalList)
-  {
-    return originalList;
   }
 
 }
