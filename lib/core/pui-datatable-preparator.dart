@@ -35,15 +35,17 @@ final RegExp _NG_REPEAT_SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\
 void prepareDatatables()
 {
   NodeList list = window.document.getElementsByTagName('pui-datatable');
+  int puiTableID=0;
   list.forEach((Element puiDatatable){
-    _prepareDatatable(puiDatatable);
+    _prepareDatatable(puiDatatable, puiTableID++);
   });
 }
 
 /**
  * Converts a single <pui-datatable> from an abstract declarative style to a more AngularDart-compatible style.
  */
-_prepareDatatable(Element puiDatatable) {
+_prepareDatatable(Element puiDatatable, int puiTableID) {
+  puiDatatable.attributes["puiTableID"]=puiTableID.toString();
   ElementList columns = puiDatatable.querySelectorAll('pui-column');
   String headers = _prepareTableHeader(columns);
 
@@ -69,7 +71,7 @@ _prepareDatatable(Element puiDatatable) {
       listName = extractNameOfCollection(ngRepeat);
       puiDatatable.attributes["value"]=listName;
     }
-    ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName'";
+    ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName$puiTableID'";
     puiDatatable.attributes["puiListVariableName"]=listName;
     content = """<pui-row pui-repeat="$ngRepeat" role="row" style="display:table-row" class="tr ui-widget-content">$content</pui-row>""";
     puiDatatable.attributes.remove("ng-repeat");
@@ -80,7 +82,7 @@ _prepareDatatable(Element puiDatatable) {
       /** add pui-datatable functionality to ng-repeat */
       String ngRepeat = row.attributes["ng-repeat"];
       listName = extractNameOfCollection(ngRepeat);
-      ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName'";
+      ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName$puiTableID'";
       puiDatatable.attributes["value"]=listName;
       puiDatatable.attributes["value"]=listName;
       row.attributes["pui-repeat"]=ngRepeat;

@@ -81,7 +81,9 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
   PuiDatatableComponent(this.scope, this.puiDatatableElement, this.compiler, this.injector, this.directives) {
-    PuiDatatableSortFilter.register(puiDatatableElement.attributes["puiListVariableName"], this);
+    String id = puiDatatableElement.attributes["puiTableID"];
+    String listName=puiDatatableElement.attributes["puiListVariableName"];
+    PuiDatatableSortFilter.register("$listName$id", this);
   }
 
   /**
