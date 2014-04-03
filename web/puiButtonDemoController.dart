@@ -1,5 +1,6 @@
+
 /**
- * (C) 2014 Stephan Rauh http://www.beyondjava.net
+ * (C) 2014 Rudy De Busscher  http://www.beyondjava.net
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import 'package:angular/angular.dart';
+import 'dart:html';
 
-import '../lib/core/pui-module.dart';
-import 'puiInputDemoController.dart';
-import 'puiButtonDemoController.dart';
+@NgController(selector: '[puiButtonDemo]', publishAs: 'ctrlBtn')
+class PuiButtonDemoController {
 
-class MyAppModule extends PuiModule {
-  MyAppModule() {
-    type(PuiInputDemoController);
-    type(PuiButtonDemoController);
+  void showMsg(String msg) {
+    window.alert("This alert is shown by Dart. Received parameter = "+msg);
   }
-}
-
-void main() {
-  new MyAppModule();
-  //ngBootstrap(module: new MyAppModule());
+  
 }

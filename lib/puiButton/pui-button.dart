@@ -39,6 +39,9 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
 
   @NgAttr("disabled")
   String disabled;
+  
+  @NgCallback("actionListener")
+  Function actionListener;
 
   /** The scope is needed to add watches. */
   Scope scope;
@@ -55,6 +58,13 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
   void onShadowRoot(ShadowRoot shadowRoot) {
     button = shadowRoot.querySelector('button');
 
+    if (actionListener != null) {
+      button.onClick.listen((e) {
+        // When the button is clicked, it runs this code.
+        actionListener();
+      });
+    }
+    
     if (disabled!=null)
     {
       button.classes.add("ui-state-disabled");
