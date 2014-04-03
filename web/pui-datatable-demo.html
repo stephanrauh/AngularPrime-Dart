@@ -109,13 +109,13 @@
             <pui-column header="Year" sortBy="toNumber(year)">         {{row.year}} </pui-column>
             <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
             <pui-column header="">
-              <pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
+              <pui-button icon="trash" actionListener="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
             </pui-column>
             <pui-column header="">
-              <pui-button icon="pencil" ng-click="row.editCar()" value="edit"></pui-button>
+              <pui-button icon="pencil" actionListener="row.editCar()" value="edit"></pui-button>
             </pui-column>
           </pui-datatable>
-          <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
+          <pui-button icon="plus" actionListener="ctrl.addCar()" value="add car"></pui-button>
     </pui-panel>
      <pui-panel header="source code">
 
@@ -126,13 +126,13 @@
     &lt;pui-column header="Year" sortBy="toNumber(year)">         {{row.year}} &lt;/pui-column>
     &lt;pui-column header="Color" sortable="true" closable="true">{{row.color}}&lt;/pui-column>
     &lt;pui-column header="">
-      &lt;pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;">&lt;/pui-button>
+      &lt;pui-button icon="trash" actionListener="ctrl.deleteCar(row)" value="&nbsp;">&lt;/pui-button>
     &lt;/pui-column>
     &lt;pui-column header="">
-      &lt;pui-button icon="pencil" ng-click="row.editCar()" value="edit">&lt;/pui-button>
+      &lt;pui-button icon="pencil" actionListener="row.editCar()" value="edit">&lt;/pui-button>
     &lt;/pui-column>
 &lt;/pui-datatable>
-&lt;pui-button icon="plus" ng-click="ctrl.addCar()" value="add car">&lt;/pui-button>
+&lt;pui-button icon="plus" actionListener="ctrl.addCar()" value="add car">&lt;/pui-button>
 </pre>
 
       </pui-panel>
