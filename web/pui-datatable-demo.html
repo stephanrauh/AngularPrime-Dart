@@ -11,26 +11,22 @@
     <pui-tabview>
       <pui-tab title="simple table" selected="true" style="height:500px">
       <pui-panel header="live demo" >
-         <pui-datatable>
-              <pui-row ng-repeat="row in ctrl.carTable" />
-                <pui-column header="Brand">{{row.brand}}</pui-column>
-                <pui-column header="Type"> {{row.type}}</pui-column>
-                <pui-column header="Year"> {{row.year}}</pui-column>
-                <pui-column header="Color">{{row.color}}</pui-column>
-              </pui-row>
+         <pui-datatable value="ctrl.carTable" var="row">
+            <pui-column header="Brand">{{row.brand}}</pui-column>
+            <pui-column header="Type"> {{row.type}}</pui-column>
+            <pui-column header="Year"> {{row.year}}</pui-column>
+            <pui-column header="Color">{{row.color}}</pui-column>
           </pui-datatable>
 
      </pui-panel>
      <pui-panel header="source code">
 
  <pre>
-&lt;pui-datatable>
-    &lt;pui-row ng-repeat="row in ctrl.carTable" />
+&lt;pui-datatable value="ctrl.carTable" var="row">
        &lt;pui-column header="Brand">&#x007B;{row.brand}}&lt;/pui-column>
        &lt;pui-column header="Type"> &#x007B;{row.type}}&lt;/pui-column>
        &lt;pui-column header="Year"> &#x007B;{row.year}}&lt;/pui-column>
        &lt;pui-column header="Color">&#x007B;{row.color}}&lt;/pui-column>
-    &lt;/pui-row>
 &lt;/pui-datatable>
 </pre>
 
@@ -38,52 +34,44 @@
       </pui-tab>
       <pui-tab title="sort and close columns" style="height:500px">
       <pui-panel header="live demo" >
-         <pui-datatable>
-              <pui-row ng-repeat="row in ctrl.carTable" />
-                <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
-                <pui-column header="Type" >{{row.type}}</pui-column>
-                <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
-                <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
-              </pui-row>
-          </pui-datatable>
+         <pui-datatable value="ctrl.carTable" var="row">
+            <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+            <pui-column header="Type" >                                {{row.type}}</pui-column>
+            <pui-column header="Year" sortBy="toNumber(year)">         {{row.year}}</pui-column>
+            <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+         </pui-datatable>
      </pui-panel>
      <pui-panel header="source code">
 
  <pre>
-    &lt;pui-datatable>
-        &lt;pui-row ng-repeat="row in ctrl.carTable" />
-          &lt;pui-column header="Brand" sortable="true" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
-          &lt;pui-column header="Type" >                                &#x007B;{row.type}} &lt;/pui-column>
-          &lt;pui-column header="Year" sortable="true">                 &#x007B;{row.year}} &lt;/pui-column>
-          &lt;pui-column header="Color" sortable="true" closable="true">&#x007B;{row.color}}&lt;/pui-column>
-        &lt;/pui-row>
-    &lt;/pui-datatable>
+&lt;pui-datatable value="ctrl.carTable" var="row">
+      &lt;pui-column header="Brand" sortable="true" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
+      &lt;pui-column header="Type" >                                &#x007B;{row.type}} &lt;/pui-column>
+      &lt;pui-column header="Year" sortBy="toNumber(year)">         &#x007B;{row.year}} &lt;/pui-column>
+      &lt;pui-column header="Color" sortable="true" closable="true">&#x007B;{row.color}}&lt;/pui-column>
+&lt;/pui-datatable>
 </pre>
 
       </pui-panel>
     </pui-tab>
           <pui-tab title="add, edit and remove rows" style="height:500px">
       <pui-panel header="live demo" >
-         <pui-datatable>
-              <pui-row ng-repeat="row in ctrl.carTable" />
-                <pui-column header="Brand">{{row.brand}}</pui-column>
-                <pui-column header="Type"> {{row.type}}</pui-column>
-                <pui-column header="Year"> {{row.year}}</pui-column>
-                <pui-column header="Color">{{row.color}}</pui-column>
-              </pui-row>
+         <pui-datatable value="ctrl.carTable" var="row">
+            <pui-column header="Brand">{{row.brand}}</pui-column>
+            <pui-column header="Type"> {{row.type}}</pui-column>
+            <pui-column header="Year"> {{row.year}}</pui-column>
+            <pui-column header="Color">{{row.color}}</pui-column>
           </pui-datatable>
           <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
 
      </pui-panel>
      <pui-panel header="source code">
       <pre>
-&lt;pui-datatable>
-    &lt;pui-row ng-repeat="row in ctrl.carTable" />
-      &lt;pui-column header="Brand">{{row.brand}}&lt;/pui-column>
-      &lt;pui-column header="Type"> {{row.type}}&lt;/pui-column>
-      &lt;pui-column header="Year"> {{row.year}}&lt;/pui-column>
-      &lt;pui-column header="Color">{{row.color}}&lt;/pui-column>
-    &lt;/pui-row>
+&lt;pui-datatable value="ctrl.carTable" var="row">
+  &lt;pui-column header="Brand">{{row.brand}}&lt;/pui-column>
+  &lt;pui-column header="Type"> {{row.type}}&lt;/pui-column>
+  &lt;pui-column header="Year"> {{row.year}}&lt;/pui-column>
+  &lt;pui-column header="Color">{{row.color}}&lt;/pui-column>
 &lt;/pui-datatable>
 &lt;pui-button icon="plus" ng-click="ctrl.addCar()" value="add car">&lt;/pui-button>
         </pre>
@@ -92,25 +80,21 @@
 
     <pui-tab title="empty tables"  style="height:500px">
       <pui-panel header="live demo">
-      <h3>Empty table (doesn't work yet):</h3>
-          <pui-datatable>
-              <pui-row ng-repeat="row in ctrl.emptyCarTable">
-                <pui-column header="Brand" closable="true">{{row.brand}}</pui-column>
-                <pui-column header="Year" sortable="true"> {{row.year}} </pui-column>
-                <pui-column header="Color" closable="true">{{row.color}}</pui-column>
-              </pui-row>
+      <h3>Empty table:</h3>
+          <pui-datatable value="ctrl.emptyCarTable" var="row">
+            <pui-column header="Brand" closable="true">{{row.brand}}</pui-column>
+            <pui-column header="Year" sortable="true"> {{row.year}} </pui-column>
+            <pui-column header="Color" closable="true">{{row.color}}</pui-column>
           </pui-datatable>
 
     </pui-panel>
      <pui-panel header="source code">
 
  <pre>
-&lt;pui-datatable>
-    &lt;pui-row ng-repeat="row in ctrl.emptyCarTable">
-      &lt;pui-column header="Brand" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
-      &lt;pui-column header="Year" sortable="true"> &#x007B;{row.year}} &lt;/pui-column>
-      &lt;pui-column header="Color" closable="true">&#x007B;{row.color}}&lt;/pui-column>
-    &lt;/pui-row>
+&lt;pui-datatable value="ctrl.emtpyCarTable" var="row">
+    &lt;pui-column header="Brand" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
+    &lt;pui-column header="Year" sortable="true"> &#x007B;{row.year}} &lt;/pui-column>
+    &lt;pui-column header="Color" closable="true">&#x007B;{row.color}}&lt;/pui-column>
 &lt;/pui-datatable>
 </pre>
 
@@ -119,29 +103,34 @@
 
     <pui-tab title="putting it all together"  style="height:500px">
       <h3>Putting it all together</h3>
-          <pui-datatable>
-              <pui-row ng-repeat="row in ctrl.carTable" />
-                <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
-                <pui-column header="Type">                                 {{row.type}} </pui-column>
-                <pui-column header="Year" sortable="true">                 {{row.year}} </pui-column>
-                <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
-              </pui-row>
-              </pui-row>
+         <pui-datatable value="ctrl.carTable" var="row">
+            <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+            <pui-column header="Type">                                 {{row.type}} </pui-column>
+            <pui-column header="Year" sortBy="toNumber(year)">         {{row.year}} </pui-column>
+            <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+            <pui-column header="">
+              <pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
+            </pui-column>
+            <pui-column header="">
+              <pui-button icon="pencil" ng-click="row.editCar()" value="edit"></pui-button>
+            </pui-column>
           </pui-datatable>
           <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
     </pui-panel>
      <pui-panel header="source code">
 
  <pre>
-&lt;pui-datatable>
-    &lt;pui-row ng-repeat="row in ctrl.carTable">
-    &lt;pui-row ng-repeat="row in ctrl.carTable" />
-      &lt;pui-column header="Brand" sortable="true" closable="true">{{row.brand}}&lt;/pui-column>
-      &lt;pui-column header="Type">                                 {{row.type}} &lt;/pui-column>
-      &lt;pui-column header="Year" sortable="true">                 {{row.year}} &lt;/pui-column>
-      &lt;pui-column header="Color" sortable="true" closable="true">{{row.color}}&lt;/pui-column>
-    &lt;/pui-row>
-    &lt;/pui-row>
+&lt;pui-datatable value="ctrl.carTable" var="row">
+    &lt;pui-column header="Brand" sortable="true" closable="true">{{row.brand}}&lt;/pui-column>
+    &lt;pui-column header="Type">                                 {{row.type}} &lt;/pui-column>
+    &lt;pui-column header="Year" sortBy="toNumber(year)">         {{row.year}} &lt;/pui-column>
+    &lt;pui-column header="Color" sortable="true" closable="true">{{row.color}}&lt;/pui-column>
+    &lt;pui-column header="">
+      &lt;pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;">&lt;/pui-button>
+    &lt;/pui-column>
+    &lt;pui-column header="">
+      &lt;pui-button icon="pencil" ng-click="row.editCar()" value="edit">&lt;/pui-button>
+    &lt;/pui-column>
 &lt;/pui-datatable>
 &lt;pui-button icon="plus" ng-click="ctrl.addCar()" value="add car">&lt;/pui-button>
 </pre>

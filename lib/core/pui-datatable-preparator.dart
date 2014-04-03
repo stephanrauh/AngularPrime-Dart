@@ -1,7 +1,29 @@
+/**
+ * (C) 2014 Stephan Rauh http://www.beyondjava.net
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 part of angularprime_dart;
 
-final RegExp VARIABLE_EXPRESSION = new RegExp(r'^{{([a-zA-Z0-9_\(\)\.]+)}}?$');
-final RegExp _SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
+/** finds a simple interpolated variable or method. Complex formulas are not detected
+ * (by will, because we can't deal with them).
+ */
+final RegExp VARIABLE_EXPRESSION = new RegExp(r'^\s*{{\s*([a-zA-Z0-9_\(\)\.]+)\s*}}\s*?$');
+
+/** Syntax of an ng-repeat statement. Copied from ngRepeat. */
+final RegExp _NG_REPEAT_SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
 
 /**
  * Converts <pui-datatable> to a format that can be processed by AngularDart.
@@ -21,7 +43,6 @@ void prepareDatatables()
 /**
  * Converts a single <pui-datatable> from an abstract declarative style to a more AngularDart-compatible style.
  */
-
 _prepareDatatable(Element puiDatatable) {
   ElementList columns = puiDatatable.querySelectorAll('pui-column');
   String headers = _prepareTableHeader(columns);
@@ -75,7 +96,7 @@ _prepareDatatable(Element puiDatatable) {
   }
   String emptyMessage=puiDatatable.attributes["emptyMessage"];
   if (null==emptyMessage) emptyMessage="no results found";
-  String footer = """<div role="row" style="{{$listName.isEmpty?'display:table-row':'display:none'}}" class="tr ui-widget-content">
+  String footer = """<div role="row" style="{{$listName.isEmpty?'display:table-row':'display:none'}}" class="tr ui-widget-content ui-datatable-empty-message">
                          <div role="gridcell" class="pui-datatable-td ui-widget-content">
                             $emptyMessage
                          </div>
@@ -136,7 +157,7 @@ String _prepareTableHeader(ElementList columns) {
 
 /** Copied from ng-repeat.dart. Extracts the name of the list from an ng-repeat statement. */
 String extractNameOfCollection(String ngRepeatStatement) {
-  Match match = _SYNTAX.firstMatch(ngRepeatStatement);
+  Match match = _NG_REPEAT_SYNTAX.firstMatch(ngRepeatStatement);
   if (match == null) {
     throw "[NgErr7] ngRepeat error! Expected expression in form of '_item_ "
         "in _collection_[ track by _id_]' but got '$ngRepeatStatement'.";

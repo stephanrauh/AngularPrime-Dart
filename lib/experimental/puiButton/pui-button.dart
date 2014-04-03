@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,17 +19,22 @@ library puiButton;
 import 'dart:html';
 import 'package:angular/angular.dart';
 
-@NgComponent(selector: 'pui-button', templateUrl:
-    'packages/angularprime_dart/puiButton/pui-button.html', cssUrl:
-    'packages/angularprime_dart/puiButton/pui-button.css', publishAs: 'cmp')
+@NgComponent(
+    selector:    'pui-button',
+    templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html',
+    cssUrl:      'packages/angularprime_dart/puiButton/pui-button.css',
+    publishAs:   'cmp')
 class PuiButtonComponent extends NgShadowRootAware {
 
   @NgAttr("onClick")
   String onClick;
+
   @NgAttr("value")
   String value;
+
   @NgAttr("icon")
   String icon;
+
   @NgAttr("iconPos")
   String iconPos;
 
@@ -46,8 +51,8 @@ class PuiButtonComponent extends NgShadowRootAware {
     shadowRoot.applyAuthorStyles = true;
     button = shadowRoot.querySelector('button');
 
-    //    button.onMouseEnter.listen((event) => button.classes.add('ui-state-hover'));
-    //    button.onMouseLeave.listen((event) => button.classes.remove('ui-state-hover'));
+    //    button.onMouseEnter.listen((event) { button.classes.add('ui-state-hover');});
+    //    button.onMouseLeave.listen((event) { button.classes.remove('ui-state-hover');});
   }
 
   String iconPosClass() {
@@ -58,7 +63,7 @@ class PuiButtonComponent extends NgShadowRootAware {
     }
     return c;
   }
-  
+
   String iconSpanClass()
   {
     String c = "pui-button-icon-left ui-icon ";
@@ -69,7 +74,7 @@ class PuiButtonComponent extends NgShadowRootAware {
     print(c);
     return c;
   }
-  
+
   bool showIcon()
   {
     return null != icon;

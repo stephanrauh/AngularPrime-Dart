@@ -17,29 +17,41 @@
 library puiButton;
 
 import 'dart:html';
+import 'dart:async';
 import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
 
+/**
+ * pui-buttons are
+ */
 @NgComponent(
     selector: 'pui-button',
     templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html',
     cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css',
     applyAuthorStyles: true,
     publishAs: 'cmp')
-class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware {
+class PuiButtonComponent extends PuiBaseComponent implements NgShadowRootAware {
 
-  @NgAttr("onClick")
-  String onClick;
+  /** The button's caption */
   @NgAttr("value")
   String value;
+
+  /** optional: the button's icon */
   @NgAttr("icon")
   String icon;
+
+  /** optional: the button's icon's position. Legal values: "right" and "left" (=default). */
   @NgAttr("iconPos")
   String iconPos;
 
+  /** optional: if set to "true", the button is disabled and doesn't react to being clicked. */
   @NgAttr("disabled")
   String disabled;
-  
+
+  /** optional: the name of a Dart function called when the button is clicked.
+   * Similar to ng-click (but more natural to PrimeFaces programmers).
+   * Note that onClick is also a legal attribute, only it calls a Javascript function instead of a Dart function!
+   */
   @NgCallback("actionListener")
   Function actionListener;
 
@@ -52,30 +64,40 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
   /** The button component within the shadow tree */
   ButtonElement button;
 
+  /** Constructor. */
   PuiButtonComponent(this.scope, this.puiButton) {}
 
-  /** We add the optional icon to the button during the initialization of the shadow DOM tree. */
+  /** This actionListener to stored so it can be disabled if the button is disabled */
+  StreamSubscription onMouseEnter=null;
+
+  /** This actionListener to stored so it can be disabled if the button is disabled */
+  StreamSubscription onMouseLeave=null;
+
+
+  /**
+   * This method is called after the construction of the shadow DOM to provide advanced
+   * features that are too difficult to express in pure HTML.
+   * <ul>
+   * <li>activates the actionListener</li>
+   * <li>add the optional icon</li>
+   * <li>add the disabled class (if needed)</li>
+   * <li>add watches to copy interpolated attributes to the shadow DOM</li>
+   * </ul>
+   * */
   void onShadowRoot(ShadowRoot shadowRoot) {
     button = shadowRoot.querySelector('button');
 
     if (actionListener != null) {
       button.onClick.listen((e) {
         // When the button is clicked, it runs this code.
-        actionListener();
+        if (disabled==null || disabled=="false") {
+          actionListener();
+        }
       });
     }
-    
-    if (disabled!=null)
-    {
-      button.classes.add("ui-state-disabled");
-      // Todo: cancel onClick listeners
-      // Future<Set<MouseEvent>> set = button.onClick.toSet();
-    }
-    else
-    {
-      button.onMouseEnter.listen((event) => button.classes.add('ui-state-hover'));
-      button.onMouseLeave.listen((event) => button.classes.remove('ui-state-hover'));
-    }
+
+    updateMouseOverListeners();
+    scope.watch("disabled", (newVar, oldVar) { updateMouseOverListeners();});
 
     if (icon == null) {
       button.classes.add('pui-button-text-only');
@@ -83,8 +105,24 @@ class PuiButtonComponent extends PuiBaseComponent implements  NgShadowRootAware 
       drawIcon();
     }
     addWatches(puiButton, button, scope);
+  }
 
-
+  /**
+   * Sets either the disabled class or the mouse over effects.
+   * Called during the initialization of the button and when the disabled attribute has been modified.
+   */
+  void updateMouseOverListeners() {
+    if (disabled!=null)
+    {
+      button.classes.add("ui-state-disabled");
+      if (null != onMouseEnter) onMouseEnter.cancel();
+      if (null != onMouseLeave) onMouseLeave.cancel();
+    }
+    else
+    {
+      onMouseEnter = button.onMouseEnter.listen((event) { button.classes.add('ui-state-hover');});
+      onMouseLeave = button.onMouseLeave.listen((event) { button.classes.remove('ui-state-hover');});
+    }
   }
 
   /** adds the icon as a span element */

@@ -15,9 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+library showcase;
+
 import '../lib/core/pui-module.dart';
-import 'puiInputDemoController.dart';
-import 'puiButtonDemoController.dart';
+import 'package:angular/angular.dart';
+import 'dart:html';
+part 'puiInputDemoController.dart';
+part 'puiButtonDemoController.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {

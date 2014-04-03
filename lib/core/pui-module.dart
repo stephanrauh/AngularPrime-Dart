@@ -70,6 +70,10 @@ class PuiModule extends Module {
     return result;
   }
 
+  /** Once Angular is started, we can only see the values of interpolated expressions.
+   * The original expression is lost - at least to my current (Apr 03 2014) knowledge.
+   * So we store the original expressions in special, non-interpolated attributes.
+   */
   static void _registerAttributesToBeWatched(HtmlElement puiComponent)
   {
     String watches = "";
@@ -87,6 +91,7 @@ class PuiModule extends Module {
     }
   }
 
+  /** Removes the braces from an interpolated expression. */
   static String _innerExpression(String value) {
     int start = value.indexOf("{{");
     int end = value.indexOf("}}", start);
@@ -121,6 +126,12 @@ class PuiModule extends Module {
     }
   }
 
+  /**
+   * Prepares the DOM tree prior to running up AngularDart.
+   * For instance, pui-datatables are converted to a more angular style,
+   * pui-includes are loaded and the formulas of interpolated expressions
+   * are store for future use.
+   */
   void startAngular() {
     prepareDatatables();
      _findNodesToBeWatched();

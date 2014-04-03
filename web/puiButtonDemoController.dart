@@ -1,4 +1,3 @@
-
 /**
  * (C) 2014 Rudy De Busscher  http://www.beyondjava.net
  *
@@ -15,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'package:angular/angular.dart';
-import 'dart:html';
+
+part of showcase;
 
 @NgController(selector: '[puiButtonDemo]', publishAs: 'ctrlBtn')
 class PuiButtonDemoController {
@@ -24,5 +23,5 @@ class PuiButtonDemoController {
   void showMsg(String msg) {
     window.alert("This alert is shown by Dart. Received parameter = "+msg);
   }
-  
+
 }
