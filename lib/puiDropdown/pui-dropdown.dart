@@ -22,7 +22,7 @@ import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
 
 /**
- * <pui-input> adds AngularDart to an input field styled by PrimeFaces.
+ * <pui-dropdown> is a drop-down menue (aka combo-box) resembling the selectOneMenu component of PrimeFaces.
  */
 @NgComponent(
     selector: 'pui-dropdown',
@@ -171,7 +171,6 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
       updateNgModel();
       dropDownItems.children.forEach((LIElement li) => li.classes.remove("ui-state-highlight"));
       dropDownItems.children[newSelectedIndex].classes.add('ui-state-highlight');
-
     }
 
   }
@@ -269,10 +268,13 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   activateMouseClickListener() {
     if (null == mouseClickListenerSubscription)
     {
-      mouseClickListenerSubscription = window.onClick.listen((MouseEvent e) {
-        toggleOptionBox();
-          });
-      dropDownPanel.onKeyDown.listen((KeyEvent e){keyListener(e);});
+      if (dropDownPanel.style.display=="block")
+      {
+        mouseClickListenerSubscription = window.onClick.listen((MouseEvent e) {
+          if (dropDownPanel.style.display=="block") toggleOptionBox();
+            });
+        dropDownPanel.onKeyDown.listen((KeyEvent e){keyListener(e);});
+      }
     }
   }
 }
