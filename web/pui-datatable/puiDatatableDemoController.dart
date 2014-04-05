@@ -56,15 +56,21 @@ class PuiDatatableDemoController {
 }
 
 class Car {
+  final Map<String, String> brands = {
+     "Honda":"Honda",
+     "Volvo":"Volvo",
+     "Carriage":"Carriage",
+     "Opel": "Opel",
+     "VW": "VW",
+     "Fiat":"Fiat",
+     "Seat":"Seat"};
+
   String brand;
   String type;
   String year;
   String color;
   Car(this.brand, this.type, this.year, this.color);
 
-  void editCar() {
-    print("Car.edit");
-  }
   String toString()
   {
     return "$brand $type $year $color";
@@ -73,5 +79,8 @@ class Car {
   int toNumber(String year){
     return int.parse(year);
   }
+
+
+
 }
 

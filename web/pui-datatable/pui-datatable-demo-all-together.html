@@ -23,7 +23,7 @@
          <div style="margin-left:50px;">
             <div style="height:20px;">&nbsp;
           </div>
-          <div style="{{ctrl.editAreaVisibilityStyle}} border:solid 1px; height:100%">
+          <div  ng-if="ctrl.currentCar!=null">
             <div style="display:table">
 
 
@@ -32,13 +32,7 @@
                   Brand:
                 </div>
                 <div style="display:table-cell">
-                  <pui-dropdown ng-model="ctrl.currentCar.brand" editable="true">
-                    <option value="Honda">Honda</option>
-                    <option value="Volvo">Volvo</option>
-                    <option value="Carriage">Carriage</option>
-                    <option value="Opel">Opel</option>
-                    <option value="VW">VW</option>
-                    <option value="Fiat">Fiat</option>
+                  <pui-dropdown ng-model="ctrl.currentCar.brand" editable="true" options="ctrl.currentCar.brands">
                   </pui-dropdown>
                 </div>
               </div>

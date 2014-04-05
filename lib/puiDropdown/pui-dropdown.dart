@@ -62,6 +62,9 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   @NgOneWay("editable")
   bool editable;
 
+  @NgOneWay("options")
+  Map<String, String> options;
+
   /** The scope is needed to add watches. */
   Scope scope;
 
@@ -109,6 +112,13 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
 
     var children = puiInputElement.children;
     children.forEach((Element option) => add(option));
+    if (options!=null)
+    {
+      options.keys.forEach((String key){
+        addOption(key, options[key]);
+      });
+    }
+
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     scope.watch("cmp.ngmodel", (newVar, oldVar) => updateDisplayedValue());
     scope.watch("cmp.displayedValue", (newVar, oldVar) => updateNgModel());
@@ -194,6 +204,11 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   add(Element option) {
     String v = option.value;
     String description = option.innerHtml;
+    addOption(description, v);
+
+  }
+
+  void addOption(String description, String v) {
     LIElement li = new LIElement();
     li.attributes["data-label"] =description;
     li.classes.add('pui-dropdown-item pui-dropdown-list-item ui-corner-all pui-dropdown-label');
@@ -202,7 +217,6 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
     dropDownItems.children.add(li);
     predefinedOptions[v]=description;
     predefinedValuesAsList.add(description);
-
   }
 
   /**
