@@ -41,7 +41,8 @@
                   Type:
                 </div>
                 <div style="display:table-cell">
-                  <pui-input ng-model="ctrl.currentCar.type" ></pui-input>
+                  <pui-dropdown ng-model="ctrl.currentCar.type" editable="true" options="ctrl.currentCar.matchingTypes()">
+                  </pui-dropdown>
                 </div>
               </div>
               <div style="display:table-row">
@@ -49,7 +50,7 @@
                   Year:
                 </div>
                 <div style="display:table-cell">
-                  <pui-input ng-model="ctrl.currentCar.year" ></pui-input>
+                  <pui-input ng-model="ctrl.currentCar.year" type="number" min="1886" max="{{ctrl.currentYear}}"></pui-input>
                 </div>
               </div>
               <div style="display:table-row">
@@ -60,9 +61,26 @@
                   <pui-input ng-model="ctrl.currentCar.color" ></pui-input>
                 </div>
               </div>
+              <div style="display:table-row">
+                <div style="display:table-cell; vertical-align:middle">
+                  Preview:
+                </div>
+                <div style="display:table-cell">
+                  <pui-bind-html html="ctrl.currentCar.image"></pui-bind-html>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div style="display:table-row">
+      <div style="display:table-cell">
+        Legal notes:<br>
+        Every photography has been taken from Wikimedia Commons.<br>
+        You can check the licence of each image by reading the<br>
+        tooltip (i.e. by reading the text that appears after<br>
+        letting your mouse rest a couple of second on the image).
       </div>
     </div>
   </div>

@@ -112,18 +112,28 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
 
     var children = puiInputElement.children;
     children.forEach((Element option) => add(option));
-    if (options!=null)
-    {
-      options.keys.forEach((String key){
-        addOption(key, options[key]);
-      });
-    }
+    scope.watch("cmp.options", (newVar, oldVar) {addVariableOptions(children.length);});
+//    addVariableOptions();
 
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     scope.watch("cmp.ngmodel", (newVar, oldVar) => updateDisplayedValue());
     scope.watch("cmp.displayedValue", (newVar, oldVar) => updateNgModel());
     addWatches(puiInputElement, shadowyInputField, scope);
 
+  }
+
+  void addVariableOptions(int optionsToBeRetained) {
+    while(dropDownItems.children.length>optionsToBeRetained)
+    {
+      dropDownItems.children.removeLast();
+    }
+
+    if (options!=null)
+    {
+      options.keys.forEach((String key){
+        addOption(key, options[key]);
+      });
+    }
   }
 
   /**

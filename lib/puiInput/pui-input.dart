@@ -33,7 +33,7 @@ import '../core/pui-base-component.dart';
 class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAware  {
   /** <pui-input> fields require an ng-model attribute. */
   @NgTwoWay("ng-model")
-  String ngmodel;
+  var ngmodel;
 
   /** The <input> field in the shadow DOM displaying the component. */
   InputElement shadowyInputField;

@@ -22,8 +22,8 @@ class PuiHtmlUtils {
   static NodeValidator nodeValidator=new TolerantNodeValidator();
 
   /** Converts the HTML fragment to a partial DOM tree */
-  static parseResponse(resp) {
-    var includedElement = new Element.html(resp, validator:nodeValidator);
+  static Element parseResponse(resp) {
+    Element includedElement = new Element.html(resp, validator:nodeValidator);
     return includedElement;
   }
 

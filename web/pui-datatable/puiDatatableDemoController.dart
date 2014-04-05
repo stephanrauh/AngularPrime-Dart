@@ -24,22 +24,22 @@ class PuiDatatableDemoController {
   String get editAreaVisibilityStyle => (currentCar==null) ? "display:none" : "";
 
   List<Car> carTable = [
-                        new Car('Honda', 'Civic', '2008', 'silver'),
-                        new Car('Carriage', 'Stanhope', '332', 'black'),
-                         new Car('Volvo', 'V40', '2002', 'green'),
-                         new Car('Opel', 'Corsa', '1997', 'red'),
-                         new Car('Opel', 'Kadett', '1990', 'white')
+                        new Car('Honda', 'Civic', 2008, 'silver'),
+                        new Car('Carriage', 'Stanhope', 332, 'black'),
+                         new Car('Volvo', 'V40', 2002, 'green'),
+                         new Car('Opel', 'Corsa', 1997, 'red'),
+                         new Car('Opel', 'Kadett', 1990, 'white')
                                        ];
 
   List<Car> emptyCarTable = [];
 
   addCar() {
     int idx = carTable.length % 4;
-    if (idx == 0)      carTable.add(new Car('Scoda',   'Octavia', (2000 + idx).toString(), 'silver'));
-    else if (idx == 1) carTable.add(new Car('Renault', 'R4',      (1970 + idx).toString(), 'red'));
-    else if (idx == 1) carTable.add(new Car('BMW',     'E30',     (1980 + idx).toString(), 'blue'));
-    else if (idx == 2) carTable.add(new Car('Volvo',   'V70',     (2006 + idx).toString(), 'red'));
-    else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx).toString(), 'black'));
+    if (idx == 0)      carTable.add(new Car('Scoda',   'Octavia', (2000 + idx), 'silver'));
+    else if (idx == 1) carTable.add(new Car('Renault', 'R4',      (1970 + idx), 'red'));
+    else if (idx == 1) carTable.add(new Car('BMW',     'E30',     (1980 + idx), 'blue'));
+    else if (idx == 2) carTable.add(new Car('Volvo',   'V70',     (2006 + idx), 'red'));
+    else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx), 'black'));
   }
 
   deleteCar(Car c)
@@ -52,35 +52,7 @@ class PuiDatatableDemoController {
     currentCar=c;
   }
 
-
-}
-
-class Car {
-  final Map<String, String> brands = {
-     "Honda":"Honda",
-     "Volvo":"Volvo",
-     "Carriage":"Carriage",
-     "Opel": "Opel",
-     "VW": "VW",
-     "Fiat":"Fiat",
-     "Seat":"Seat"};
-
-  String brand;
-  String type;
-  String year;
-  String color;
-  Car(this.brand, this.type, this.year, this.color);
-
-  String toString()
-  {
-    return "$brand $type $year $color";
-  }
-
-  int toNumber(String year){
-    return int.parse(year);
-  }
-
-
+  int get currentYear => 2014;
 
 }
 

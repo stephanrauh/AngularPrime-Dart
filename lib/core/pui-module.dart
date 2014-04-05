@@ -19,6 +19,7 @@ library angularprime_dart;
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'dart:async';
+//import 'package:dart.dom.html';
 
 import 'package:di/di.dart';
 import '../puiPanel/pui-panel.dart';
@@ -29,6 +30,7 @@ import '../puiDatatable/pui-datatable.dart';
 import '../puiDatatable/pui-repeat.dart';
 
 import '../puiInclude/pui-include.dart';
+import '../puiDynamicHTML/pui-bind-html.dart';
 
 import '../puiInput/pui-input.dart';
 import '../puiButton/pui-button.dart';
@@ -156,6 +158,7 @@ class PuiModule extends Module {
     type(PuiDatatableSortFilter);
 
     type(PuiIncludeComponent);
+    type(PuiBindHtmlDirective);
 
     type(PuiInputTextComponent);
     type(PuiButtonComponent);

@@ -23,6 +23,7 @@ import 'dart:html';
 part 'puiInputDemoController.dart';
 part 'puiButtonDemoController.dart';
 part 'pui-datatable/puiDatatableDemoController.dart';
+part 'pui-datatable/pui-car.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
