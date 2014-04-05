@@ -1,0 +1,63 @@
+
+  <div puiInputDemo>
+    <h3>Checkboxes</h3>
+
+
+    <table border="1" >
+    <tr style="background-color:#CCC">
+    <td>
+
+    </td>
+    <td>
+    </td>
+    <td>
+        Model values (expressions in curly braces)
+    </td>
+
+    </tr>
+    <tr>
+    <td>
+    Active selected checkbox:
+    </td>
+    <td>
+    <pui-checkbox ng-model="ctrl.firstBoolean" ></pui-checkbox>
+    </td>
+    <td>
+        {{ctrl.firstBoolean}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Active deselected checkbox:
+    </td>
+    <td>
+    <pui-checkbox ng-model="ctrl.thirdBoolean" ></pui-checkbox>
+    </td>
+    <td>
+        {{ctrl.thirdBoolean}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Styled checkbox:
+    </td>
+    <td>
+    <pui-checkbox ng-model="ctrl.secondBoolean" style="background-color:#0F0"></pui-checkbox>
+    </td>
+    <td>
+        {{ctrl.secondBoolean}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Disabled checkbox:
+    </td>
+    <td>
+    <pui-checkbox disabled="true" ng-model="ctrl.secondBoolean"></pui-checkbox>
+    </td>
+    <td>
+        {{ctrl.secondBoolean}}
+    </td>
+    </tr>
+      </table>
+  </div>

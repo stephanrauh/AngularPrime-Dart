@@ -1,0 +1,54 @@
+
+  <div puiInputDemo>
+    <h3>Text areas</h3>
+
+
+    <table border="1" >
+    <tr style="background-color:#CCC">
+    <td>
+
+    </td>
+    <td>
+    </td>
+    <td>
+        Model values (expressions in curly braces)
+    </td>
+
+    </tr>
+    <tr>
+    <td>
+    Default text area:
+    </td>
+    <td>
+    <pui-textarea ng-model="ctrl.firstField" ></pui-textarea>
+    </td>
+    <td>
+        {{ctrl.firstField}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Autoresizeable textarea:
+    </td>
+    <td>
+    <pui-textarea ng-model="ctrl.secondField" style="background-color:#0F0" autoresize="true"></pui-textarea>
+    </td>
+    <td>
+        {{ctrl.secondField}}
+    </td>
+    </tr>
+    <tr>
+    <td>
+    Textarea with dynamic style:<br />(becomes red if empty)
+    </td>
+    <td>
+    <pui-textarea ng-model="ctrl.thirdField" style="{{ctrl.thirdFieldStyle}}"></pui-textarea>
+    </td>
+    <td>
+        {{ctrl.thirdField}}
+    </td>
+    </tr>
+
+    </table>
+  </div>
+

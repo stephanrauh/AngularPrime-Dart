@@ -25,54 +25,10 @@ class PuiInputDemoController {
   bool firstBoolean = true;
   bool secondBoolean = false;
   bool thirdBoolean = false;
-  List<Car> carTable = [
-                        new Car('Honda', 'Civic', '2008', 'silver'),
-                        new Car('Carriage', 'Stanhope', '332', 'black'),
-                         new Car('Volvo', 'V40', '2002', 'green'),
-                         new Car('Opel', 'Corsa', '1997', 'red'),
-                         new Car('Opel', 'Kadett', '1990', 'white')
-                                       ];
-
-  List<Car> emptyCarTable = [];
 
   get thirdFieldStyle {
     if (thirdField.isNotEmpty) return "background-color:#FF0"; else return
         "background-color:#F00";
-  }
-
-  addCar() {
-    int idx = carTable.length % 4;
-    if (idx == 0)      carTable.add(new Car('Scoda',   'Octavia', (2000 + idx).toString(), 'silver'));
-    else if (idx == 1) carTable.add(new Car('Renault', 'R4',      (1970 + idx).toString(), 'red'));
-    else if (idx == 1) carTable.add(new Car('BMW',     'E30',     (1980 + idx).toString(), 'blue'));
-    else if (idx == 2) carTable.add(new Car('Volvo',   'V70',     (2006 + idx).toString(), 'red'));
-    else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx).toString(), 'black'));
-  }
-
-  deleteCar(Car c)
-  {
-    carTable.remove(c);
-  }
-
-}
-
-class Car {
-  String brand;
-  String type;
-  String year;
-  String color;
-  Car(this.brand, this.type, this.year, this.color);
-
-  void editCar() {
-    print("Car.edit");
-  }
-  String toString()
-  {
-    return "$brand $type $year $color";
-  }
-
-  int toNumber(String year){
-    return int.parse(year);
   }
 }
 

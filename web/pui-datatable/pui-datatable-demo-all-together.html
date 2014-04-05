@@ -1,0 +1,75 @@
+
+<div puiDatatableDemo>
+
+  <div style="disply:table">
+    <div style="display:table-row">
+      <div style="display:table-cell">
+         Number of cars: {{ctrl.carTable.length}}
+         <pui-datatable value="ctrl.carTable" var="row">
+            <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+            <pui-column header="Type">                                 {{row.type}} </pui-column>
+            <pui-column header="Year"  sortBy="toNumber(year)">        {{row.year}} </pui-column>
+            <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
+            <pui-column header="">
+              <pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
+            </pui-column>
+            <pui-column header="">
+              <pui-button icon="pencil" ng-click="ctrl.editCar(row)" value="edit"></pui-button>
+            </pui-column>
+          </pui-datatable>
+        <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
+      </div>
+       <div style="display:table-cell" style="height:100%; ">
+         <div style="margin-left:50px;">
+            <div style="height:20px;">&nbsp;
+          </div>
+          <div style="{{ctrl.editAreaVisibilityStyle}} border:solid 1px; height:100%">
+            <div style="display:table">
+
+
+              <div style="display:table-row; height:100%;">
+                <div style="display:table-cell">
+                  Brand:
+                </div>
+                <div style="display:table-cell">
+                  <pui-dropdown ng-model="ctrl.currentCar.brand" editable="true">
+                    <option value="Honda">Honda</option>
+                    <option value="Volvo">Volvo</option>
+                    <option value="Carriage">Carriage</option>
+                    <option value="Opel">Opel</option>
+                    <option value="VW">VW</option>
+                    <option value="Fiat">Fiat</option>
+                  </pui-dropdown>
+                </div>
+              </div>
+              <div style="display:table-row">
+                <div style="display:table-cell">
+                  Type:
+                </div>
+                <div style="display:table-cell">
+                  <pui-input ng-model="ctrl.currentCar.type" ></pui-input>
+                </div>
+              </div>
+              <div style="display:table-row">
+                <div style="display:table-cell">
+                  Year:
+                </div>
+                <div style="display:table-cell">
+                  <pui-input ng-model="ctrl.currentCar.year" ></pui-input>
+                </div>
+              </div>
+              <div style="display:table-row">
+                <div style="display:table-cell">
+                  Color:
+                </div>
+                <div style="display:table-cell">
+                  <pui-input ng-model="ctrl.currentCar.color" ></pui-input>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

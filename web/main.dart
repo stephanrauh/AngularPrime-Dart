@@ -22,11 +22,13 @@ import 'package:angular/angular.dart';
 import 'dart:html';
 part 'puiInputDemoController.dart';
 part 'puiButtonDemoController.dart';
+part 'pui-datatable/puiDatatableDemoController.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
     type(PuiInputDemoController);
     type(PuiButtonDemoController);
+    type(PuiDatatableDemoController);
   }
 }
 
