@@ -58,7 +58,33 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
+    if (ngmodel.runtimeType==int || ngmodel.runtimeType==double)
+    {
+      if (puiInputElement.attributes["type"]==null)
+      {
+        puiInputElement.attributes["type"]="number";
+      }
+    }
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
+    if (puiInputElement.attributes["type"]=="number")
+    {
+      // ToDo: check for cross browser compatibility
+      // (see http://japhr.blogspot.de/2013/08/keyboard-event-support-remains-rough-in.html)
+      puiInputElement.onKeyDown.listen((KeyboardEvent e) {
+        if (e.keyCode>0)
+        {
+          bool good= ((e.keyCode>=48 && e.keyCode<=57)  // digits
+                  || e.keyCode==187 || e.keyCode==189 || e.keyCode==190) // decimal point, minus and plus
+                  || (e.keyCode==8) || (e.keyCode==46) // backspace and delete
+                  || ((e.keyCode>=37)&& (e.keyCode<=40)); // cursor keys
+//          print("${e.charCode} ${e.keyCode} $good");
+          if (!good)
+          {
+            e.preventDefault();
+          }
+        }
+      });
+    }
     addWatches(puiInputElement, shadowyInputField, scope);
     scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
   }
