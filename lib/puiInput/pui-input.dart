@@ -44,11 +44,57 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   /** The scope is needed to add watches. */
   Scope scope;
 
+  NgModel _model;
+
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiInputTextComponent(this.scope, this.puiInputElement) {
+  PuiInputTextComponent(this.scope, this.puiInputElement, this._model) {
   }
+
+  /** returns the CSS style needed to display or hide the error message */
+  String isInvalid()
+  {
+    if (_model.invalid)
+    {
+      var es = _model.errorStates;
+      return "display:block";
+    }
+    else
+    {
+      return "display:none";
+    }
+  }
+
+  /** return the validation error message (if any) */
+  String get errorMessage{
+    if (_model.invalid)
+    {
+      var es = _model.errorStates;
+      if (es["ng-required"]!=null)
+      {
+        return "Please fill this field.";
+      }
+      else if (es["pui-min-error"]!=null)
+      {
+        return"Number to small.";
+      }
+      else if (es["pui-max-error"]!=null)
+      {
+        return"Number to big.";
+      }
+      else
+      {
+        return"Please check your input. Something's wrong.";
+      }
+      return "display:block";
+    }
+    else
+    {
+      return "";
+    }
+  }
+
 
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
@@ -58,6 +104,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
+
     if (ngmodel.runtimeType==int || ngmodel.runtimeType==double)
     {
       if (puiInputElement.attributes["type"]==null)
@@ -68,6 +115,15 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     if (puiInputElement.attributes["type"]=="number")
     {
+      if (null != puiInputElement.attributes["min"]){
+        double min = double.parse(puiInputElement.attributes["min"].toString());
+        new PuiModelMinNumberValidator(_model, min);
+      }
+      if (null != puiInputElement.attributes["max"]){
+        double max = double.parse(puiInputElement.attributes["max"].toString());
+        new PuiModelMaxNumberValidator(_model, max);
+      }
+//      _model.addValidator(new NgModelNumberValidator(_model));
       // ToDo: check for cross browser compatibility
       // (see http://japhr.blogspot.de/2013/08/keyboard-event-support-remains-rough-in.html)
       puiInputElement.onKeyDown.listen((KeyboardEvent e) {
@@ -89,4 +145,65 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
     scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
   }
 }
+
+/** This class is redundant to NgModelMinNumberValidator, which should be active, but isn't for some reason.
+ * So we implement it manually until the apparent AngularDart bug is fixed.
+ */
+class PuiModelMinNumberValidator implements NgValidator {
+  double _min;
+  final NgModel _ngModel;
+
+  PuiModelMinNumberValidator(this._ngModel, double this._min) {
+    _ngModel.addValidator(this);
+  }
+
+  bool isValid(modelValue) {
+    try {
+      num parsedValue = double.parse(modelValue.toString());
+      if (!parsedValue.isNaN) {
+        return parsedValue >= _min;
+      }
+    } catch(exception, stackTrace) {}
+
+    //this validator doesn't care if the type conversation fails or the value
+    //is not a number (NaN) because NgModelNumberValidator will handle the
+    //number-based validation either way.
+    return true;
+  }
+
+  @override
+  String get name => "pui-min-error";
+}
+
+/** This class is redundant to NgModelMaxNumberValidator, which should be active, but isn't for some reason.
+ * So we implement it manually until the apparent AngularDart bug is fixed.
+ */
+class PuiModelMaxNumberValidator implements NgValidator {
+  double _max;
+  final NgModel _ngModel;
+
+  PuiModelMaxNumberValidator(this._ngModel, double this._max) {
+    _ngModel.addValidator(this);
+  }
+
+  bool isValid(modelValue) {
+    try {
+      num parsedValue = double.parse(modelValue.toString());
+      if (!parsedValue.isNaN) {
+        return parsedValue <= _max;
+      }
+    } catch(exception, stackTrace) {}
+
+    //this validator doesn't care if the type conversation fails or the value
+    //is not a number (NaN) because NgModelNumberValidator will handle the
+    //number-based validation either way.
+    return true;
+  }
+
+  @override
+  String get name => "pui-max-error";
+}
+
+
+
 
