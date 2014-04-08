@@ -32,6 +32,8 @@ import '../puiDatatable/pui-repeat.dart';
 import '../puiInclude/pui-include.dart';
 import '../puiDynamicHTML/pui-bind-html.dart';
 
+import '../puiGrid/pui-grid.dart';
+
 import '../puiInput/pui-input.dart';
 import '../puiButton/pui-button.dart';
 import '../puiCheckbox/pui-checkbox.dart';
@@ -150,6 +152,7 @@ class PuiModule extends Module {
     type(PuiAccordionComponent);
     type(PuiTabviewComponent);
     type(PuiTabComponent);
+    type(PuiGridComponent);
 
     type(PuiDatatableComponent);
     type(PuiRepeatDirective);

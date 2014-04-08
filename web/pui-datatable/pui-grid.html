@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>AngularDart-Prime: pui-input </title>
+    <link rel="stylesheet" href="../themes/aristo/theme.css">
+    <link rel="stylesheet" href="../themes/jquery-ui.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../pui.css">
+    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
+</head>
+<body>
+
+<form name="carForm">
+  <div puiDatatableDemo>
+    <pui-grid>
+        <pui-dropdown ng-model="ctrl.carTable[0].brand" editable="true" options="ctrl.carTable[0].brands" label="brand">
+        </pui-dropdown>
+        <pui-input ng-model="ctrl.carTable[0].year" min="1886" max="{{ctrl.currentYear}}" required></pui-input>
+        <pui-dropdown label="type" ng-model="ctrl.carTable[0].type" editable="true" options="ctrl.carTable[0].matchingTypes()">
+        </pui-dropdown>
+        <pui-input label="color" ng-model="ctrl.carTable[0].color" required></pui-input>
+
+      </pui-grid>
+  </div>
+</form>
+
+  <script type="application/dart" src="../main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>
