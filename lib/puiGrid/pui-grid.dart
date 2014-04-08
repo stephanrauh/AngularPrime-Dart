@@ -53,12 +53,15 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
     List rows = table.children;
     List fields = puiGridComponent.children;
     var numberOfFields = fields.length;
+    print("Adding rows to pui-grid");
     for (int i = 1; i < numberOfFields; i++)
     {
         rows.add(rows[0].clone(true));
     }
+    print("Adding fields to pui-grid");
     for (int i = 0; i < numberOfFields; i++)
     {
+      print("Adding field #$i");
       DivElement currentRow = rows[i];
       HtmlElement currentField = fields[0]; // no typo - each time
       // a field is added to the shadow DOM it's removed from the fields array

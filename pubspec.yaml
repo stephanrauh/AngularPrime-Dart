@@ -1,12 +1,19 @@
 name: angularprime_dart
 version: 0.0.1
+
+transformers:
+- $dart2js:
+    checked: true
+    minify: false
+
 dependencies:
   angular: any
   js: any
   shadow_dom: any
   polymer: any
   animation: any
-  
+
 
 dev_dependencies:
   unittest: any
+
