@@ -164,6 +164,8 @@ class PuiModule extends Module {
     type(PuiBindHtmlDirective);
 
     type(PuiInputTextComponent);
+    type(PuiWeekComponent);
+    type(PuiColorComponent);
     type(PuiButtonComponent);
     type(PuiCheckboxComponent);
     type(PuiDropdownComponent);

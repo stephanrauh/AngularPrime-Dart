@@ -26,6 +26,8 @@ final RegExp VARIABLE_EXPRESSION = new RegExp(r'^\s*{{\s*([a-zA-Z0-9_\(\)\.]+)\s
 final RegExp _NG_REPEAT_SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?(\s+lazily\s*)?$');
 
 /**
+ * TODO: move this method to the puiDataTableComponent class (either to onShadow or onAttach).
+ *
  * Converts <pui-datatable> to a format that can be processed by AngularDart.
  * In general, AngularDart is very flexible. However, as we want to provide
  * a radically simple table widget we don't follow Angular's conventions.
@@ -115,7 +117,10 @@ _prepareDatatable(Element puiDatatable, int puiTableID) {
   puiDatatable.children.addAll(inside.children);
 }
 
-/** Generates DIV elements to display a header for each column using the informations given in <pui-column> */
+/**
+ * TODO: move this method to the puiDataTableComponent class (either to onShadow or onAttach).
+ *
+ * Generates DIV elements to display a header for each column using the informations given in <pui-column> */
 String _prepareTableHeader(ElementList columns) {
   String headers="";
   int c = 0;

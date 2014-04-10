@@ -79,6 +79,8 @@ class Car {
   String type;
   int    _year;
   String color;
+  String colorcode;
+  String week;
   Car(this.brand, this.type, this._year, this.color);
 
   String toString()

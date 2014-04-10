@@ -19,6 +19,8 @@ library puiInput;
 import 'dart:html';
 import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
+part 'pui-color.dart';
+part 'pui-week.dart';
 
 /**
  * <pui-input> adds AngularDart to an input field styled by PrimeFaces.
@@ -105,6 +107,19 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
 
+    autoDetectType();
+    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
+    addConstraintsForNumerics();
+    addWatches(puiInputElement, shadowyInputField, scope);
+    scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
+  }
+
+  /**
+   * Traditionally the type of an HTML input field is specified explicitely by the web designer.
+   * However, in many cases the type of an input field can be derived from the underlying model.
+   * This method examines the type of the ng-model, setting the input field type automatically if possible.
+   */
+  void autoDetectType() {
     if (ngmodel.runtimeType==int || ngmodel.runtimeType==double)
     {
       if (puiInputElement.attributes["type"]==null)
@@ -112,7 +127,20 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
         puiInputElement.attributes["type"]="number";
       }
     }
-    copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
+    else if (ngmodel.runtimeType==DateTime)
+    {
+      if (puiInputElement.attributes["type"]==null)
+      {
+        puiInputElement.attributes["type"]="date";
+      }
+    }
+  }
+
+  /**
+   * Numeric values - int and double - can be validated against a minimum and a maximum value. Plus,
+   * there's only a limited range of legal characters we accept.
+   */
+  void addConstraintsForNumerics() {
     if (puiInputElement.attributes["type"]=="number")
     {
       if (null != puiInputElement.attributes["min"]){
@@ -123,7 +151,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
         double max = double.parse(puiInputElement.attributes["max"].toString());
         new PuiModelMaxNumberValidator(_model, max);
       }
-//      _model.addValidator(new NgModelNumberValidator(_model));
+    //      _model.addValidator(new NgModelNumberValidator(_model));
       // ToDo: check for cross browser compatibility
       // (see http://japhr.blogspot.de/2013/08/keyboard-event-support-remains-rough-in.html)
       puiInputElement.onKeyDown.listen((KeyboardEvent e) {
@@ -133,7 +161,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
                   || e.keyCode==187 || e.keyCode==189 || e.keyCode==190) // decimal point, minus and plus
                   || (e.keyCode==8) || (e.keyCode==46) // backspace and delete
                   || ((e.keyCode>=37)&& (e.keyCode<=40)); // cursor keys
-//          print("${e.charCode} ${e.keyCode} $good");
+    //          print("${e.charCode} ${e.keyCode} $good");
           if (!good)
           {
             e.preventDefault();
@@ -141,8 +169,6 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
         }
       });
     }
-    addWatches(puiInputElement, shadowyInputField, scope);
-    scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
   }
 }
 
