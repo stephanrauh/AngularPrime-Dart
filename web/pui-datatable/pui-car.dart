@@ -81,6 +81,9 @@ class Car {
   String color;
   String colorcode;
   String week;
+  String city;
+  String zipcode;
+
   Car(this.brand, this.type, this._year, this.color);
 
   String toString()

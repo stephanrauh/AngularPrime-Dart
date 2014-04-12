@@ -48,6 +48,16 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
 
   NgModel _model;
 
+  static final Map errorMessages = {
+         "ng-required":"Please fill this field",
+         "pui-min-error": "Number to small",
+         "pui-max-error": "Number to big",
+         "pui-min-length-error": "too few characters",
+         "pui-max-length-error": "too many characters",
+         "pui-pattern-error": "Your input doesn't match the allow format",
+         "ng-pattern": "Your input doesn't match the allow format"
+  };
+
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
@@ -72,24 +82,10 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   String get errorMessage{
     if (_model.invalid)
     {
-      var es = _model.errorStates;
-      if (es["ng-required"]!=null)
-      {
-        return "Please fill this field.";
-      }
-      else if (es["pui-min-error"]!=null)
-      {
-        return"Number to small.";
-      }
-      else if (es["pui-max-error"]!=null)
-      {
-        return"Number to big.";
-      }
-      else
-      {
-        return"Please check your input. Something's wrong.";
-      }
-      return "display:block";
+      String errorMessage="Please check your input. Something's wrong.";
+      Map es = _model.errorStates;
+      es.forEach((key, value){ if (errorMessages.containsKey(key)) {errorMessage=errorMessages[key];}});
+      return errorMessage;
     }
     else
     {
@@ -110,8 +106,21 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
     autoDetectType();
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
     addConstraintsForNumerics();
+    addLengthConstraints();
     addWatches(puiInputElement, shadowyInputField, scope);
-    scope.watch("ngmodel", (newVar, oldVar) => updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope));
+    scope.watch("ngmodel", (newVar, oldVar) { updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope);});
+  }
+
+  void addLengthConstraints() {
+    if (null != puiInputElement.attributes["minlength"]){
+      int minlength = int.parse(puiInputElement.attributes["minlength"].toString());
+      new PuiModelMinLengthValidator(_model, minlength);
+    }
+    if (null != puiInputElement.attributes["maxlength"]){
+      int maxlength = int.parse(puiInputElement.attributes["maxlength"].toString());
+      new PuiModelMinLengthValidator(_model, maxlength);
+    }
+
   }
 
   /**
@@ -230,6 +239,52 @@ class PuiModelMaxNumberValidator implements NgValidator {
   String get name => "pui-max-error";
 }
 
+/**
+ * Minimum length constrait
+ */
+class PuiModelMinLengthValidator implements NgValidator {
+  int _min;
+  final NgModel _ngModel;
 
+  PuiModelMinLengthValidator(this._ngModel, int this._min) {
+    _ngModel.addValidator(this);
+  }
+
+  bool isValid(modelValue) {
+    try {
+      if (modelValue==null) return false;
+      if (modelValue.toString().length < _min) return false;
+    } catch(exception, stackTrace) {}
+
+    return true;
+  }
+
+  @override
+  String get name => "pui-min-length-error";
+}
+
+/**
+ * Maximum length constrait (redundant to HTML5's maxlength attribute)
+ */
+class PuiModelMaxLengthValidator implements NgValidator {
+  int _max;
+  final NgModel _ngModel;
+
+  PuiModelMaxLengthValidator(this._ngModel, int this._max) {
+    _ngModel.addValidator(this);
+  }
+
+  bool isValid(modelValue) {
+    try {
+      if (modelValue==null) return false;
+      if (modelValue.toString().length > _max) return false;
+    } catch(exception, stackTrace) {}
+
+    return true;
+  }
+
+  @override
+  String get name => "pui-max-length-error";
+}
 
 
