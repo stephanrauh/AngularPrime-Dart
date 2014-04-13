@@ -3,12 +3,12 @@ AngularPrime-Dart
 
 AngularPrime-Dart is a Dart port of Rudy de Busscher's AngularPrime component library.
 
-<b>See it in action</b>
+<b>See it in action:</b><br />
 Have a look at the <a href="http://showcase.angularfaces.com/AngularPrimeDart/">showcase</a> and the project blog at http://www.beyondjava.net.
 As for the showcase: there are some compatibility issue, so currently it's a good idea to view it with the <a href="https://www.dartlang.org/tools/dartium/">Dartium browser</a>.
 Please apologize this temporary problem.
 
-<b>Compatibility:</b>
+<b>Compatibility:</b><br />
 Albeit AngularPrime-Dart is developed in Dart, it also runs in native Javascript (by using Dart's cross-compiler dart2js).
 
 However, currently it isn't fully compatible to Javascript. There are a couple of compatibility issues
