@@ -26,17 +26,14 @@ import '../core/pui-module.dart';
 
 /**
  * Creates a binding that will innerHTML the result of evaluating the
- * `expression` bound to `ng-bind-html` into the current element in a secure
- * way.  This expression must evaluate to a string.  The innerHTML-ed content
- * will be sanitized using a default [NodeValidator] constructed as `new
- * dom.NodeValidatorBuilder.common()`.  In a future version, when Strict
- * Contextual Escaping support has been added to Angular.dart, this directive
- * will allow one to bypass the sanitization and innerHTML arbitrary trusted
- * HTML.
+ * `expression` bound to `pui-bind-html` into the current element in a secure
+ * way.  This expression must evaluate to a string.  The difference to
+ * ng-bind-html is that the innerHTML-ed content
+ * is not sanitized using any default [NodeValidator]. So use it carefully!
  *
  * Example:
  *
- *     <div ng-bind-html="htmlVar"></div>
+ *     <div pui-bind-html="htmlVar"></div>
  */
 @NgComponent(
   visibility: NgDirective.CHILDREN_VISIBILITY,
@@ -53,7 +50,7 @@ class PuiBindHtmlDirective implements NgShadowRootAware {
   PuiBindHtmlDirective(this.element, this._scope);
 
   /**
-   * Parsed expression from the `ng-bind-html` attribute.  The result of this
+   * Parsed expression from the `pui-bind-html` attribute.  The result of this
    * expression is innerHTML'd according to the rules specified in this class'
    * documentation.
    */
