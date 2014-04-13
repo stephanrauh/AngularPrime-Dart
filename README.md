@@ -37,7 +37,7 @@ Structural components:
 <tr><td>&lt;pui-datatable&gt;</td><td>50% finished / work in progress</td></tr>
 <tr><td>&lt;pui-include&gt;</td><td>finished<br>does more or less the same as ng-include, but it includes the file before initializing AngularDart</td></tr>
 <tr><td>&lt;pui-grid&gt;</td><td>finished<br>A grid component simplifying typical business input masks tremendously</td></tr>
-<tr><td>&lt;pui-bind-html&gt;</td><td>finished<br>A very liberal version of &lt;ng-bind-htmll&gt; (the difference to &lt;ng-bind-htmll&gt; is &lt;pui-bind-htmll&gt; omits sanitizing of the HTML code, so use it with care)</td></tr>
+<tr><td>&lt;pui-bind-html&gt;</td><td>finished<br>A very liberal version of &lt;ng-bind-html&gt; (the difference to &lt;ng-bind-html&gt; is &lt;pui-bind-html&gt; omits sanitizing of the HTML code, so use it with care)</td></tr>
 
 </table>
 
