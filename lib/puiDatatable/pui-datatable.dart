@@ -71,6 +71,12 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   @NgTwoWay("value")
   List myList;
 
+  @NgAttr("initialsort")
+  String initialsort;
+
+  @NgAttr("initialsortorder")
+  String initialsortorder;
+
   bool initialized = false;
 
   Compiler compiler;
@@ -97,6 +103,32 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       _addColumnToHeader(shadowTableContent, col);
     });
 
+    if (columnHeaders.any((Column col) => col.footerText!=null && col.footerText!=""))
+    {
+      columnHeaders.forEach((Column col) {
+        _addColumnToFooter(shadowTableContent, col);
+      });
+    }
+    else
+    {
+      shadowTableContent.children[shadowTableContent.children.length-1].style.display="none";
+    }
+  }
+
+  void _addColumnToFooter(Element shadowTableContent, Column col) {
+    DivElement footer = shadowTableContent.children[shadowTableContent.children.length-1];
+    DivElement captionCell = new DivElement();
+    captionCell.classes.add("pui-datatable-th");
+    captionCell.classes.add("ui-widget-header");
+
+    captionCell.style.display = "table-cell";
+    captionCell.attributes["role"] = "columnfooter";
+    captionCell.style.whiteSpace = "nowrap";
+    SpanElement caption = new SpanElement();
+    caption.innerHtml = col.footerText;
+    caption.style.float = "left";
+    captionCell.children.add(caption);
+    footer.children.add(captionCell);
   }
 
   void _addColumnToHeader(Element shadowTableContent, Column col) {
@@ -133,7 +165,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       sortIcon.classes.add("ui-sortable-column-icon");
       sortIcon.classes.add("ui-icon-carat-2-n-s");
       sortIcon.onClick.listen((MouseEvent event) {
-        _sortColumn(event, captionCell);
+        _sortColumn(captionCell);
       });
       captionCell.children.add(sortIcon);
 
@@ -160,7 +192,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     _drawLeftBoundaryLine();
   }
 
-  _sortColumn(MouseEvent event, DivElement sortColumn) {
+  _sortColumn(DivElement sortColumn) {
     // ugly hack to force the ng-repeat watch to fire
     if (myList.any((e)=> e==null))
     {
@@ -206,20 +238,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       }
     }
   }
-
-  /** Compares the content of two cell alphabetically. Used by sort(). */
-  int _compare(DivElement r1, DivElement r2, int index, int dir) {
-    if (r1.classes.contains("thead")) return -1;
-    if (r2.classes.contains("thead")) return 1;
-    var cell1 = r1.children[index];
-    String caption1 = cell1.innerHtml;
-    var cell2 = r2.children[index];
-    String caption2 = cell2.innerHtml;
-    if (dir == 1) return caption1.compareTo(caption2); else return
-        caption2.compareTo(caption1);
-
-  }
-
 
   void addHTMLToDiv(innerHtml, DivElement cell) {
     try {
@@ -306,6 +324,12 @@ class PuiDatatableSortFilter {
     }
     catch (notSortedException)
     {
+      if ((pui!=null) && (pui.initialsort!=null))
+      {
+        bool descending="down"==pui.initialsortorder;
+        List nonEmptyRows = _emptyRowsFilter.call(original, pui);
+        return _orderBy.call(nonEmptyRows, pui.initialsort, descending);
+      }
       return original;
     }
   }

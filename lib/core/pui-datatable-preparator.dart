@@ -156,11 +156,12 @@ String _prepareTableHeader(ElementList columns) {
       sortByAttribute=""" sortby="$sortBy" """;
     }
 
-    headers += """<pui-column-header header="${col.attributes["header"]}" closable="$closable"  sortable="$sortable" $sortByAttribute></pui-column-header>\n""";
+    headers += """<pui-column-header header="${col.attributes["header"]==null?"":col.attributes["header"]}" closable="$closable"  sortable="$sortable" $sortByAttribute footerText="${col.attributes["footerText"]==null?"":col.attributes["footerText"]}"></pui-column-header>\n""";
     c++;
   });
   return headers;
 }
+
 
 /** Copied from ng-repeat.dart. Extracts the name of the list from an ng-repeat statement. */
 String extractNameOfCollection(String ngRepeatStatement) {
