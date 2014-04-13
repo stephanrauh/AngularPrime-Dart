@@ -139,6 +139,14 @@ class PuiModule extends Module {
   void startAngular() {
     prepareDatatables();
      _findNodesToBeWatched();
+    bootStrap();
+  }
+
+  /**
+   * This method is can be overwritten to accomodate more complex situations. By default,
+   * ngBootstrag is called with the single parameter <code>this</code>.
+   */
+  void bootStrap() {
     ngBootstrap(module: this);
   }
 

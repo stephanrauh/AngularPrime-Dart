@@ -31,9 +31,20 @@ class MyAppModule extends PuiModule {
     type(PuiButtonDemoController);
     type(PuiDatatableDemoController);
   }
+
+  /**
+   * This method is can be overwritten to accomodate more complex situations. By default,
+   * ngBootstrag is called with the single parameter <code>this</code>.
+   */
+  void bootStrap() {
+    super.bootStrap();
+    // equivalent to ngBootstrap(module: this);
+  }
+
 }
 
 void main() {
   new MyAppModule();
+  // ngBootstap is called automatically by the PuiModule class
   //ngBootstrap(module: new MyAppModule());
 }

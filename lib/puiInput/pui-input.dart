@@ -54,8 +54,18 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
          "pui-max-error": "Number to big",
          "pui-min-length-error": "too few characters",
          "pui-max-length-error": "too many characters",
-         "pui-pattern-error": "Your input doesn't match the allow format",
+         "pui-pattern-error": "Your input doesn't match the allowed format",
          "ng-pattern": "Your input doesn't match the allow format"
+  };
+
+  static final Map userDefinedErrorMessages = {
+         "ng-required":"required-message",
+         "pui-min-error": "min-message",
+         "pui-max-error": "max-message",
+         "pui-min-length-error": "min-length-message",
+         "pui-max-length-error": "min-length-message",
+         "pui-pattern-error": "pattern-message",
+         "ng-pattern": "pattern-message"
   };
 
   /**
@@ -82,9 +92,19 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   String get errorMessage{
     if (_model.invalid)
     {
-      String errorMessage="Please check your input. Something's wrong.";
+      String errorMessage=null;
       Map es = _model.errorStates;
-      es.forEach((key, value){ if (errorMessages.containsKey(key)) {errorMessage=errorMessages[key];}});
+      es.forEach((key, value){ if (userDefinedErrorMessages.containsKey(key)) {
+                                 if (puiInputElement.attributes[userDefinedErrorMessages[key]]!=null)
+                                   errorMessage=puiInputElement.attributes[userDefinedErrorMessages[key]];
+                                 }
+                             });
+      if (errorMessage==null) {
+        es.forEach((key, value){ if (errorMessages.containsKey(key)) {errorMessage=errorMessages[key];}});
+      }
+      if (errorMessage==null) {
+        errorMessage="Please check your input. Something's wrong.";
+      }
       return errorMessage;
     }
     else
