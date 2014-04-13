@@ -46,11 +46,13 @@ Components dealing with input:
 <tr><td>&lt;pui-input&gt;</td><td> finished except "disabled" attribute</td></tr>
 <tr><td>&lt;pui-week&gt;</td><td>finished (requires an HTML 5 browser)</td></tr>
 <tr><td>&lt;pui-color&gt;</td><td>finished (requires an HTML5 brwoser)<br>a color-picker component</td></tr>
+<tr><td>&lt;pui-calendar&gt;</td><td>coming soon</td></tr>
+<tr><td>&lt;pui-time&gt;</td><td>coming soon</td></tr>
 <tr><td>&lt;pui-button&gt;</td><td>finished</td></tr>
-
 <tr><td>&lt;pui-button&gt;</td><td>finished</td></tr>
 <tr><td>&lt;pui-checkbox&gt;</td><td>finished</td></tr>
 <tr><td>&lt;pui-textarea&gt;</td><td>50% finished</td></tr>
 <tr><td>&lt;pui-dropdown&gt;</td><td>finished except keyboard support of non-editable drop drop menus</td></tr>
-<tr><td>&lt;pui-radiobutton&gt;</td><td></td></tr>
+<tr><td>&lt;pui-radiobutton&gt;</td><td>coming soon</td></tr>
+<tr><td>&lt;pui-growl&gt;</td><td>coming soon</td></tr>
 </table>
