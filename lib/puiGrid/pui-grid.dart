@@ -73,8 +73,14 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
       }
       if (label!=null)
       {
-        currentRow.children[0].innerHtml= label;
+        currentRow.children[0].children[0].innerHtml= label;
       }
+      if (currentField.id==null || currentField.id=="")
+      {
+        currentField.id = "puiinputid:" + currentField.hashCode.toString();
+      }
+      currentRow.children[0].children[0].attributes["for"]=currentField.id;
+
       currentRow.children[1].append(currentField);
     }
   }

@@ -43,7 +43,7 @@ Structural components:
 
 Components dealing with input:
 <table>
-<tr><td>&lt;pui-input&gt;</td><td> finished except "disabled" attribute</td></tr>
+<tr><td>&lt;pui-input&gt;</td><td>90% finished ("disabled" attribute and labels need some polishing)</td></tr>
 <tr><td>&lt;pui-week&gt;</td><td>finished (requires an HTML 5 browser)</td></tr>
 <tr><td>&lt;pui-color&gt;</td><td>finished (requires an HTML5 brwoser)<br>a color-picker component</td></tr>
 <tr><td>&lt;pui-calendar&gt;</td><td>coming soon</td></tr>

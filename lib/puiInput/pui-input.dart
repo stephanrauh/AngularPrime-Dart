@@ -46,7 +46,13 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   /** The scope is needed to add watches. */
   Scope scope;
 
+  /** Reference to the Angular model corresponding to the input field */
   NgModel _model;
+
+  /** optional: if set to "true", the button is disabled and doesn't react to being clicked. */
+  @NgAttr("disabled")
+  String disabled;
+
 
   static final Map errorMessages = {
          "ng-required":"Please fill this field",
@@ -90,8 +96,12 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
 
   /** return the validation error message (if any) */
   String get errorMessage{
+
     if (_model.invalid)
     {
+      if (null != shadowyInputField) {
+        shadowyInputField.classes.add("ui-state-error");
+      }
       String errorMessage=null;
       Map es = _model.errorStates;
       es.forEach((key, value){ if (userDefinedErrorMessages.containsKey(key)) {
@@ -109,6 +119,9 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
     }
     else
     {
+      if (null != shadowyInputField) {
+        shadowyInputField.classes.remove("ui-state-error");
+      }
       return "";
     }
   }
@@ -123,15 +136,32 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
 
-    autoDetectType();
+    _autoDetectType();
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
-    addConstraintsForNumerics();
-    addLengthConstraints();
+    _addConstraintsForNumerics();
+    _addLengthConstraints();
     addWatches(puiInputElement, shadowyInputField, scope);
     scope.watch("ngmodel", (newVar, oldVar) { updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope);});
+    scope.watch("disabled", (newVar, oldVar) { _updateDisabledState();});
   }
 
-  void addLengthConstraints() {
+  /** depending on the disabled flag, the input field is switched either to read-only or editable mode */
+  void _updateDisabledState()
+  {
+    if (disabled=="true")
+    {
+      shadowyInputField.classes.add("ui-state-disabled");
+      shadowyInputField.attributes["disabled"]="true";
+    }
+    else
+    {
+      shadowyInputField.classes.remove("ui-state-disabled");
+      shadowyInputField.attributes.remove("disabled");
+    }
+  }
+
+  /** adds validators to check the minimum and maximum size of the input */
+  void _addLengthConstraints() {
     if (null != puiInputElement.attributes["minlength"]){
       int minlength = int.parse(puiInputElement.attributes["minlength"].toString());
       new PuiModelMinLengthValidator(_model, minlength);
@@ -148,7 +178,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    * However, in many cases the type of an input field can be derived from the underlying model.
    * This method examines the type of the ng-model, setting the input field type automatically if possible.
    */
-  void autoDetectType() {
+  void _autoDetectType() {
     if (ngmodel.runtimeType==int || ngmodel.runtimeType==double)
     {
       if (puiInputElement.attributes["type"]==null)
@@ -169,7 +199,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    * Numeric values - int and double - can be validated against a minimum and a maximum value. Plus,
    * there's only a limited range of legal characters we accept.
    */
-  void addConstraintsForNumerics() {
+  void _addConstraintsForNumerics() {
     if (puiInputElement.attributes["type"]=="number")
     {
       if (null != puiInputElement.attributes["min"]){
