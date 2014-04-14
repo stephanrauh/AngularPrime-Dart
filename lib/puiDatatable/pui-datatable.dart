@@ -435,22 +435,22 @@ class PuiDatatableSortFilter {
         var mapper = (e) => parsed.eval(e);
         if (col.filterMatchMode == "contains")
         {
-          var predicate = (v) => mapper(v).toString().contains(col.currentFilter);
+          var predicate = (v) => mapper(v).toString().toLowerCase().contains(col.currentFilter.toLowerCase());
           nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
         }
         else if (col.filterMatchMode == "endsWith")
         {
-          var predicate = (v) => mapper(v).toString().endsWith(col.currentFilter);
+          var predicate = (v) => mapper(v).toString().toLowerCase().endsWith(col.currentFilter.toLowerCase());
           nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
         }
         else if (col.filterMatchMode == "exact")
         {
-          var predicate = (v) => mapper(v).toString()== col.currentFilter;
+          var predicate = (v) => mapper(v).toString().toLowerCase()== col.currentFilter.toLowerCase();
           nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
         }
         else // if (col.filterMatchMode == "startsWith")
         {
-          var predicate = (v) => mapper(v).toString().startsWith(col.currentFilter);
+          var predicate = (v) => mapper(v).toString().toLowerCase().startsWith(col.currentFilter.toLowerCase());
           nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
         }
       }
