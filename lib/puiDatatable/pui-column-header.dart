@@ -51,13 +51,24 @@ class PuiColumnHeaderComponent extends PuiBaseComponent implements NgShadowRootA
 
   bool isSortable() => _sortable;
 
-  /** Caption of the column */
+  /** Optional caption of the column */
   @NgAttr("header")
   String header;
 
-  /** Footer of the column */
+  /** Optional footer of the column */
   @NgAttr("footerText")
   String footerText;
+
+  /** Optional column filter */
+  @NgAttr("filterby")
+  String filterby;
+
+  /** Optional filter match mode.
+   * Legal values are 'startsWith', 'contains', 'exact' and 'endsWith'.
+   * Default value is 'startsWith'. */
+  @NgAttr("filterMatchMode")
+  String filterMatchMode = "startsWith";
+
 
   /** This is the datatable component the column is part of */
   PuiDatatableComponent puiDatatableComponent;
@@ -71,7 +82,9 @@ class PuiColumnHeaderComponent extends PuiBaseComponent implements NgShadowRootA
 
   @override
   void onShadowRoot(ShadowRoot shadowRoot) {
-    puiDatatableComponent.addColumn(new Column(header, footerText, isClosable(), isSortable(), _puiColumnHeaderElement.attributes["sortby"]));
+    puiDatatableComponent.addColumn(new Column(header, footerText, isClosable(),
+                                    isSortable(), _puiColumnHeaderElement.attributes["sortby"],
+                                    filterby, filterMatchMode));
   }
 }
 
@@ -96,10 +109,28 @@ class Column {
   /** 0=not sorted, 1=sort upwards, 2=sort downwards */
   int sortDirection=0;
 
-  /** Is the current row hidden? */
+  /** Optional column filter */
+  String filterby;
+
+  /** Optional filter match mode.
+   * Legal values are 'startsWith', 'contains', 'exact' and 'endsWith'.
+   * Default value is 'startsWith'. */
+  String filterMatchMode = "startsWith";
+
+  /** Is the current row hidden?
+   * Todo: strictly speaking, putting the run-time filter value here is
+   * a violation of the separations of concerns principle, because every other
+   * attribute describes the immutable properties of the column. */
   bool hidden=false;
 
-  Column(this.header, this.footerText, this.closable, this.sortable, this.sortBy) {
+  /** Used to store the current filter value entered by the user.
+   * Todo: strictly speaking, putting the run-time filter value here is
+   * a violation of the separations of concerns principle, because every other
+   * attribute describes the immutable properties of the column. */
+  String currentFilter="";
+
+  Column(this.header, this.footerText, this.closable, this.sortable, this.sortBy,
+      this.filterby, this.filterMatchMode) {
   }
 }
 

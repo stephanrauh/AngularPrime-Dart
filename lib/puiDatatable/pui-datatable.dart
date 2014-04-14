@@ -98,25 +98,107 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowTableContent = shadowRoot.getElementById("pui-content");
+    addHeaderRow();
+    addFilterRow();
+    addFooterRow();
+  }
 
+  /**
+   * Popolates the header of the data table with the columns' captions.
+   */
+  void addHeaderRow() {
+    DivElement header = shadowTableContent.querySelector("#headerRow");
     columnHeaders.forEach((Column col) {
-      _addColumnToHeader(shadowTableContent, col);
+      _addColumnToHeader(header, col);
     });
 
-    if (columnHeaders.any((Column col) => col.footerText!=null && col.footerText!=""))
+  }
+
+  /**
+   * Shows a row containing column filters, or hides it, if there's no filter.
+   */
+  void addFilterRow() {
+    var filterRow = shadowTableContent.querySelector("#filterRow");
+    if (columnHeaders.any((Column col) => col.filterby!=null && col.filterby!=""))
     {
       columnHeaders.forEach((Column col) {
-        _addColumnToFooter(shadowTableContent, col);
+        _addColumnToFilter(filterRow, col);
       });
     }
     else
     {
-      shadowTableContent.children[shadowTableContent.children.length-1].style.display="none";
+      filterRow.style.display="none";
     }
   }
 
-  void _addColumnToFooter(Element shadowTableContent, Column col) {
-    DivElement footer = shadowTableContent.children[shadowTableContent.children.length-1];
+  /** Shows a row below the data table containing optional footers, or hides the row if it's not needed. */
+  void addFooterRow() {
+    var footerRow = shadowTableContent.querySelector("#footerRow");
+    if (columnHeaders.any((Column col) => col.footerText!=null && col.footerText!=""))
+    {
+      columnHeaders.forEach((Column col) {
+        _addColumnToFooter(footerRow, col);
+      });
+    }
+    else
+    {
+      footerRow.style.display="none";
+    }
+
+  }
+
+  /** Adds a single column filter cell. */
+  void _addColumnToFilter(DivElement filter, Column col) {
+    DivElement captionCell = new DivElement();
+    captionCell.classes.add("pui-datatable-th");
+    captionCell.classes.add("ui-widget-header");
+
+    captionCell.style.display = "table-cell";
+    captionCell.attributes["role"] = "columnfooter";
+    captionCell.style.whiteSpace = "nowrap";
+    if (null != col.filterby && col.filterby!="")
+    {
+      DivElement overlay = new DivElement();
+      overlay.innerHtml = "filter by ${col.header}";
+      overlay.style.position="relative";
+      overlay.style.color="#BBB";
+      overlay.style.zIndex="99";
+      InputElement f = new InputElement(type: "text");
+      f.style.position="relative";
+      f.style.top="-20px";
+      f.style.marginBottom="-20px";
+      f.style.zIndex="0";
+      captionCell.children.add(overlay);
+      captionCell.children.add(f);
+
+      // activate input field on click
+      overlay.onClick.listen((e){overlay.style.zIndex="-99"; f.focus();});
+
+      f.style.float = "left";
+      f.onKeyUp.listen((KeyboardEvent e) {
+        if (overlay.style.display!="none" && f.value.length>0)
+        {
+          overlay.style.zIndex="-99";
+          col.currentFilter=f.value;
+        }
+        else if (f.value.length==0)
+        {
+          overlay.style.zIndex="99";
+          col.currentFilter="";
+        }
+        else
+        {
+          col.currentFilter=f.value;
+        }
+        triggerFiltering();
+        e.preventDefault();
+      });
+    }
+    filter.children.add(captionCell);
+  }
+
+  /** Adds a single table footer cell. */
+  void _addColumnToFooter(DivElement footer, Column col) {
     DivElement captionCell = new DivElement();
     captionCell.classes.add("pui-datatable-th");
     captionCell.classes.add("ui-widget-header");
@@ -131,8 +213,8 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     footer.children.add(captionCell);
   }
 
-  void _addColumnToHeader(Element shadowTableContent, Column col) {
-    DivElement header = shadowTableContent.children[0];
+  /** Adds a single table header cell. */
+  void _addColumnToHeader(DivElement header , Column col) {
     header.attributes["role"] = "row";
     DivElement captionCell = new DivElement();
     captionCell.classes.add("pui-datatable-th");
@@ -194,14 +276,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
   _sortColumn(DivElement sortColumn) {
     // ugly hack to force the ng-repeat watch to fire
-    if (myList.any((e)=> e==null))
-    {
-      myList.retainWhere((e)=>e!=null);
-    }
-    else
-    {
-      myList.insert(0, null);
-    }
+    triggerFiltering();
     // end of the ugly hack
     DivElement headerRow = shadowTableContent.children[0];
     int index = 0;
@@ -237,6 +312,21 @@ class PuiDatatableComponent extends PuiBaseComponent implements
         }
       }
     }
+  }
+
+  /** ugly hack to force the ng-repeat watch to fire */
+  void triggerFiltering() {
+    // ugly hack to force the ng-repeat watch to fire
+    if (myList.any((e)=> e==null))
+    {
+      myList.retainWhere((e)=>e!=null);
+    }
+    else
+    {
+      myList.insert(0, null);
+    }
+    // end of the ugly hack
+
   }
 
   void addHTMLToDiv(innerHtml, DivElement cell) {
@@ -286,7 +376,9 @@ class PuiEmptyRowsFilter {
       List newList = new List();
       // fix the null values introduced by the ugly hack in sortColumn()
      original.forEach((r){ if (null!=r) newList.add(r);});
-     scheduleMicrotask((){pui.myList.retainWhere((e)=>e!=null);});
+     if (null != pui && null != pui.myList) {
+       scheduleMicrotask((){pui.myList.retainWhere((e)=>e!=null);});
+     }
      return newList;
   }
 }
@@ -297,12 +389,18 @@ class PuiDatatableSortFilter {
   /** AngularDart's orderBy filter sorts a list by a column name (which is given as a String) */
   OrderByFilter _orderBy;
 
+  /** AngularDart's FilterFilter filters a list according to the values of a given column */
+  FilterFilter _contentFilter;
+
   /** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
   PuiEmptyRowsFilter _emptyRowsFilter;
 
-  PuiDatatableSortFilter(Parser parser){
-    _orderBy=new OrderByFilter(parser);
+  Parser _parser;
+
+  PuiDatatableSortFilter(this._parser){
+    _orderBy=new OrderByFilter(_parser);
     _emptyRowsFilter=new PuiEmptyRowsFilter();
+    _contentFilter=new FilterFilter(_parser);
   }
 
   /** PuiFilters aren't bound to a particular component, so every PuiDatatable registers itself to the filter in order to link filters and table */
@@ -316,10 +414,53 @@ class PuiDatatableSortFilter {
   /** Finds out, which PuiDatatable is to be sorted, finds out, by which column and in which order it is to be sorted and delegates sorting the Angular's OrderByFilter */
   List call(List original, String tableName, [bool descending=false]) {
     PuiDatatableComponent pui = tables[tableName];
+    if (pui==null) return original;
+
+    List nonEmptyRows = _emptyRowsFilter.call(original, pui);
+
+    /* The next few lines might benefit from a little explanation.
+     *  Basically, the idea is to implement a <pui-datatable> column filter
+     *  by using a standard filter of ng-repeat (array | column: "criteria").
+     *  The standard filter is the variable FilterFilter.
+     *  It takes two parameters when call: the list to be filtered, and the
+     *  algorithm filtering a single row. The latter is called a predicate.
+     *  The inner loop constructs a predicate that takes the name of the column,
+     *  uses AngularDart's parser to get a function that maps an entry of the list
+     *  to the value of a particular column of the entry. By calling this mapper function
+     *  we get the value, which can be compared by a traditional string method.
+     */
+    pui.columnHeaders.forEach((Column col ){
+      if (col.filterby!=null && col.filterby!="" && col.currentFilter!="") {
+        Expression parsed = _parser(col.filterby);
+        var mapper = (e) => parsed.eval(e);
+        if (col.filterMatchMode == "contains")
+        {
+          var predicate = (v) => mapper(v).toString().contains(col.currentFilter);
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+        else if (col.filterMatchMode == "endsWith")
+        {
+          var predicate = (v) => mapper(v).toString().endsWith(col.currentFilter);
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+        else if (col.filterMatchMode == "exact")
+        {
+          var predicate = (v) => mapper(v).toString()== col.currentFilter;
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+        else // if (col.filterMatchMode == "startsWith")
+        {
+          var predicate = (v) => mapper(v).toString().startsWith(col.currentFilter);
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+      }
+    });
+    /* End of the sophisticated algorithm :) */
+
+
     try
     {
       Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
-      List nonEmptyRows = _emptyRowsFilter.call(original, pui);
       return _orderBy.call(nonEmptyRows, firstWhere.sortBy, firstWhere.sortDirection==2);
     }
     catch (notSortedException)
@@ -327,10 +468,10 @@ class PuiDatatableSortFilter {
       if ((pui!=null) && (pui.initialsort!=null))
       {
         bool descending="down"==pui.initialsortorder;
-        List nonEmptyRows = _emptyRowsFilter.call(original, pui);
         return _orderBy.call(nonEmptyRows, pui.initialsort, descending);
       }
-      return original;
+      return nonEmptyRows;
     }
   }
 }
+

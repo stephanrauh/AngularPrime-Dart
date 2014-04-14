@@ -155,8 +155,15 @@ String _prepareTableHeader(ElementList columns) {
     if (null!=sortBy) {
       sortByAttribute=""" sortby="$sortBy" """;
     }
+    String filterby=col.attributes["filterby"];
+    if (null==filterby) filterby="";
+    String filterMatchMode=col.attributes["filterMatchMode"];
+    if (null == filterMatchMode) filterMatchMode="startsWith";
 
-    headers += """<pui-column-header header="${col.attributes["header"]==null?"":col.attributes["header"]}" closable="$closable"  sortable="$sortable" $sortByAttribute footerText="${col.attributes["footerText"]==null?"":col.attributes["footerText"]}"></pui-column-header>\n""";
+    headers += """<pui-column-header header="${col.attributes["header"]==null?"":col.attributes["header"]}" closable="$closable"  sortable="$sortable" $sortByAttribute 
+                                     footerText="${col.attributes["footerText"]==null?"":col.attributes["footerText"]}"
+                                     filterby="$filterby" filterMatchMode="$filterMatchMode"></pui-column-header>
+               """;
     c++;
   });
   return headers;

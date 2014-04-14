@@ -9,11 +9,11 @@
             <pui-column header="Brand" sortable="true" closable="true" footerText="contains"
                         filterby="brand" filterMatchMode="contains">{{row.brand}}</pui-column>
             <pui-column header="Type" footerText="startsWith"
-                        filterby="brand" filterMatchMode="startsWith">{{row.type}} </pui-column>
+                        filterby="type" filterMatchMode="startsWith">{{row.type}} </pui-column>
             <pui-column header="Year"  sortBy="toNumber(year)" footerText="exact"
-                        filterby="brand" filterMatchMode="exact">        {{row.year}} </pui-column>
+                        filterby="year" filterMatchMode="exact">        {{row.year}} </pui-column>
             <pui-column header="Color" sortable="true" closable="true" footerText="endsWith"
-                        filterby="brand" filterMatchMode="endsWith">{{row.color}}</pui-column>
+                        filterby="color" filterMatchMode="endsWith">{{row.color}}</pui-column>
             <pui-column header="">
               <pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
             </pui-column>
