@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>AngularDart-Prime: pui-attribute </title>
+    <link rel="stylesheet" href="../themes/aristo/theme.css">
+    <link rel="stylesheet" href="../themes/jquery-ui.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../pui.css">
+    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
+</head>
+<body>
+This demo shows how versatile the attributes of pui-components are.<br />
+With a few exceptions they can
+<ul>
+<li>be any mixture of literals and angularized expressions ({ { } })</li>
+<li>be read from the Angulardart model</li>
+<li>and if they consists of a single AngularDart model variable, the angular braces can be omitted.</li>
+</ul>
+
+<form name="carForm">
+  <div puiDatatableDemo>
+
+<pui-tabview>
+  <pui-tab title="simple demo" >
+    <pui-grid>
+        <pui-dropdown ng-model="ctrl.carTable[0].brand" editable="true" options="ctrl.carTable[0].brands" label="brand"></pui-dropdown>
+        <pui-dropdown label="type" ng-model="ctrl.carTable[0].type" editable="true" options="ctrl.carTable[0].matchingTypes()"></pui-dropdown>
+        <pui-input label="Color of your {{ctrl.carTable[0].brand}} {{ctrl.carTable[0].type}}" ng-model="ctrl.carTable[0].color" required></pui-input>
+    </pui-grid>
+<pre>
+    &lt;pui-grid>
+        &lt;pui-dropdown ng-model="ctrl.carTable[0].brand" editable="true" options="ctrl.carTable[0].brands" label="brand">&lt;/pui-dropdown>
+        &lt;pui-dropdown label="type" ng-model="ctrl.carTable[0].type" editable="true" options="ctrl.carTable[0].matchingTypes()">&lt;/pui-dropdown>
+        &lt;pui-input label="Color of your &#x007B;&#x007B;ctrl.carTable[0].brand}} &#x007B;&#x007B;ctrl.carTable[0].type}}" ng-model="ctrl.carTable[0].color" required>&lt;/pui-input>
+    &lt;/pui-grid>
+</pre>
+</pui-tab>
+<pui-tab title="advanced demo" selected="true">
+    <pui-grid>
+        <pui-dropdown label="Regular expression protecting the city field" ng-model="ctrl.cityRegExp" editable="true">
+          <option value="([0-9])+">digits</option>
+          <option value="([A-Z])([a-zA-Z\s-]*[a-z])?">English letters</option>
+          <option value="([A-ZÄÖÜ])([a-zA-Zäöüß\s-]*[a-zäöüß])?">German letters</option>
+        </pui-dropdown>
+        <pui-input label="First city  (protected by regexp {{ctrl.cityRegExp}})" pattern="{{ctrl.cityRegExp}}" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.carTable[0].city" required></pui-input>
+        <pui-input label="Second city (protected by regexp {{ctrl.cityRegExp}})" pattern="ctrl.cityRegExp" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.secondCity" required></pui-input>
+      </pui-grid>
+      The cities must comply to the regular expression {{ctrl.cityRegExp}}.
+
+      <pre>
+    &lt;pui-grid>
+        &lt;pui-dropdown label="Regular expression protecting the city field" ng-model="ctrl.cityRegExp" editable="true">
+          &lt;option value="([0-9])+">digits&lt;/option>
+          &lt;option value="([A-Z])([a-zA-Z\s-]*[a-z])?">English letters&lt;/option>
+          &lt;option value="([A-ZÄÖÜ])([a-zA-Zäöüß\s-]*[a-zäöüß])?">German letters&lt;/option>
+        &lt;/pui-dropdown>
+        &lt;pui-input label="First city  (protected by regexp &#x007B;&#x007B;ctrl.cityRegExp}})" pattern="&#x007B;&#x007B;ctrl.cityRegExp}}" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.carTable[0].city" required>&lt;/pui-input>
+        &lt;pui-input label="Second city (protected by regexp &#x007B;&#x007B;ctrl.cityRegExp}})" pattern="ctrl.cityRegExp" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.secondCity" required>&lt;/pui-input>
+      &lt;/pui-grid>
+      The cities must comply to the regular expression &#x007B;&#x007B;ctrl.cityRegExp}}.
+      </pre>
+      </pui-tab>
+    </pui-tabview>
+  </div>
+</form>
+
+  <script type="application/dart" src="../main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>

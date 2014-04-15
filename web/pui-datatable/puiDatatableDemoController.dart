@@ -19,6 +19,9 @@ part of showcase;
 @NgController(selector: '[puiDatatableDemo]', publishAs: 'ctrl')
 class PuiDatatableDemoController {
 
+  String cityRegExp = "([0-9])+";
+  String secondCity="";
+
   Car currentCar=null;
 
   String get editAreaVisibilityStyle => (currentCar==null) ? "display:none" : "";
