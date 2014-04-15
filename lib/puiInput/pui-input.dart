@@ -77,7 +77,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiInputTextComponent(this.scope, this.puiInputElement, this._model) {
+  PuiInputTextComponent(this.scope, this.puiInputElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /** returns the CSS style needed to display or hide the error message */

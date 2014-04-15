@@ -79,14 +79,11 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
   bool initialized = false;
 
-  Compiler compiler;
-  Injector injector;
-  DirectiveMap directives;
 
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiDatatableComponent(this.scope, this.puiDatatableElement, this.compiler, this.injector, this.directives) {
+  PuiDatatableComponent(this.scope, this.puiDatatableElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
     String id = puiDatatableElement.attributes["puiTableID"];
     String listName=puiDatatableElement.attributes["puiListVariableName"];
     PuiDatatableSortFilter.register("$listName$id", this);
@@ -284,7 +281,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       if (headerRow.children[index] == sortColumn) {
         int dir = columnHeaders[index].sortDirection;
         bool sortUp;
-        List<SpanElement> iconDivs =
+        HtmlCollection iconDivs =
             headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
         if (dir == 0) {
           iconDivs[0].classes.remove("ui-icon-carat-2-n-s");
@@ -303,7 +300,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       } else {
         columnHeaders[index].sortDirection=0;
         // remove sort icon (if necessary)
-        List<SpanElement> iconDivs =
+        HtmlCollection iconDivs =
             headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
         if (iconDivs.isNotEmpty) {
           iconDivs[0].classes.add("ui-icon-carat-2-n-s");

@@ -38,7 +38,7 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiGridComponent(this.puiGridComponent) {}
+  PuiGridComponent(this.puiGridComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {}
 
 
 

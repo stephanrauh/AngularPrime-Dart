@@ -46,7 +46,7 @@ class PuiIncludeComponent extends PuiBaseComponent implements NgShadowRootAware 
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiIncludeComponent(this.scope, this.puiInclude) {
+  PuiIncludeComponent(this.scope, this.puiInclude, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
 
   }
 

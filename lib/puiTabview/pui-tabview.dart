@@ -65,7 +65,7 @@ class PuiTabviewComponent extends PuiBaseComponent implements NgShadowRootAware 
   /**
    * Initializes the component by setting the <pui-tabview> field and setting the scope.
    */
-  PuiTabviewComponent(this.scope, this.puiTabviewElement) {}
+  PuiTabviewComponent(this.scope, this.puiTabviewElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {}
 
   /**
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from

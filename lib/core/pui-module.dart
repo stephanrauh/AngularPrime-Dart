@@ -67,7 +67,7 @@ class PuiModule extends Module {
 
   /** Scans the entire document for a particular component type. */
   static List<HtmlElement> _addTags(List<HtmlElement> initial, String puiType) {
-    NodeList list = window.document.getElementsByTagName(puiType);
+    HtmlCollection list = window.document.getElementsByTagName(puiType);
     List<Element> result = initial;
     if (null==result) result = new List<HtmlElement>();
     list.forEach((HtmlElement n) => result.add(n));
@@ -109,7 +109,7 @@ class PuiModule extends Module {
   /** Loads the file included via <pui-include> (if any) and initializes AngularDart after incorporating the include files' content */
   void _loadIncludeFiles()
   {
-    NodeList list = window.document.getElementsByTagName('pui-include');
+    HtmlCollection list = window.document.getElementsByTagName('pui-include');
     if (list.length==0)
     {
         startAngular();

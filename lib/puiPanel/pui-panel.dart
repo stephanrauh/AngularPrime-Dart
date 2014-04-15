@@ -58,7 +58,7 @@ class PuiPanelComponent  extends PuiBaseComponent implements NgShadowRootAware  
   /**
    * Initializes the component by setting the <pui-panel> field and setting the scope.
    */
-  PuiPanelComponent(this.scope, this.puiPanelElement) {
+  PuiPanelComponent(this.scope, this.puiPanelElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
 

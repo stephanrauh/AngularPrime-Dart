@@ -87,7 +87,7 @@ class PuiAccordionComponent  extends PuiBaseComponent implements NgShadowRootAwa
   /**
    * Initializes the component by setting the <pui-accordion> field and setting the scope.
    */
-  PuiAccordionComponent(this.scope, this.puiAccordionElement) {
+  PuiAccordionComponent(this.scope, this.puiAccordionElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /** Yields the caption unless the accordion has been collapsed horizontally. */

@@ -76,7 +76,7 @@ class PuiColumnHeaderComponent extends PuiBaseComponent implements NgShadowRootA
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
-  PuiColumnHeaderComponent(this._scope, this._puiColumnHeaderElement, this.puiDatatableComponent ) {
+  PuiColumnHeaderComponent(this._scope, this._puiColumnHeaderElement, this.puiDatatableComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
 

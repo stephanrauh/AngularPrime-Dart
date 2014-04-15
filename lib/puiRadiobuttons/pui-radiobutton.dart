@@ -47,7 +47,7 @@ class PuiRadiobuttonComponent extends PuiBaseComponent implements NgShadowRootAw
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiRadiobuttonComponent(this.scope, this.puiInputElement) {
+  PuiRadiobuttonComponent(this.scope, this.puiInputElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /**

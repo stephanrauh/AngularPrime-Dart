@@ -31,7 +31,7 @@ class PuiColorComponent extends PuiInputTextComponent {
   /**
    * Initializes the component by setting the <pui-color> field and setting the scope.
    */
-  PuiColorComponent(Scope scope, Element puiInputElement, NgModel model) : super(scope, puiInputElement, model) {
+  PuiColorComponent(Scope scope, Element puiInputElement, NgModel model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser) : super(scope, puiInputElement, model, compiler, injector, directives, parser) {
     puiInputElement.attributes['type']="color";
   }
 }

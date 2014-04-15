@@ -65,7 +65,7 @@ class PuiButtonComponent extends PuiBaseComponent implements NgShadowRootAware {
   ButtonElement button;
 
   /** Constructor. */
-  PuiButtonComponent(this.scope, this.puiButton) {}
+  PuiButtonComponent(this.scope, this.puiButton, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {}
 
   /** This actionListener to stored so it can be disabled if the button is disabled */
   StreamSubscription onMouseEnter=null;

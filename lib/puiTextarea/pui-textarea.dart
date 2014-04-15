@@ -51,7 +51,7 @@ class PuiTextareaComponent extends PuiBaseComponent implements NgShadowRootAware
   /**
    * Initializes the component by setting the <pui-textarea> field and setting the scope.
    */
-  PuiTextareaComponent(this.scope, this.puiTextareaElement) {
+  PuiTextareaComponent(this.scope, this.puiTextareaElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /**

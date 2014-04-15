@@ -83,7 +83,7 @@ class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware
   /**
    * Initializes the component by setting the <pui-dropdown> field and setting the scope.
    */
-  PuiDropdownComponent(this.scope, this.puiInputElement) {
+  PuiDropdownComponent(this.scope, this.puiInputElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /**

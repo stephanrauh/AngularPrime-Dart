@@ -54,7 +54,7 @@ class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiCheckboxComponent(this.scope, this.puiCheckboxElement) {
+  PuiCheckboxComponent(this.scope, this.puiCheckboxElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /**

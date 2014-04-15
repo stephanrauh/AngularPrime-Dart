@@ -31,7 +31,7 @@ class PuiWeekComponent extends PuiInputTextComponent {
   /**
    * Initializes the component by setting the <pui-week> field and setting the scope.
    */
-  PuiWeekComponent(Scope scope, Element puiInputElement, NgModel model) : super(scope, puiInputElement, model) {
+  PuiWeekComponent(Scope scope, Element puiInputElement, NgModel model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser) : super(scope, puiInputElement, model, compiler, injector, directives, parser) {
     puiInputElement.attributes['type']="week";
   }
 }

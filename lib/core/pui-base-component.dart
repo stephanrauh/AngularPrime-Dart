@@ -30,8 +30,23 @@ import 'dart:async';
  */
 class PuiBaseComponent {
 
+  /** The AngularDart compiler. */
+  Compiler compiler;
+
+  /** TODO */
+  Injector injector;
+
+  /** TODO */
+  DirectiveMap directives;
+
+  /** The parser allows to read values of a variable that's known by name (i.e. know as a String). */
+  Parser parser;
+
+
   /** Stores the attributes originally defined by the user. */
   Map<String, String> originalValues;
+
+  PuiBaseComponent(this.compiler, this.injector, this.directives, this.parser) {}
 
   /**
    * Copies every attribute from the updated <pui-input> - which contains the current model values -

@@ -36,7 +36,7 @@ final RegExp _NG_REPEAT_SYNTAX = new RegExp(r'^\s*(.+)\s+in\s+(.*?)\s*(\s+track\
  */
 void prepareDatatables()
 {
-  NodeList list = window.document.getElementsByTagName('pui-datatable');
+  HtmlCollection list = window.document.getElementsByTagName('pui-datatable');
   int puiTableID=0;
   list.forEach((Element puiDatatable){
     _prepareDatatable(puiDatatable, puiTableID++);
