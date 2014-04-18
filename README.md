@@ -5,7 +5,8 @@ AngularPrime-Dart is a Dart port of Rudy de Busscher's AngularPrime component li
 
 <b>See it in action:</b><br />
 Have a look at the <a href="http://showcase.angularfaces.com/AngularPrimeDart/">showcase</a> and the project blog at http://www.beyondjava.net.
-As for the showcase: there are some compatibility issue, so currently it's a good idea to view it with the <a href="https://www.dartlang.org/tools/dartium/">Dartium browser</a>.
+As for the showcase: there are some compatibility issues, so currently it doesn't work at all and in general
+it's a good idea to view it with the <a href="https://www.dartlang.org/tools/dartium/">Dartium browser</a>.<br>
 Please apologize this temporary problem.
 
 <b>Compatibility:</b><br />
