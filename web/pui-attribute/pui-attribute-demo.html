@@ -40,7 +40,7 @@ With a few exceptions they can
         <pui-dropdown label="Regular expression protecting the city field" ng-model="ctrl.cityRegExp" editable="true">
           <option value="([0-9])+">digits</option>
           <option value="([A-Z])([a-zA-Z\s-]*[a-z])?">English letters</option>
-          <option value="([A-ZÄÖÜ])([a-zA-Zäöüß\s-]*[a-zäöüß])?">German letters</option>
+          <option value="([A-ZÃ„Ã–Ãœ])([a-zA-ZÃ¤Ã¶Ã¼ÃŸ\s-]*[a-zÃ¤Ã¶Ã¼ÃŸ])?">German letters</option>
         </pui-dropdown>
         <pui-input label="First city  (protected by regexp {{ctrl.cityRegExp}})" pattern="{{ctrl.cityRegExp}}" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.carTable[0].city" required></pui-input>
         <pui-input label="Second city (protected by regexp {{ctrl.cityRegExp}})" pattern="ctrl.cityRegExp" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.secondCity" required></pui-input>
@@ -52,7 +52,7 @@ With a few exceptions they can
         &lt;pui-dropdown label="Regular expression protecting the city field" ng-model="ctrl.cityRegExp" editable="true">
           &lt;option value="([0-9])+">digits&lt;/option>
           &lt;option value="([A-Z])([a-zA-Z\s-]*[a-z])?">English letters&lt;/option>
-          &lt;option value="([A-ZÄÖÜ])([a-zA-Zäöüß\s-]*[a-zäöüß])?">German letters&lt;/option>
+          &lt;option value="([A-ZÃ„Ã–Ãœ])([a-zA-ZÃ¤Ã¶Ã¼ÃŸ\s-]*[a-zÃ¤Ã¶Ã¼ÃŸ])?">German letters&lt;/option>
         &lt;/pui-dropdown>
         &lt;pui-input label="First city  (protected by regexp &#x007B;&#x007B;ctrl.cityRegExp}})" pattern="&#x007B;&#x007B;ctrl.cityRegExp}}" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.carTable[0].city" required>&lt;/pui-input>
         &lt;pui-input label="Second city (protected by regexp &#x007B;&#x007B;ctrl.cityRegExp}})" pattern="ctrl.cityRegExp" pattern-message="City names start with an upper case letter. They can consist of several words." ng-model="ctrl.secondCity" required>&lt;/pui-input>

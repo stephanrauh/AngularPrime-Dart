@@ -22,6 +22,10 @@ import 'dart:async';
 //import 'package:dart.dom.html';
 
 import 'package:di/di.dart';
+
+import '../puiAttribute/puiAttr.dart';
+
+
 import '../puiPanel/pui-panel.dart';
 import '../puiAccordion/pui-accordion.dart';
 import '../puiTabview/pui-tabview.dart';
@@ -155,6 +159,8 @@ class PuiModule extends Module {
   PuiModule() {
     Logger.root.level = Level.FINEST;
     Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
+
+    type(PuiAttr);
 
     type(PuiPanelComponent);
     type(PuiAccordionComponent);

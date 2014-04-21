@@ -53,7 +53,6 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
   @NgAttr("disabled")
   String disabled;
 
-
   static final Map errorMessages = {
          "ng-required":"Please fill this field",
          "pui-min-error": "Number to small",

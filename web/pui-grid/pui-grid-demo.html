@@ -21,7 +21,7 @@
         <pui-input label="color" ng-model="ctrl.carTable[0].color" required></pui-input>
         <pui-color label="colorpicker" ng-model="ctrl.carTable[0].colorcode" required></pui-color>
         <pui-week label="week" ng-model="ctrl.carTable[0].week" required></pui-week>
-        <pui-input label="City (protected by regexp)" pattern="([A-ZÄÖÜ])([a-zA-Zäöüß\s-]*[a-zäöüß])?" pattern-message="City names start with an upper case letter. They can consist of several words. Accepted letters are A-Z and German umlauts." ng-model="ctrl.carTable[0].city" required></pui-input>
+        <pui-input label="City (protected by regexp)" pattern="([A-ZÃ„Ã–Ãœ])([a-zA-ZÃ¤Ã¶Ã¼ÃŸ\s-]*[a-zÃ¤Ã¶Ã¼ÃŸ])?" pattern-message="City names start with an upper case letter. They can consist of several words. Accepted letters are A-Z and German umlauts." ng-model="ctrl.carTable[0].city" required></pui-input>
         <pui-input label="ZIP code (4-5 digits)" ng-model="ctrl.carTable[0].zipcode" minlength="4" maxlength="5" required></pui-input>
         <pui-input label="ZIP code (disabled)" disabled="true" ng-model="ctrl.carTable[0].zipcode" minlength="4" maxlength="5" required></pui-input>
       </pui-grid>
