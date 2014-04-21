@@ -26,7 +26,7 @@ import 'dart:async';
  * Most notably, the values of the attributes of the PUI template and the HTML code written by the
  * user are merged into the shadow tree.
  *
- * @Todo The merger should happen when the model changes. Current, it's triggered by the users key strokes.
+ * @Todo The merger should happen when the model changes. Currently, it's triggered by the users key strokes.
  */
 class PuiBaseComponent {
 

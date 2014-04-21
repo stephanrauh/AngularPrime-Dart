@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>AngularDart-Prime: pui-input </title>
+    <link rel="stylesheet" href="themes/aristo/theme.css">
+    <link rel="stylesheet" href="themes/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pui.css">
+    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
+</head>
+<body>
+
+<form name="carForm">
+  <div calculatorController>
+    <pui-grid>
+        <pui-input ng-model="ctrl.number1" required></pui-input>
+        <pui-input ng-model="ctrl.number2"></pui-input>
+        <pui-input ng-model="ctrl.sum"> </pui-input>
+      </pui-grid>
+  </div>
+</form>
+
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>
