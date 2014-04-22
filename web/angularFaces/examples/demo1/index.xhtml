@@ -15,17 +15,16 @@
       <prime:tab title="live demo">
     <h:form ng:name="myform" >
       <pui:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
-      <h:panelGrid columns="1">
+      <pui:grid>
         <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
+        <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
         <ui:remove>
-         <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
-
-        <pui:button value="add" action="#{calculatorBean.add}" />
-        <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
-        <h:outputText />
-        <pui:color label="color" value="#{calculatorBean.color}"></pui:color>
+          <pui:button value="add" action="#{calculatorBean.add}" />
+          <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
+          <h:outputText />
+          <pui:color label="color" value="#{calculatorBean.color}"></pui:color>
          </ui:remove>
-      </h:panelGrid>
+      </pui:grid>
     </h:form>
     <h:messages />
       </prime:tab>

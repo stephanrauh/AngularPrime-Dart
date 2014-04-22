@@ -21,7 +21,15 @@ import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
 
 /**
- * <pui-grid> makes it a little easier to create nice input dialogs.
+ * <pui-grid> makes it a little easier to create simple but decently looking input dialogs.
+ * Typically it contains a number of input fields that are automatically aligned to each other.
+ * More precisely, <pui-grid> creates a column consisting of three columns. The first column is the label (which is automatically extracted from the component),
+ * the second is the components itself and the third column is the field-specific error message. Alternative, the error message is placed below its field.
+ * Likewise, the label can be put above the input field.
+ *
+ * @ToDo <pui-grid> is limited to a single column of components
+ * @ToDo put labels optionally above the component
+ * @ToDo put error message optionally behind the component
  */
 @NgComponent(
     selector: 'pui-grid',
@@ -34,6 +42,21 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
 
   /** The <pui-grid> field as defined in the HTML source code. */
   Element puiGridComponent;
+
+  /**
+   * Do you want to put the error message below or behind the field? Legal values: "below" and "behind". Default
+   * value: "below".
+   */
+  @NgAttr("errorMessagePosition")
+  String errorMessagePosition;
+
+
+  /**
+   * Do you want to put the label above or in front of the field? Legal values: "above" and "before". Default value:
+   * "before".
+   */
+  @NgAttr("labelPosition")
+  String labelPosition;
 
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
