@@ -1,9 +1,9 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:pui="http://beyondjava.net/angularFaces"
- >
+  xmlns:prime="http://primefaces.org/ui" >
   <h:head>
-    <link rel="stylesheet" href="themes/aristo/theme.css"></link>
+      <link rel="stylesheet" href="themes/aristo/theme.css"></link>
     <link rel="stylesheet" href="themes/jquery-ui.css"></link>
     <link rel="stylesheet" href="pui.css"></link>
     <link rel="stylesheet" href="style.css"></link>
@@ -11,8 +11,10 @@
   </h:head>
   <pui:body selector="calculatorBean" publishAs="ctrl" mainclassfile="main.dart">
   This is a simple angularized JSF form using standard &lt;h:inputTexts&gt; and an AngularFaces &lt;a:commandButton&gt;.<p />
-
-    <h:form>
+     <prime:tabView id="tabView">
+      <prime:tab title="live demo">
+    <h:form ng:name="myform" >
+      <pui:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
       <pui:grid>
         <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
         <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
@@ -26,5 +28,20 @@
       <pui:button value="add (calls a Dart function)" icon="check" />
       The sum is {{ctrl.sum}}.
     </h:form>
+    <h:messages />
+      </prime:tab>
+      <prime:tab title="XHTML code">
+        <ui:include src="code.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="AngularJS model">
+        <ui:include src="codemodel.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="JSF Bean">
+        <ui:include src="codebean.xhtml">
+        </ui:include>
+      </prime:tab>
+    </prime:tabView>
   </pui:body>
 </f:view>

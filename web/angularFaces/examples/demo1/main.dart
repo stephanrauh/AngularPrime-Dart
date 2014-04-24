@@ -43,14 +43,14 @@ void main() {
 }
 
 
-@NgController(selector: '[calculatorBean]', publishAs: 'ctrl')
+@NgController(selector: '[calculatorBean]', publishAs: 'ctrlBtn')
 class CalculatorController {
 
   String number1 = "42";
   String number2 = "24";
-  
+
   String get sum => add();
-  
+
   set sum(String sum) {}
 
   String add() {
@@ -58,5 +58,10 @@ class CalculatorController {
     int n2 = int.parse(number2);
     return (n1+n2).toString();
   }
+
+  void showMsg(String msg) {
+     window.alert("This alert is shown by Dart. Received parameter = "+msg);
+   }
+
 }
 
