@@ -19,6 +19,7 @@ library angularfaces_demo1;
 
 import 'package:angularprime_dart/core/pui-module.dart';
 import 'package:angular/angular.dart';
+import 'dart:html';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
@@ -43,7 +44,7 @@ void main() {
 }
 
 
-@NgController(selector: '[calculatorBean]', publishAs: 'ctrlBtn')
+@NgController(selector: '[calculatorBean]', publishAs: 'ctrl')
 class CalculatorController {
 
   String number1 = "42";

@@ -10,9 +10,14 @@
     <script src="packages/shadow_dom/shadow_dom.min.js"></script>
   </h:head>
   <pui:body selector="calculatorBean" publishAs="ctrl" mainclassfile="main.dart">
-  This is a simple angularized JSF form using standard &lt;h:inputTexts&gt; and an AngularFaces &lt;a:commandButton&gt;.<p />
+  This is a simple angularized JSF form demonstrating four components:
+  <ul>
+    <li>&lt;body&gt;</li>
+    <li>&lt;pui:inputText&gt;</li>
+    <li>&lt;pui:grid&gt;</li>
+    <li>&lt;pui:commandButton&gt;</li>
+  </ul>
 
-    <h:form>
       <pui:grid>
         <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
         <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
@@ -23,8 +28,7 @@
           <pui:color label="color" value="#{calculatorBean.color}"></pui:color>
          </ui:remove>
       </pui:grid>
-      <pui:button value="add (calls a Dart function)" icon="check" />
+      <pui:button value="call a Dart function" icon="check" actionListener="ctrl.showMsg('Hello from Dart')" />
       The sum is {{ctrl.sum}}.
-    </h:form>
   </pui:body>
 </f:view>

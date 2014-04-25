@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <head id="j_idt1">
-      <link rel="stylesheet" href="themes/aristo/theme.css" />
-    <link rel="stylesheet" href="themes/jquery-ui.css" />
-    <link rel="stylesheet" href="pui.css" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="packages/shadow_dom/shadow_dom.min.js"></script></head>
-    <body >
-    <div controllerBean>
-  This is a simple angularized JSF form using standard &lt;h:inputTexts&gt; and an AngularFaces &lt;a:commandButton&gt;.<p></p>
-<form id="j_idt5" method="post" action="/ROOT/examples/demo1/index.jsf" enctype="application/x-www-form-urlencoded" name="myform">
-<input type="hidden" name="j_idt5" value="j_idt5" />
-<pui-grid><pui-input ng-model='ctrlBtn.number1' ng-model='ctrlBtn.number1' value='8' min='7' max='17' required='true' type='number' ></pui-input>
+<link rel="stylesheet" href="themes/aristo/theme.css" />
+<link rel="stylesheet" href="themes/jquery-ui.css" />
+<link rel="stylesheet" href="pui.css" />
+<link rel="stylesheet" href="style.css" />
+<script src="packages/shadow_dom/shadow_dom.min.js"></script>
+</head>
+<body>
+  This is a simple angularized JSF form using standard &lt;h:inputTexts&gt; and an AngularFaces &lt;a:commandButton&gt;.
+  <p></p>
+  <form id="j_idt5" method="post" action="/ROOT/examples/demo1/index.jsf" enctype="application/x-www-form-urlencoded"
+    name="myform" calculatorBean="calculatorBean"
+  >
+    <pui-grid>
+    <pui-input ng-model='ctrlBtn.number1' ng-model='ctrlBtn.number1' value='14' min='7' max='17' required='true'
+      type='number'
+    ></pui-input>
+    <pui-input ng-model='ctrlBtn.number2' ng-model='ctrlBtn.number2' value='17' min='10' max='99' required='true'
+    ></pui-input> <br />
+    </pui-grid>
+    <pui-button icon='check' value='add (calls a Dart function)' actionListener="ctrlBtn.add()"></pui-button>
+    <br />
+    <pui-button actionListener="ctrlBtn.showMsg('Hello')" value="Dart method"></pui-button>
 
-<pui-input ng-model='ctrlBtn.number2' ng-model='ctrlBtn.number2' value='17' min='10' max='99' required='true' type='number' ></pui-input>
-<br /></pui-grid>
-<pui-button icon='check' value='add (calls a Dart function)' actionListener="ctrlBtn.add()" ></pui-button>
-<br />
-<pui-button actionListener="ctrlBtn.showMsg('Hello')" value="Dart method"></pui-button>
-
-      The sum is {{ctrlBtn.sum}}.
-    <input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="1245940468365035628:-55743024285715630" autocomplete="off" />
-</form>
+    The sum is {{ctrlBtn.sum}}.
+  </form>
   <br />
   <br />
   <hr />
-    </div>
-    <script type='application/dart' src='main.dart'></script><script type='text/javascript' src='packages/browser/dart.js'></script></body>
+  <script type='application/dart' src='main.dart'></script>
+  <script type='text/javascript' src='packages/browser/dart.js'>
+
+		</script>
+</body>

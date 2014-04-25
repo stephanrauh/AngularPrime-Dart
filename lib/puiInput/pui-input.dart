@@ -77,6 +77,14 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
   PuiInputTextComponent(this.scope, this.puiInputElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
+    String v = puiInputElement.attributes["value"];
+    print("v=$v");
+    if (null != v && v != '') {
+      scope.apply(() => _model.modelValue=v);
+    }
+    print("Constructor: ${_model.name} = ${_model.modelValue}");
+    print(_model.parentControl.toString());
+
   }
 
   /** returns the CSS style needed to display or hide the error message */
@@ -134,11 +142,6 @@ class PuiInputTextComponent extends PuiBaseComponent implements NgShadowRootAwar
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
-    String v = puiInputElement.attributes["value"];
-    print("v=$v");
-    if (null != v && v != '') {
-      scope.apply(() => ngmodel=v);
-    }
 
     _autoDetectType();
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);
