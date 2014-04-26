@@ -1,7 +1,7 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:pui="http://beyondjava.net/angularFaces"
- >
+>
   <h:head>
     <link rel="stylesheet" href="themes/aristo/theme.css"></link>
     <link rel="stylesheet" href="themes/jquery-ui.css"></link>
@@ -12,23 +12,33 @@
   <pui:body selector="calculatorBean" publishAs="ctrl" mainclassfile="main.dart">
   This is a simple angularized JSF form demonstrating four components:
   <ul>
-    <li>&lt;body&gt;</li>
-    <li>&lt;pui:inputText&gt;</li>
-    <li>&lt;pui:grid&gt;</li>
-    <li>&lt;pui:commandButton&gt;</li>
-  </ul>
+      <li>&lt;body&gt;</li>
+      <li>&lt;pui:inputText&gt;</li>
+      <li>&lt;pui:grid&gt;</li>
+      <li>&lt;pui:commandButton&gt;</li>
+    </ul>
+    <pui:tabView>
+      <pui:tab title="live demo" selected="true" closeable="true">
 
-      <pui:grid>
-        <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
-        <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
-        <ui:remove>
-          <pui:button value="add" action="#{calculatorBean.add}" />
-          <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
-          <h:outputText />
-          <pui:color label="color" value="#{calculatorBean.color}"></pui:color>
-         </ui:remove>
-      </pui:grid>
-      <pui:button value="call a Dart function" icon="check" actionListener="ctrl.showMsg('Hello from Dart')" />
+        <pui:grid>
+          <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID" />
+          <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
+          <ui:remove>
+            <pui:button value="add" action="#{calculatorBean.add}" />
+            <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
+            <h:outputText />
+            <pui:color label="color" value="#{calculatorBean.color}"></pui:color>
+          </ui:remove>
+        </pui:grid>
+        <pui:button value="call a Dart function" icon="check" actionListener="ctrl.showMsg('Hello from Dart')" />
       The sum is {{ctrl.sum}}.
+      </pui:tab>
+      <pui:tab title="JSF source code" closeable="true">
+      </pui:tab>
+      <pui:tab title="JSF bean" closeable="true">
+      </pui:tab>
+      <pui:tab title="Dart controller"  closeable="true">
+      </pui:tab>
+    </pui:tabView>
   </pui:body>
 </f:view>

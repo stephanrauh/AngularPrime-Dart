@@ -56,7 +56,7 @@ class PuiAccordionComponent  extends PuiBaseComponent implements NgShadowRootAwa
   }
 
   /** Is the accordion panel currently collapsed? */
-  bool collapsedState = false;
+  bool collapsedState = true;
 
   /** Is the accordion panel currently collapsed? */
   @NgTwoWay("collapsed")
@@ -168,7 +168,7 @@ class PuiAccordionComponent  extends PuiBaseComponent implements NgShadowRootAwa
   void onShadowRoot(ShadowRoot shadowRoot) {
     titlebar = shadowRoot.getElementsByClassName('pui-accordion-header')[0];
     content = shadowRoot.getElementsByClassName('pui-accordion-content')[0];
-    if (collapsedState) {
+    if (collapsed) {
       collapse();
     }
     addOrRemoveMouseListeners();

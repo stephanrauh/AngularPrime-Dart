@@ -23,6 +23,9 @@ import '../core/pui-base-component.dart';
 //import 'package:animation/effect.dart';
 
 
+/**
+ * A <pui-panel> is a field group with a caption.
+ */
 @NgComponent(
     selector: 'pui-panel',
     templateUrl: 'packages/angularprime_dart/puiPanel/pui-panel.html',
