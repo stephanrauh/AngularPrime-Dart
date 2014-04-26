@@ -59,6 +59,14 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
   String labelPosition;
 
   /**
+   * The number of columns. By default, there's only one column. Note that a pui-grid column actually consists
+   * of two or three cells: the label, the component itself and - if it's placed behind the labe l - the error message.
+   */
+  @NgOneWayOneTime("columns")
+  int columns;
+
+
+  /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
   PuiGridComponent(this.puiGridComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {}
@@ -76,16 +84,17 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
     List rows = table.children;
     List fields = puiGridComponent.children;
     var numberOfFields = fields.length;
-//    print("Adding rows to pui-grid");
-    for (int i = 1; i < numberOfFields; i++)
+    int c = (columns==null || columns<1) ? 1 : columns;
+    for (int i = 1; i < numberOfFields / c; i++)
     {
         rows.add(rows[0].clone(true));
     }
-//    print("Adding fields to pui-grid");
+    int currentColumn=0;
+    int currentHTMLColumn=0;
+    int currentRowIndex = 0;
     for (int i = 0; i < numberOfFields; i++)
     {
-//      print("Adding field #$i");
-      DivElement currentRow = rows[i];
+      DivElement currentRow = rows[currentRowIndex];
       HtmlElement currentField = fields[0]; // no typo - each time
       // a field is added to the shadow DOM it's removed from the fields array
 
@@ -96,15 +105,24 @@ class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
       }
       if (label!=null)
       {
-        currentRow.children[0].children[0].innerHtml= label;
+        currentRow.children[currentHTMLColumn].children[0].innerHtml= label;
       }
       if (currentField.id==null || currentField.id=="")
       {
         currentField.id = "puiinputid:" + currentField.hashCode.toString();
       }
-      currentRow.children[0].children[0].attributes["for"]=currentField.id;
+      currentRow.children[currentHTMLColumn].children[0].attributes["for"]=currentField.id;
 
-      currentRow.children[1].append(currentField);
+      currentHTMLColumn++;
+      currentRow.children[currentHTMLColumn].append(currentField);
+      currentColumn++;
+      currentHTMLColumn++;
+      if (currentColumn >= c)
+      {
+        currentColumn=0;
+        currentHTMLColumn=0;
+        currentRowIndex++;
+      }
     }
   }
 }
