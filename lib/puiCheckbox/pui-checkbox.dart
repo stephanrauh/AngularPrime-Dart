@@ -23,14 +23,14 @@ import '../core/pui-base-component.dart';
 /**
  * <pui-checkbox> adds AngularDart to an checkbox styled by PrimeFaces.
  */
-@NgComponent(
+@Component(
     selector: 'pui-checkbox',
     templateUrl: 'packages/angularprime_dart/puiCheckbox/pui-checkbox.html',
     cssUrl: 'packages/angularprime_dart/puiCheckbox/pui-checkbox.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiCheckboxComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiCheckboxComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** The <pui-checkbox> field as defined in the HTML source code. */
   Element puiCheckboxElement;
 

@@ -46,14 +46,14 @@ part "pui-column-header.dart";
  * Kudos: This component's development was helped a lot by a stackoverflow answer:
  * http://stackoverflow.com/questions/20531349/struggling-to-implement-tabs-in-angulardart.
  */
-@NgComponent(visibility: NgDirective.CHILDREN_VISIBILITY,
+@Component(visibility: Directive.CHILDREN_VISIBILITY,
     selector: 'pui-datatable',
     templateUrl: 'packages/angularprime_dart/puiDatatable/pui-datatable.html',
     cssUrl:       'packages/angularprime_dart/puiDatatable/pui-datatable.css',
     applyAuthorStyles: true,
     publishAs: 'cmp')
 class PuiDatatableComponent extends PuiBaseComponent implements
-    NgShadowRootAware {
+    ShadowRootAware {
 
   /** The <pui-input> field as defined in the HTML source code. */
   Element puiDatatableElement;
@@ -366,7 +366,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 }
 
 /** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
-@NgFilter(name: 'puiEmptyRowsFilter')
+@Formatter(name: 'puiEmptyRowsFilter')
 class PuiEmptyRowsFilter {
 
   List call(List original, PuiDatatableComponent pui) {
@@ -381,13 +381,13 @@ class PuiEmptyRowsFilter {
 }
 
 /** The puiSortFilter sorts a ng-repeat list according to the sort order of the puiDatatable */
-@NgFilter(name: 'puiDatatableSortFilter')
+@Formatter(name: 'puiDatatableSortFilter')
 class PuiDatatableSortFilter {
   /** AngularDart's orderBy filter sorts a list by a column name (which is given as a String) */
-  OrderByFilter _orderBy;
+  OrderBy _orderBy;
 
   /** AngularDart's FilterFilter filters a list according to the values of a given column */
-  FilterFilter _contentFilter;
+  Filter _contentFilter;
 
   /** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
   PuiEmptyRowsFilter _emptyRowsFilter;
@@ -395,9 +395,9 @@ class PuiDatatableSortFilter {
   Parser _parser;
 
   PuiDatatableSortFilter(this._parser){
-    _orderBy=new OrderByFilter(_parser);
+    _orderBy=new OrderBy(_parser);
     _emptyRowsFilter=new PuiEmptyRowsFilter();
-    _contentFilter=new FilterFilter(_parser);
+    _contentFilter=new Filter(_parser);
   }
 
   /** PuiFilters aren't bound to a particular component, so every PuiDatatable registers itself to the filter in order to link filters and table */
@@ -428,7 +428,7 @@ class PuiDatatableSortFilter {
      */
     pui.columnHeaders.forEach((Column col ){
       if (col.filterby!=null && col.filterby!="" && col.currentFilter!="") {
-        Expression parsed = _parser(col.filterby);
+        Parser parsed = _parser(col.filterby);
         var mapper = (e) => parsed.eval(e);
         if (col.filterMatchMode == "contains")
         {

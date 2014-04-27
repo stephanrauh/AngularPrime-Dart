@@ -16,7 +16,7 @@
  */
 part of showcase;
 
-@NgController(selector: '[puiDatatableDemo]', publishAs: 'ctrl')
+@Controller(selector: '[puiDatatableDemo]', publishAs: 'ctrl')
 class PuiDatatableDemoController {
 
   String cityRegExp = "([0-9])+";

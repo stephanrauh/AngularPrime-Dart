@@ -23,14 +23,14 @@ import '../core/pui-base-component.dart';
 /**
  * <pui-input> adds AngularDart to an input field styled by PrimeFaces.
  */
-@NgComponent(
+@Component(
     selector: 'pui-radiobutton',
     templateUrl: 'packages/angularprime_dart/puiRadiobuttons/pui-radiobutton.html',
     cssUrl: 'packages/angularprime_dart/puiRadiobuttons/pui-radiobutton.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiRadiobuttonComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiRadiobuttonComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** <pui-input> fields require an ng-model attribute. */
   @NgTwoWay("ng-model")
   String ngmodel;

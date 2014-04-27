@@ -26,14 +26,14 @@ import '../core/pui-base-component.dart';
 /**
  * A <pui-panel> is a field group with a caption.
  */
-@NgComponent(
+@Component(
     selector: 'pui-panel',
     templateUrl: 'packages/angularprime_dart/puiPanel/pui-panel.html',
     cssUrl: 'packages/angularprime_dart/puiPanel/pui-panel.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiPanelComponent  extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiPanelComponent  extends PuiBaseComponent implements ShadowRootAware  {
   @NgAttr("header")
   String header;
 

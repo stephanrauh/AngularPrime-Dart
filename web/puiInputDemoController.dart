@@ -16,7 +16,7 @@
  */
 part of showcase;
 
-@NgController(selector: '[puiInputDemo]', publishAs: 'ctrl')
+@Controller(selector: '[puiInputDemo]', publishAs: 'ctrl')
 class PuiInputDemoController {
 
   String firstField = "first model value";

@@ -44,7 +44,7 @@ void main() {
 }
 
 
-@NgController(selector: '[calculatorBean]', publishAs: 'ctrl')
+@Controller(selector: '[calculatorBean]', publishAs: 'ctrl')
 class CalculatorController {
 
   String number1 = "42";

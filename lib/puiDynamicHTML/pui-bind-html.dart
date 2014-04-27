@@ -35,14 +35,14 @@ import '../core/pui-module.dart';
  *
  *     <div pui-bind-html="htmlVar"></div>
  */
-@NgComponent(
-  visibility: NgDirective.CHILDREN_VISIBILITY,
+@Component(
+  visibility: Directive.CHILDREN_VISIBILITY,
   selector: 'pui-bind-html',
   template: '',
   applyAuthorStyles: true,
   publishAs: 'cmp'
 )
-class PuiBindHtmlDirective implements NgShadowRootAware {
+class PuiBindHtmlDirective implements ShadowRootAware {
   final Element element;
 
   Scope _scope;

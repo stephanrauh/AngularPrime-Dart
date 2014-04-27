@@ -19,7 +19,7 @@ part of puiInput;
 /**
  * <pui-color> is an HTML5 color picker.
  */
-@NgComponent(
+@Component(
     selector: 'pui-color',
     templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
     cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',

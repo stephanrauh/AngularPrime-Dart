@@ -1,0 +1,11 @@
+            <div ng-if="ctrl.currentCar!=null">
+              <pui-grid>
+                <pui-dropdown label="Brand:" ng-model="ctrl.currentCar.brand" editable="true" options="ctrl.currentCar.brands">
+                </pui-dropdown>
+                <pui-dropdown label="type" ng-model="ctrl.currentCar.type" editable="true" options="ctrl.currentCar.matchingTypes()">
+                </pui-dropdown>
+                <pui-input label="year" ng-model="ctrl.currentCar.year" min="1886" max="2014" required></pui-input>
+                <pui-color label="color" ng-model="ctrl.currentCar.color" required></pui-color>
+                <pui-bind-html html="ctrl.currentCar.image"></pui-bind-html>
+              </pui-grid>
+            </div>

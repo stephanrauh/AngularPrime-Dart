@@ -23,14 +23,14 @@ import '../core/pui-base-component.dart';
 /**
  * <pui-input> adds AngularDart to an input field styled by PrimeFaces.
  */
-@NgComponent(
+@Component(
     selector: 'pui-textarea',
     templateUrl: 'packages/angularprime_dart/puiTextarea/pui-textarea.html',
     cssUrl: 'packages/angularprime_dart/puiTextarea/pui-textarea.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiTextareaComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiTextareaComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** <pui-input> fields require an ng-model attribute. */
   @NgTwoWay("ng-model")
   String ngmodel;

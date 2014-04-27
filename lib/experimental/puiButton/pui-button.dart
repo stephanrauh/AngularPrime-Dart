@@ -19,12 +19,12 @@ library puiButton;
 import 'dart:html';
 import 'package:angular/angular.dart';
 
-@NgComponent(
+@Component(
     selector:    'pui-button',
     templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html',
     cssUrl:      'packages/angularprime_dart/puiButton/pui-button.css',
     publishAs:   'cmp')
-class PuiButtonComponent extends NgShadowRootAware {
+class PuiButtonComponent extends ShadowRootAware {
 
   @NgAttr("onClick")
   String onClick;

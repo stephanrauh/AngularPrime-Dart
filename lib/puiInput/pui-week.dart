@@ -19,7 +19,7 @@ part of puiInput;
 /**
  * <pui-week> is an HTML5 week picker.
  */
-@NgComponent(
+@Component(
     selector: 'pui-week',
     templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
     cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',

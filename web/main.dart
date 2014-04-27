@@ -17,7 +17,7 @@
 
 library showcase;
 
-import '../lib/core/pui-module.dart';
+import 'package:angularprime_dart/core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
 part 'puiInputDemoController.dart';
@@ -27,9 +27,9 @@ part 'pui-datatable/pui-car.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
-    type(PuiInputDemoController);
-    type(PuiButtonDemoController);
-    type(PuiDatatableDemoController);
+    bind(PuiInputDemoController);
+    bind(PuiButtonDemoController);
+    bind(PuiDatatableDemoController);
   }
 
   /**

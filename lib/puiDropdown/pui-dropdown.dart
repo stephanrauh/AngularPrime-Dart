@@ -24,14 +24,14 @@ import '../core/pui-base-component.dart';
 /**
  * <pui-dropdown> is a drop-down menue (aka combo-box) resembling the selectOneMenu component of PrimeFaces.
  */
-@NgComponent(
+@Component(
     selector: 'pui-dropdown',
     templateUrl: 'packages/angularprime_dart/puiDropdown/pui-dropdown.html',
     cssUrl: 'packages/angularprime_dart/puiDropdown/pui-dropdown.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiDropdownComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiDropdownComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** The <pui-input> field as defined in the HTML source code. */
   Element puiInputElement;
 

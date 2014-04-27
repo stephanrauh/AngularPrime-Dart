@@ -17,7 +17,7 @@
 
 part of showcase;
 
-@NgController(selector: '[puiButtonDemo]', publishAs: 'ctrlBtn')
+@Controller(selector: '[puiButtonDemo]', publishAs: 'ctrlBtn')
 class PuiButtonDemoController {
 
   void showMsg(String msg) {

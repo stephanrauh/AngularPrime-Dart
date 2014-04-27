@@ -17,15 +17,15 @@
 
 part of puiDatatable;
 
-@NgComponent(
-  visibility: NgDirective.CHILDREN_VISIBILITY,
+@Component(
+  visibility: Directive.CHILDREN_VISIBILITY,
   selector: 'pui-column-header',
   cssUrl:       'packages/angularprime_dart/puiDatatable/pui-datatable.css',
   template: '',
   applyAuthorStyles: true,
   publishAs: 'cmp'
 )
-class PuiColumnHeaderComponent extends PuiBaseComponent implements NgShadowRootAware {
+class PuiColumnHeaderComponent extends PuiBaseComponent implements ShadowRootAware {
 
   /** The <pui-column-header> field as defined in the HTML source code. */
   Element _puiColumnHeaderElement;

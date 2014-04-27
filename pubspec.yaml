@@ -7,10 +7,9 @@ transformers:
     minify: false
 
 dependencies:
-  angular: any
+  angular: 0.10.0
   js: any
   shadow_dom: any
-  polymer: any
   animation: any
 
 

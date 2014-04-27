@@ -16,6 +16,8 @@
  */
 library angularprime_dart;
 
+import 'package:angular/application_factory.dart';
+
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'dart:async';
@@ -31,7 +33,6 @@ import '../puiAccordion/pui-accordion.dart';
 import '../puiTabview/pui-tabview.dart';
 
 import '../puiDatatable/pui-datatable.dart';
-import '../puiDatatable/pui-repeat.dart';
 
 import '../puiInclude/pui-include.dart';
 import '../puiDynamicHTML/pui-bind-html.dart';
@@ -69,7 +70,7 @@ class PuiModule extends Module {
     myComponents.forEach((HtmlElement n) => _registerAttributesToBeWatched(n));
   }
 
-  /** Scans the entire document for a particular component type. */
+  /** Scans the entire document for a particular component bind. */
   static List<HtmlElement> _addTags(List<HtmlElement> initial, String puiType) {
     HtmlCollection list = window.document.getElementsByTagName(puiType);
     List<Element> result = initial;
@@ -151,7 +152,7 @@ class PuiModule extends Module {
    * ngBootstrag is called with the single parameter <code>this</code>.
    */
   void bootStrap() {
-    ngBootstrap(module: this);
+    applicationFactory().addModule(this).run();
   }
 
 
@@ -159,33 +160,30 @@ class PuiModule extends Module {
   PuiModule() {
     Logger.root.level = Level.FINEST;
     Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
+    bind(PuiAttr);
 
-    type(PuiAttr);
+    bind(PuiPanelComponent);
+    bind(PuiAccordionComponent);
+    bind(PuiTabviewComponent);
+    bind(PuiTabComponent);
+    bind(PuiGridComponent);
 
-    type(PuiPanelComponent);
-    type(PuiAccordionComponent);
-    type(PuiTabviewComponent);
-    type(PuiTabComponent);
-    type(PuiGridComponent);
+    bind(PuiDatatableComponent);
+    bind(PuiColumnHeaderComponent);
+    bind(PuiEmptyRowsFilter);
+    bind(PuiDatatableSortFilter);
 
-    type(PuiDatatableComponent);
-    type(PuiRepeatDirective);
-    type(PuiColumnHeaderComponent);
-    type(PuiEmptyRowsFilter);
-    type(PuiDatatableSortFilter);
+    bind(PuiIncludeComponent);
+    bind(PuiBindHtmlDirective);
 
-    type(PuiIncludeComponent);
-    type(PuiBindHtmlDirective);
-
-    type(PuiInputTextComponent);
-    type(PuiWeekComponent);
-    type(PuiColorComponent);
-    type(PuiButtonComponent);
-    type(PuiCheckboxComponent);
-    type(PuiDropdownComponent);
-//    type(PuiRadiobuttonComponent);
-    type(PuiTextareaComponent);
-
+    bind(PuiInputTextComponent);
+    bind(PuiWeekComponent);
+    bind(PuiColorComponent);
+    bind(PuiButtonComponent);
+    bind(PuiCheckboxComponent);
+    bind(PuiDropdownComponent);
+//    bind(PuiRadiobuttonComponent);
+    bind(PuiTextareaComponent);
     scheduleMicrotask(() {
       _loadIncludeFiles();
     });

@@ -23,13 +23,13 @@ import '../core/pui-base-component.dart';
 /**
  * <pui-include> allows you to split large HTML file into smaller ones.
  */
-@NgComponent(
+@Component(
     selector: 'pui-include',
     templateUrl: 'packages/angularprime_dart/puiInclude/pui-include.html',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiIncludeComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiIncludeComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** <pui-input> fields require an ng-model attribute. */
   @NgAttr("file")
   String file;

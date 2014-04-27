@@ -25,13 +25,13 @@ import '../core/pui-base-component.dart';
  * <pui-button> is a command button that can call Dart code (or Javascript code, albeit JS code can't interoperate with Dart).
  * <pui-button> can contain a caption ("value") and an image that can be put in front of or behind the caption.
  */
-@NgComponent(
+@Component(
     selector: 'pui-button',
     templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html',
     cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css',
     applyAuthorStyles: true,
     publishAs: 'cmp')
-class PuiButtonComponent extends PuiBaseComponent implements NgShadowRootAware {
+class PuiButtonComponent extends PuiBaseComponent implements ShadowRootAware {
 
   /** The button's caption */
   @NgAttr("value")

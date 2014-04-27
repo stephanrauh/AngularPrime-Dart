@@ -31,14 +31,14 @@ import '../core/pui-base-component.dart';
  * @ToDo put labels optionally above the component
  * @ToDo put error message optionally behind the component
  */
-@NgComponent(
+@Component(
     selector: 'pui-grid',
     templateUrl: 'packages/angularprime_dart/puiGrid/pui-grid.html',
     cssUrl: 'packages/angularprime_dart/puiGrid/pui-grid.css',
     applyAuthorStyles: true,
     publishAs: 'cmp'
 )
-class PuiGridComponent extends PuiBaseComponent implements NgShadowRootAware  {
+class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
 
   /** The <pui-grid> field as defined in the HTML source code. */
   Element puiGridComponent;

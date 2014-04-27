@@ -1,6 +1,6 @@
 library puiAttributes;
 
-import "package:angular/core/module.dart";
+import "package:angular/core/annotation_src.dart";
 
 /**
  * When applied as an annotation on a directive field specifies that
@@ -11,7 +11,7 @@ import "package:angular/core/module.dart";
  * is surrounded by a mustache ({{ }}) if it is missing.
  *
  */
-class PuiAttr extends AttrFieldAnnotation {
+class PuiAttr extends DirectiveAnnotation {
   final mappingSpec = '@';
   const PuiAttr(String attrName) : super(attrName);
 

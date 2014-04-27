@@ -43,15 +43,15 @@ import 'dart:html';
  * Kudos: This component's development was helped a lot by a stackoverflow answer:
  * http://stackoverflow.com/questions/20531349/struggling-to-implement-tabs-in-angulardart.
  */
-@NgComponent(
-  visibility: NgDirective.CHILDREN_VISIBILITY,
+@Component(
+  visibility: Directive.CHILDREN_VISIBILITY,
   selector: 'pui-tabview',
   templateUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.html',
   cssUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.css',
   applyAuthorStyles: true,
   publishAs: 'cmp'
 )
-class PuiTabviewComponent extends PuiBaseComponent implements NgShadowRootAware {
+class PuiTabviewComponent extends PuiBaseComponent implements ShadowRootAware {
 
   /** Which tabs does this <pui-tabview> consist of? */
   List<PuiTabComponent> panes = new List();
@@ -111,7 +111,7 @@ class PuiTabviewComponent extends PuiBaseComponent implements NgShadowRootAware 
 }
 
 /** <pui-tab> is a single tab. The <pui-tabview> consists of several <pui-tabs>. */
-@NgComponent(
+@Component(
     selector: 'pui-tab',
     templateUrl: 'packages/angularprime_dart/puiTabview/pui-tab.html',
     cssUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.css',
