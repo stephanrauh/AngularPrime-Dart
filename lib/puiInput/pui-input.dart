@@ -78,13 +78,9 @@ class PuiInputTextComponent extends PuiBaseComponent implements ShadowRootAware 
    */
   PuiInputTextComponent(this.scope, this.puiInputElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
     String v = puiInputElement.attributes["value"];
-    print("v=$v");
     if (null != v && v != '') {
       scope.apply(() => _model.modelValue=v);
     }
-    print("Constructor: ${_model.name} = ${_model.modelValue}");
-    print(_model.parentControl.toString());
-
   }
 
   /** returns the CSS style needed to display or hide the error message */
@@ -227,7 +223,6 @@ class PuiInputTextComponent extends PuiBaseComponent implements ShadowRootAware 
                   || e.keyCode==187 || e.keyCode==189 || e.keyCode==190) // decimal point, minus and plus
                   || (e.keyCode==8) || (e.keyCode==46) // backspace and delete
                   || ((e.keyCode>=37)&& (e.keyCode<=40)); // cursor keys
-    //          print("${e.charCode} ${e.keyCode} $good");
           if (!good)
           {
             e.preventDefault();
