@@ -22,12 +22,15 @@
      <pui-panel header="source code">
 
  <pre>
+
+<!--
 &lt;pui-datatable value="ctrl.carTable" var="row">
        &lt;pui-column header="Brand">&#x007B;{row.brand}}&lt;/pui-column>
        &lt;pui-column header="Type"> &#x007B;{row.type}}&lt;/pui-column>
        &lt;pui-column header="Year"> &#x007B;{row.year}}&lt;/pui-column>
        &lt;pui-column header="Color">&#x007B;{row.color}}&lt;/pui-column>
 &lt;/pui-datatable>
+-->
 </pre>
 
       </pui-panel>
@@ -44,12 +47,14 @@
      <pui-panel header="source code">
 
  <pre>
+ <!--
 &lt;pui-datatable value="ctrl.carTable" var="row">
       &lt;pui-column header="Brand" sortable="true" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
       &lt;pui-column header="Type" >                                &#x007B;{row.type}} &lt;/pui-column>
       &lt;pui-column header="Year" sortBy="toNumber(year)">         &#x007B;{row.year}} &lt;/pui-column>
       &lt;pui-column header="Color" sortable="true" closable="true">&#x007B;{row.color}}&lt;/pui-column>
 &lt;/pui-datatable>
+-->
 </pre>
 
       </pui-panel>
@@ -67,6 +72,7 @@
      </pui-panel>
      <pui-panel header="source code">
       <pre>
+      <!--
 &lt;pui-datatable value="ctrl.carTable" var="row">
   &lt;pui-column header="Brand">{{row.brand}}&lt;/pui-column>
   &lt;pui-column header="Type"> {{row.type}}&lt;/pui-column>
@@ -74,6 +80,7 @@
   &lt;pui-column header="Color">{{row.color}}&lt;/pui-column>
 &lt;/pui-datatable>
 &lt;pui-button icon="plus" ng-click="ctrl.addCar()" value="add car">&lt;/pui-button>
+-->
         </pre>
       </pui-panel>
     </pui-tab>
@@ -91,11 +98,13 @@
      <pui-panel header="source code">
 
  <pre>
+ <!--
 &lt;pui-datatable value="ctrl.emtpyCarTable" var="row">
     &lt;pui-column header="Brand" closable="true">&#x007B;{row.brand}}&lt;/pui-column>
     &lt;pui-column header="Year" sortable="true"> &#x007B;{row.year}} &lt;/pui-column>
     &lt;pui-column header="Color" closable="true">&#x007B;{row.color}}&lt;/pui-column>
 &lt;/pui-datatable>
+-->
 </pre>
 
       </pui-panel>
@@ -120,6 +129,7 @@
      <pui-panel header="source code">
 
  <pre>
+ <!--
 &lt;pui-datatable value="ctrl.carTable" var="row">
     &lt;pui-column header="Brand" sortable="true" closable="true">{{row.brand}}&lt;/pui-column>
     &lt;pui-column header="Type">                                 {{row.type}} &lt;/pui-column>
@@ -133,6 +143,7 @@
     &lt;/pui-column>
 &lt;/pui-datatable>
 &lt;pui-button icon="plus" actionListener="ctrl.addCar()" value="add car">&lt;/pui-button>
+-->
 </pre>
 
       </pui-panel>
