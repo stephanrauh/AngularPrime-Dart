@@ -20,6 +20,7 @@ library puiDatatable;
 import '../core/pui-base-component.dart';
 import '../core/pui-module.dart';
 import 'package:angular/angular.dart';
+import 'package:angular/core/parser/dynamic_parser.dart';
 import 'dart:html';
 import 'dart:async';
 part "pui-column-header.dart";
@@ -331,7 +332,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
       Element inside = PuiHtmlUtils.parseResponse(innerHtml);
       ViewFactory template = compiler([inside], directives);
       Scope childScope = scope.createChild(scope.context);
-      Module module = new Module()..value(Scope, childScope);
+      Module module = new Module()..bind(Scope, toValue:childScope);
       List<Module> modules = new List<Module>();
       modules.add(module);
       Injector childInjector = injector.createChild(modules);
@@ -428,7 +429,7 @@ class PuiDatatableSortFilter {
      */
     pui.columnHeaders.forEach((Column col ){
       if (col.filterby!=null && col.filterby!="" && col.currentFilter!="") {
-        Parser parsed = _parser(col.filterby);
+        DynamicExpression parsed = _parser(col.filterby);
         var mapper = (e) => parsed.eval(e);
         if (col.filterMatchMode == "contains")
         {

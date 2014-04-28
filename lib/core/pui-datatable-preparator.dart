@@ -75,7 +75,7 @@ _prepareDatatable(Element puiDatatable, int puiTableID) {
     }
     ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName$puiTableID'";
     puiDatatable.attributes["puiListVariableName"]=listName;
-    content = """<pui-row pui-repeat="$ngRepeat" role="row" style="display:table-row" class="tr ui-widget-content">$content</pui-row>""";
+    content = """<pui-row ng-repeat="$ngRepeat" role="row" style="display:table-row" class="tr ui-widget-content">$content</pui-row>""";
     puiDatatable.attributes.remove("ng-repeat");
   }
   else
