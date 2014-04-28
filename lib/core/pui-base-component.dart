@@ -72,7 +72,7 @@ class PuiBaseComponent {
     {
       if (originalValues.containsKey(key)) {
         String s = originalValues[key];
-        if (s == null) {
+        if (s == null || key=="type") {
           inputfield.attributes[key] = value;
         } else {
           inputfield.attributes[key] = "$s $value";
@@ -130,7 +130,7 @@ class PuiBaseComponent {
       return;
     }
     originalValues[key] = s;
-    if (s == null) {
+    if (s == null || key=="type") {
       inputfield.attributes[key] = value;
     } else {
       inputfield.attributes[key] = "$s $value";
