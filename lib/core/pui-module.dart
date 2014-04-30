@@ -49,7 +49,6 @@ import '../puiTextarea/pui-textarea.dart';
 import 'package:logging/logging.dart';
 
 part 'pui-html-utils.dart';
-part "pui-datatable-preparator.dart";
 
 /**
  * AngularPrime-Dart applications can get access to every PUI component by deriving from this class.
@@ -142,7 +141,7 @@ class PuiModule extends Module {
    * are store for future use.
    */
   void startAngular() {
-    prepareDatatables();
+    // prepareDatatables();
      _findNodesToBeWatched();
     bootStrap();
   }
@@ -169,7 +168,6 @@ class PuiModule extends Module {
     bind(PuiGridComponent);
 
     bind(PuiDatatableComponent);
-    bind(PuiColumnHeaderComponent);
     bind(PuiEmptyRowsFilter);
     bind(PuiDatatableSortFilter);
 

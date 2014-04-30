@@ -21,12 +21,9 @@ import '../core/pui-base-component.dart';
 import '../core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'package:angular/core/parser/dynamic_parser.dart';
-
 import 'dart:html';
 import 'dart:async';
-part 'pui-datatable-preparator.dart';
-part 'pui-datatable-formatters.dart';
-part 'pui-column.dart';
+part "pui-column-header.dart";
 
 /**
  * A <pui-datatable> consists of a number of <pui-tabs>, each containing content that's hidden of shown
@@ -91,21 +88,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     String id = puiDatatableElement.attributes["puiTableID"];
     String listName=puiDatatableElement.attributes["puiListVariableName"];
     PuiDatatableSortFilter.register("$listName$id", this);
-    List<Node> innerNodes = prepareDatatable(puiDatatableElement, this);
-
-    puiDatatableElement.children.clear();
-
-    if (innerNodes.length>0)
-    {
-      ViewFactory template = compiler(innerNodes, directives);
-      Scope childScope = scope.createChild(scope.context);
-      Injector childInjector =
-          injector.createChild([new Module()..bind(Scope, toValue: childScope)]);
-      template(childInjector, puiDatatableElement.childNodes);
-
-      innerNodes.forEach((Node n){ puiDatatableElement.append(n);});
-    }
-
   }
 
   /**
@@ -113,8 +95,6 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-
-
     shadowTableContent = shadowRoot.getElementById("pui-content");
     addHeaderRow();
     addFilterRow();
@@ -299,23 +279,22 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     DivElement headerRow = shadowTableContent.children[0];
     int index = 0;
     for ( ; index < headerRow.children.length; index++) {
-      HtmlCollection iconDivs =
-          headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
-      Element iconDiv = iconDivs[0];
       if (headerRow.children[index] == sortColumn) {
         int dir = columnHeaders[index].sortDirection;
         bool sortUp;
+        HtmlCollection iconDivs =
+            headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
         if (dir == 0) {
-         iconDiv.classes.remove("ui-icon-carat-2-n-s");
-          iconDiv.classes.add("ui-icon-triangle-1-n");
+          iconDivs[0].classes.remove("ui-icon-carat-2-n-s");
+          iconDivs[0].classes.add("ui-icon-triangle-1-n");
           dir = 1;
         } else if (dir == 1) {
-          iconDiv.classes.remove("ui-icon-triangle-1-n");
-          iconDiv.classes.add("ui-icon-triangle-1-s");
+          iconDivs[0].classes.remove("ui-icon-triangle-1-n");
+          iconDivs[0].classes.add("ui-icon-triangle-1-s");
           dir = 2;
         } else {
-          iconDiv.classes.remove("ui-icon-triangle-1-s");
-          iconDiv.classes.add("ui-icon-triangle-1-n");
+          iconDivs[0].classes.remove("ui-icon-triangle-1-s");
+          iconDivs[0].classes.add("ui-icon-triangle-1-n");
           dir = 1;
         }
         columnHeaders[index].sortDirection = dir;
@@ -325,9 +304,9 @@ class PuiDatatableComponent extends PuiBaseComponent implements
         HtmlCollection iconDivs =
             headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
         if (iconDivs.isNotEmpty) {
-          iconDiv.classes.add("ui-icon-carat-2-n-s");
-          iconDiv.classes.remove("ui-icon-triangle-1-n");
-          iconDiv.classes.remove("ui-icon-triangle-1-s");
+          iconDivs[0].classes.add("ui-icon-carat-2-n-s");
+          iconDivs[0].classes.remove("ui-icon-triangle-1-n");
+          iconDivs[0].classes.remove("ui-icon-triangle-1-s");
         }
       }
     }
@@ -387,4 +366,110 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
 }
 
+/** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
+@Formatter(name: 'puiEmptyRowsFilter')
+class PuiEmptyRowsFilter {
+
+  List call(List original, PuiDatatableComponent pui) {
+      List newList = new List();
+      // fix the null values introduced by the ugly hack in sortColumn()
+     original.forEach((r){ if (null!=r) newList.add(r);});
+     if (null != pui && null != pui.myList) {
+       scheduleMicrotask((){pui.myList.retainWhere((e)=>e!=null);});
+     }
+     return newList;
+  }
+}
+
+/** The puiSortFilter sorts a ng-repeat list according to the sort order of the puiDatatable */
+@Formatter(name: 'puiDatatableSortFilter')
+class PuiDatatableSortFilter {
+  /** AngularDart's orderBy filter sorts a list by a column name (which is given as a String) */
+  OrderBy _orderBy;
+
+  /** AngularDart's FilterFilter filters a list according to the values of a given column */
+  Filter _contentFilter;
+
+  /** PuiDatatable adds or removes empty row to force the watch watching the collection to fire. This filter prevents the empty rows from being shown. */
+  PuiEmptyRowsFilter _emptyRowsFilter;
+
+  Parser _parser;
+
+  PuiDatatableSortFilter(this._parser){
+    _orderBy=new OrderBy(_parser);
+    _emptyRowsFilter=new PuiEmptyRowsFilter();
+    _contentFilter=new Filter(_parser);
+  }
+
+  /** PuiFilters aren't bound to a particular component, so every PuiDatatable registers itself to the filter in order to link filters and table */
+  static Map<String, PuiDatatableComponent> tables = new Map<String, PuiDatatableComponent>();
+
+  /** PuiFilters aren't bound to a particular component, so every PuiDatatable registers itself to the filter in order to link filters and table */
+  static register(String name, PuiDatatableComponent puiDatatableComponent) {
+    tables[name]=puiDatatableComponent;
+  }
+
+  /** Finds out, which PuiDatatable is to be sorted, finds out, by which column and in which order it is to be sorted and delegates sorting the Angular's OrderByFilter */
+  List call(List original, String tableName, [bool descending=false]) {
+    PuiDatatableComponent pui = tables[tableName];
+    if (pui==null) return original;
+
+    List nonEmptyRows = _emptyRowsFilter.call(original, pui);
+
+    /* The next few lines might benefit from a little explanation.
+     *  Basically, the idea is to implement a <pui-datatable> column filter
+     *  by using a standard filter of ng-repeat (array | column: "criteria").
+     *  The standard filter is the variable FilterFilter.
+     *  It takes two parameters when call: the list to be filtered, and the
+     *  algorithm filtering a single row. The latter is called a predicate.
+     *  The inner loop constructs a predicate that takes the name of the column,
+     *  uses AngularDart's parser to get a function that maps an entry of the list
+     *  to the value of a particular column of the entry. By calling this mapper function
+     *  we get the value, which can be compared by a traditional string method.
+     */
+    pui.columnHeaders.forEach((Column col ){
+      if (col.filterby!=null && col.filterby!="" && col.currentFilter!="") {
+        DynamicExpression parsed = _parser(col.filterby);
+        var mapper = (e) => parsed.eval(e);
+        if (col.filterMatchMode == "contains")
+        {
+          var predicate = (v) => mapper(v).toString().toLowerCase().contains(col.currentFilter.toLowerCase());
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+        else if (col.filterMatchMode == "endsWith")
+        {
+          var predicate = (v) => mapper(v).toString().toLowerCase().endsWith(col.currentFilter.toLowerCase());
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+        else if (col.filterMatchMode == "exact")
+        {
+          var predicate = (v) => mapper(v).toString().toLowerCase()== col.currentFilter.toLowerCase();
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+        else // if (col.filterMatchMode == "startsWith")
+        {
+          var predicate = (v) => mapper(v).toString().toLowerCase().startsWith(col.currentFilter.toLowerCase());
+          nonEmptyRows= _contentFilter.call(nonEmptyRows, predicate);
+        }
+      }
+    });
+    /* End of the sophisticated algorithm :) */
+
+
+    try
+    {
+      Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
+      return _orderBy.call(nonEmptyRows, firstWhere.sortBy, firstWhere.sortDirection==2);
+    }
+    catch (notSortedException)
+    {
+      if ((pui!=null) && (pui.initialsort!=null))
+      {
+        bool descending="down"==pui.initialsortorder;
+        return _orderBy.call(nonEmptyRows, pui.initialsort, descending);
+      }
+      return nonEmptyRows;
+    }
+  }
+}
 

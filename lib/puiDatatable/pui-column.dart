@@ -17,77 +17,6 @@
 
 part of puiDatatable;
 
-@Component(
-  visibility: Directive.CHILDREN_VISIBILITY,
-  selector: 'pui-column-header',
-  cssUrl:       'packages/angularprime_dart/puiDatatable/pui-datatable.css',
-  template: '',
-  applyAuthorStyles: true,
-  publishAs: 'cmp'
-)
-class PuiColumnHeaderComponent extends PuiBaseComponent implements ShadowRootAware {
-
-  /** The <pui-column-header> field as defined in the HTML source code. */
-  Element _puiColumnHeaderElement;
-
-  /** The scope is needed to add watches. */
-  Scope _scope;
-
-  /** Can the tab be closed? */
-  bool _closable=false;
-
-  /** Can the tab be closed? */
-  @NgAttr("closable")
-  set closable(String s){_closable="true"==s;}
-
-  bool isClosable() => _closable;
-
-  /** Can the tab be closed? */
-  bool _sortable=false;
-
-  /** Can the tab be closed? */
-  @NgAttr("sortable")
-  set sortable(String s){_sortable="true"==s;}
-
-  bool isSortable() => _sortable;
-
-  /** Optional caption of the column */
-  @NgAttr("header")
-  String header;
-
-  /** Optional footer of the column */
-  @NgAttr("footerText")
-  String footerText;
-
-  /** Optional column filter */
-  @NgAttr("filterby")
-  String filterby;
-
-  /** Optional filter match mode.
-   * Legal values are 'startsWith', 'contains', 'exact' and 'endsWith'.
-   * Default value is 'startsWith'. */
-  @NgAttr("filterMatchMode")
-  String filterMatchMode = "startsWith";
-
-
-  /** This is the datatable component the column is part of */
-  PuiDatatableComponent puiDatatableComponent;
-
-  /**
-   * Initializes the component by setting the <pui-datatable> field and setting the scope.
-   */
-  PuiColumnHeaderComponent(this._scope, this._puiColumnHeaderElement, this.puiDatatableComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
-  }
-
-
-  @override
-  void onShadowRoot(ShadowRoot shadowRoot) {
-    puiDatatableComponent.addColumn(new Column(header, footerText, isClosable(),
-                                    isSortable(), _puiColumnHeaderElement.attributes["sortby"],
-                                    filterby, filterMatchMode));
-  }
-}
-
 /** Abstract description of the colum. */
 class Column {
   /** Can the column be hidden hy hitting the close button? */
@@ -133,4 +62,3 @@ class Column {
       this.filterby, this.filterMatchMode) {
   }
 }
-
