@@ -27,6 +27,7 @@ import 'dart:async';
 part 'pui-datatable-preparator.dart';
 part 'pui-datatable-formatters.dart';
 part 'pui-column.dart';
+part 'pui-contentRow.dart';
 
 /**
  * A <pui-datatable> consists of a number of <pui-tabs>, each containing content that's hidden of shown
@@ -83,29 +84,22 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
   bool initialized = false;
 
+  /** HTML code of the columns */
+  String contentColumns;
+
+  String emptyMessage="no results found";
+
 
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
    */
   PuiDatatableComponent(this.scope, this.puiDatatableElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
+    contentColumns=prepareDatatable(puiDatatableElement, this);
     String id = puiDatatableElement.attributes["puiTableID"];
     String listName=puiDatatableElement.attributes["puiListVariableName"];
     PuiDatatableSortFilter.register("$listName$id", this);
-    List<Node> innerNodes = prepareDatatable(puiDatatableElement, this);
 
     puiDatatableElement.children.clear();
-
-    if (innerNodes.length>0)
-    {
-      ViewFactory template = compiler(innerNodes, directives);
-      Scope childScope = scope.createChild(scope.context);
-      Injector childInjector =
-          injector.createChild([new Module()..bind(Scope, toValue: childScope)]);
-      template(childInjector, puiDatatableElement.childNodes);
-
-      innerNodes.forEach((Node n){ puiDatatableElement.append(n);});
-    }
-
   }
 
   /**
@@ -113,11 +107,19 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
-
-
     shadowTableContent = shadowRoot.getElementById("pui-content");
+    ElementList targetDiv = shadowRoot.querySelectorAll('contentRows');
+    Element targetDiv2 = shadowRoot.getElementById('contentRows');
+
+
     addHeaderRow();
     addFilterRow();
+
+
+    if (null!=puiDatatableElement.attributes["emptyMessage"])
+    {
+      emptyMessage=puiDatatableElement.attributes["emptyMessage"];
+    }
     addFooterRow();
   }
 

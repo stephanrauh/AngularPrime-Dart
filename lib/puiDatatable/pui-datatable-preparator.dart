@@ -37,89 +37,36 @@ int uniqueDatabaseID = 0;
  * So we have to rearrange the HTML code (more precisely: the DOM tree) before Angular
  * is initialized.
  */
-List<Node> prepareDatatable(Element puiDatatableElement, PuiDatatableComponent puiDatatableComponent) {
+String prepareDatatable(Element puiDatatableElement, PuiDatatableComponent puiDatatableComponent) {
   int puiTableID = uniqueDatabaseID++;
   puiDatatableElement.attributes["puiTableID"]=puiTableID.toString();
   ElementList columns = puiDatatableElement.querySelectorAll('pui-column');
-  String headers = _prepareTableHeader(columns, puiDatatableComponent);
+  _prepareTableHeader(columns, puiDatatableComponent);
 
   String content = puiDatatableElement.innerHtml;
   ElementList rows = puiDatatableElement.querySelectorAll('pui-row');
-  String listName;
-  if (false)
-  {
-  if (rows.isEmpty)
-  {
-    /** add pui-datatable functionality to ng-repeat */
-    String ngRepeat = puiDatatableElement.attributes["ng-repeat"];
-    if (null==ngRepeat)
-    {
-      String loopVar=puiDatatableElement.attributes["var"];
-      listName=puiDatatableElement.attributes["value"];
-      if (null==listName){
-        throw "[pui-datatable-err] Wrong datatable configuration: Please specify either ng-repeat or the list and - optionally - a loop variable";
-      }
-      if (null==loopVar) loopVar="row";
 
-      ngRepeat = "$loopVar in $listName";
-    }
-    else {
-      listName = extractNameOfCollection(ngRepeat);
-      puiDatatableElement.attributes["value"]=listName;
-    }
-    ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName$puiTableID'";
-    puiDatatableElement.attributes["puiListVariableName"]=listName;
-    content = """<pui-row ng-repeat="$ngRepeat" role="row" style="display:table-row" class="tr ui-widget-content">$content</pui-row>""";
-    puiDatatableElement.attributes.remove("ng-repeat");
-  }
-  else
-  {
-    rows.forEach((Element row){
-      /** add pui-datatable functionality to ng-repeat */
-      String ngRepeat = row.attributes["ng-repeat"];
-      listName = extractNameOfCollection(ngRepeat);
-      ngRepeat = ngRepeat + " | puiDatatableSortFilter:'$listName$puiTableID'";
-      puiDatatableElement.attributes["value"]=listName;
-      puiDatatableElement.attributes["value"]=listName;
-      row.attributes["pui-repeat"]=ngRepeat;
-      row.attributes.remove("ng-repeat");
-
-      row.attributes["data-ri"]=r'{{$index.toString()}}';
-      row.classes.add("tr");
-      row.classes.add("ui-widget-content");
-      row.style.display="table-row";
-      row.attributes["role"]="row";
-    });
-    content = puiDatatableElement.innerHtml;
-  }
-  }
-  String emptyMessage=puiDatatableElement.attributes["emptyMessage"];
-  if (null==emptyMessage) emptyMessage="no results found";
-  String footer = """<div role="row" style="{{$listName.isEmpty?'display:table-row':'display:none'}}" class="tr ui-widget-content ui-datatable-empty-message">
-                         <div role="gridcell" class="pui-datatable-td ui-widget-content">
-                            $emptyMessage
-                         </div>
-                     </div>""";
-
-  content=headers + content + footer;
+  print("-------------------------------------------------------------");
+  print(content);
 
   String newContent = content.replaceAll("<pui-row", """<div """)
       .replaceAll("</pui-row>", "</div>")
       .replaceAll("<pui-column ", """<div """)
       .replaceAll("</pui-column>", "</div>");
+  print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
   print(newContent);
-  Element inside = PuiHtmlUtils.parseResponse("<span>$newContent</span>");
-  List<Node> inner = new List<Node>();
-  inside.childNodes.forEach((Node n){inner.add(n);});
-  return inner;
+  return newContent;
+//  Element inside = PuiHtmlUtils.parseResponse("<span>$newContent</span>");
+//  List<Node> inner = new List<Node>();
+//  inside.childNodes.forEach((Node n){inner.add(n);});
+//  return inside.innerHtml;
 }
 
 /**
  * TODO: move this method to the puiDataTableComponent class (either to onShadow or onAttach).
  *
  * Generates DIV elements to display a header for each column using the informations given in <pui-column> */
-String _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatable) {
-  String headers="";
+void _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatable) {
   int c = 0;
   columns.forEach((Element col) {
     col.attributes["data-ci"]=c.toString();
@@ -163,7 +110,6 @@ String _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatab
 
     c++;
   });
-  return headers;
 }
 
 

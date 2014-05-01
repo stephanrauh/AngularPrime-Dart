@@ -170,6 +170,7 @@ class PuiModule extends Module {
     bind(PuiDatatableComponent);
     bind(PuiEmptyRowsFilter);
     bind(PuiDatatableSortFilter);
+    bind(PuiContentRow);
 
     bind(PuiIncludeComponent);
     bind(PuiBindHtmlDirective);

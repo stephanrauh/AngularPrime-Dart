@@ -1,11 +1,9 @@
 <div puiDatatableDemo>
 Empty table:
      <pui-datatable value="ctrl.emptyCarTable" var="row">
-       <pui-row ng-repeat="row in ctrl.emptyCarTable" />
-            <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
-            <pui-column header="Type" >{{row.type}}</pui-column>
-            <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
-            <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
-        </pui-row>
+        <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
+        <pui-column header="Type" >{{row.type}}</pui-column>
+        <pui-column header="Year" sortable="true">{{row.year}}</pui-column>
+        <pui-column header="Color" sortable="true" closable="true">{{row.color}}</pui-column>
       </pui-datatable>
 </div>
