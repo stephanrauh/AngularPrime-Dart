@@ -46,7 +46,9 @@ class PuiDatatableSortFilter {
 
   Parser _parser;
 
-  PuiDatatableSortFilter(this._parser){
+  Scope scope;
+
+  PuiDatatableSortFilter(this._parser, this.scope){
     _orderBy=new OrderBy(_parser);
     _emptyRowsFilter=new PuiEmptyRowsFilter();
     _contentFilter=new Filter(_parser);
@@ -110,7 +112,8 @@ class PuiDatatableSortFilter {
     try
     {
       Column firstWhere = pui.columnHeaders.firstWhere((Column c) => c.sortDirection!=0);
-      return _orderBy.call(nonEmptyRows, firstWhere.sortBy, firstWhere.sortDirection==2);
+      List ordered = _orderBy.call(nonEmptyRows, firstWhere.sortBy, firstWhere.sortDirection==2);
+      return ordered;
     }
     catch (notSortedException)
     {

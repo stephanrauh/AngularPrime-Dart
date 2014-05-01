@@ -83,16 +83,20 @@ class Car {
   String week;
   String city;
   String zipcode;
+  PuiDatatableDemoController _parent;
 
-  Car(this.brand, this.type, this._year, this.color);
+  Car(this.brand, this.type, this._year, this.color, this._parent);
 
   String toString()
   {
     return "$brand $type $year $color";
   }
 
-  int toNumber(String year){
-    return int.parse(year);
+  int toNumber(year){
+    if (year is String) {
+      return int.parse(year);
+    }
+    else return year;
   }
 
   int get year => _year;
@@ -135,5 +139,15 @@ class Car {
     });
     mapOfMatchingTypes[brand]=m;
     return m;
+  }
+
+  void editCar()
+  {
+    _parent.editCar(this);
+  }
+
+  void deleteCar()
+  {
+    _parent.deleteCar(this);
   }
 }

@@ -15,16 +15,16 @@
             <pui-column header="Color" sortable="true" closable="true" footerText="endsWith"
                         filterby="color" filterMatchMode="endsWith">{{row.color}}</pui-column>
             <pui-column header="">
-              <pui-button icon="trash" ng-click="ctrl.deleteCar(row)" value="&nbsp;"></pui-button>
+              <pui-button icon="trash" ng-click="row.deleteCar()" value="&nbsp;"></pui-button>
             </pui-column>
             <pui-column header="">
-              <pui-button icon="pencil" ng-click="ctrl.editCar(row)" value="edit"></pui-button>
+              <pui-button icon="pencil" ng-click="row.editCar()" value="edit"></pui-button>
             </pui-column>
           </pui-datatable>
         <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
       </div>
 
-<!--
+
        <div style="display:table-cell" style="height:100%; ">
          <div style="margin-left:50px;">
             <div style="height:20px;">&nbsp;
@@ -51,7 +51,6 @@
         tooltip (i.e. by reading the text that appears after<br>
         letting your mouse rest a couple of second on the image).
       </div>
-  -->
     </div>
   </div>
 </div>

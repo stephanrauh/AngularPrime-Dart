@@ -87,7 +87,11 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   /** HTML code of the columns */
   String contentColumns;
 
+  /** This message is displayed if the table is empty */
   String emptyMessage="no results found";
+
+  /** Unique identifier of the table - needed for the sort formatter */
+  String uniqueTableID;
 
 
   /**
@@ -95,9 +99,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    */
   PuiDatatableComponent(this.scope, this.puiDatatableElement, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
     contentColumns=prepareDatatable(puiDatatableElement, this);
-    String id = puiDatatableElement.attributes["puiTableID"];
-    String listName=puiDatatableElement.attributes["puiListVariableName"];
-    PuiDatatableSortFilter.register("$listName$id", this);
+    PuiDatatableSortFilter.register(uniqueTableID, this);
 
     puiDatatableElement.children.clear();
   }
@@ -303,33 +305,36 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     for ( ; index < headerRow.children.length; index++) {
       HtmlCollection iconDivs =
           headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
-      Element iconDiv = iconDivs[0];
-      if (headerRow.children[index] == sortColumn) {
-        int dir = columnHeaders[index].sortDirection;
-        bool sortUp;
-        if (dir == 0) {
-         iconDiv.classes.remove("ui-icon-carat-2-n-s");
-          iconDiv.classes.add("ui-icon-triangle-1-n");
-          dir = 1;
-        } else if (dir == 1) {
-          iconDiv.classes.remove("ui-icon-triangle-1-n");
-          iconDiv.classes.add("ui-icon-triangle-1-s");
-          dir = 2;
+      if (iconDivs.length>0)
+      {
+        Element iconDiv = iconDivs[0];
+        if (headerRow.children[index] == sortColumn) {
+          int dir = columnHeaders[index].sortDirection;
+          bool sortUp;
+          if (dir == 0) {
+           iconDiv.classes.remove("ui-icon-carat-2-n-s");
+            iconDiv.classes.add("ui-icon-triangle-1-n");
+            dir = 1;
+          } else if (dir == 1) {
+            iconDiv.classes.remove("ui-icon-triangle-1-n");
+            iconDiv.classes.add("ui-icon-triangle-1-s");
+            dir = 2;
+          } else {
+            iconDiv.classes.remove("ui-icon-triangle-1-s");
+            iconDiv.classes.add("ui-icon-triangle-1-n");
+            dir = 1;
+          }
+          columnHeaders[index].sortDirection = dir;
         } else {
-          iconDiv.classes.remove("ui-icon-triangle-1-s");
-          iconDiv.classes.add("ui-icon-triangle-1-n");
-          dir = 1;
-        }
-        columnHeaders[index].sortDirection = dir;
-      } else {
-        columnHeaders[index].sortDirection=0;
-        // remove sort icon (if necessary)
-        HtmlCollection iconDivs =
-            headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
-        if (iconDivs.isNotEmpty) {
-          iconDiv.classes.add("ui-icon-carat-2-n-s");
-          iconDiv.classes.remove("ui-icon-triangle-1-n");
-          iconDiv.classes.remove("ui-icon-triangle-1-s");
+          columnHeaders[index].sortDirection=0;
+          // remove sort icon (if necessary)
+          HtmlCollection iconDivs =
+              headerRow.children[index].getElementsByClassName("ui-sortable-column-icon");
+          if (iconDivs.isNotEmpty) {
+            iconDiv.classes.add("ui-icon-carat-2-n-s");
+            iconDiv.classes.remove("ui-icon-triangle-1-n");
+            iconDiv.classes.remove("ui-icon-triangle-1-s");
+          }
         }
       }
     }

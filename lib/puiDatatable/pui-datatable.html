@@ -3,7 +3,7 @@
     <div class="pui-datatable" style="display:table" id="pui-content">
         <div id="headerRow" role="row" style="display:table-row" classes="thead ui-widget-header"></div>
         <div id="filterRow" role="row" style="display:table-row" classes="thead ui-widget-header"></div>
-        <div ng-repeat="row in cmp.myList" role="row" style="display:table-row">
+        <div ng-repeat="row in cmp.myList | puiDatatableSortFilter:cmp.uniqueTableID" role="row" style="display:table-row">
         <pui-row row="{{row}}"></pui-row>
         </div>
 

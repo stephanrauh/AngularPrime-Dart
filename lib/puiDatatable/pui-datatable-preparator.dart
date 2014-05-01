@@ -39,7 +39,8 @@ int uniqueDatabaseID = 0;
  */
 String prepareDatatable(Element puiDatatableElement, PuiDatatableComponent puiDatatableComponent) {
   int puiTableID = uniqueDatabaseID++;
-  puiDatatableElement.attributes["puiTableID"]=puiTableID.toString();
+
+  puiDatatableComponent.uniqueTableID=puiTableID.toString();
   ElementList columns = puiDatatableElement.querySelectorAll('pui-column');
   _prepareTableHeader(columns, puiDatatableComponent);
 
@@ -93,10 +94,6 @@ void _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatable
         sortBy=sortBy.substring(pos+1);
       }
     }
-    String sortByAttribute="";
-    if (null!=sortBy) {
-      sortByAttribute=""" sortby="$sortBy" """;
-    }
     String filterby=col.attributes["filterby"];
     if (null==filterby) filterby="";
     String filterMatchMode=col.attributes["filterMatchMode"];
@@ -105,7 +102,7 @@ void _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatable
     String header = "${col.attributes["header"]==null?"":col.attributes["header"]}";
     String footerText="${col.attributes["footerText"]==null?"":col.attributes["footerText"]}";
     puiDatatable.addColumn(new Column(header, footerText, closable,
-                                        sortable, sortByAttribute,
+                                        sortable, sortBy,
                                         filterby, filterMatchMode));
 
     c++;

@@ -26,23 +26,27 @@ class PuiDatatableDemoController {
 
   String get editAreaVisibilityStyle => (currentCar==null) ? "display:none" : "";
 
-  List<Car> carTable = [
-                        new Car('Honda', 'Civic', 2008, 'silver'),
-                        new Car('Carriage', 'Stanhope', 332, 'black'),
-                         new Car('Volvo', 'V40', 2002, 'green'),
-                         new Car('Opel', 'Corsa', 1997, 'red'),
-                         new Car('Opel', 'Kadett', 1990, 'white')
-                                       ];
+  List<Car> carTable;
+
+  PuiDatatableDemoController(){
+    carTable = [
+                 new Car('Honda', 'Civic', 2008, 'silver', this),
+                 new Car('Carriage', 'Stanhope', 332, 'black', this),
+                 new Car('Volvo', 'V40', 2002, 'green', this),
+                 new Car('Opel', 'Corsa', 1997, 'red', this),
+                 new Car('Opel', 'Kadett', 1990, 'white', this)
+               ];
+  }
 
   List<Car> emptyCarTable = [];
 
   addCar() {
     int idx = carTable.length % 4;
-    if (idx == 0)      carTable.add(new Car('Scoda',   'Octavia', (2000 + idx), 'silver'));
-    else if (idx == 1) carTable.add(new Car('Renault', 'R4',      (1970 + idx), 'red'));
-    else if (idx == 1) carTable.add(new Car('BMW',     'E30',     (1980 + idx), 'blue'));
-    else if (idx == 2) carTable.add(new Car('Volvo',   'V70',     (2006 + idx), 'red'));
-    else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx), 'black'));
+    if (idx == 0)      carTable.add(new Car('Scoda',   'Octavia', (2000 + idx), 'silver', this));
+    else if (idx == 1) carTable.add(new Car('Renault', 'R4',      (1970 + idx), 'red', this));
+    else if (idx == 1) carTable.add(new Car('BMW',     'E30',     (1980 + idx), 'blue', this));
+    else if (idx == 2) carTable.add(new Car('Volvo',   'V70',     (2006 + idx), 'red', this));
+    else if (idx == 3) carTable.add(new Car('Fiat',    'Panda',   (2003 + idx), 'black', this));
   }
 
   deleteCar(Car c)
