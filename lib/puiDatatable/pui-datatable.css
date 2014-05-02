@@ -84,3 +84,7 @@
 .pui-datatable .tr.ui-state-highlight {
     cursor: pointer;
 }
+
+.invisible { display: none !important;}
+
+.tablecell { display: table-cell !important;}

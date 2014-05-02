@@ -47,15 +47,8 @@ String prepareDatatable(Element puiDatatableElement, PuiDatatableComponent puiDa
   String content = puiDatatableElement.innerHtml;
   ElementList rows = puiDatatableElement.querySelectorAll('pui-row');
 
-  print("-------------------------------------------------------------");
-  print(content);
-
-  String newContent = content.replaceAll("<pui-row", """<div """)
-      .replaceAll("</pui-row>", "</div>")
-      .replaceAll("<pui-column ", """<div """)
-      .replaceAll("</pui-column>", "</div>");
-  print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-  print(newContent);
+  String newContent = content.replaceAll("<pui-column ", """<div """)
+                             .replaceAll("</pui-column>", "</div>");
   return newContent;
 //  Element inside = PuiHtmlUtils.parseResponse("<span>$newContent</span>");
 //  List<Node> inner = new List<Node>();
@@ -73,7 +66,7 @@ void _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatable
     col.attributes["data-ci"]=c.toString();
     col.classes.add("pui-datatable-td");
     col.classes.add("ui-widget-content");
-    col.style.display="table-cell";
+    col.classes.add("{{cmp.cellStyle($c)}}");
     col.attributes["role"]="gridcell";
     bool closable= col.attributes["closable"]=="true";
     bool sortable = col.attributes["sortable"]=="true";
@@ -103,8 +96,14 @@ void _prepareTableHeader(ElementList columns, PuiDatatableComponent puiDatatable
     String footerText="${col.attributes["footerText"]==null?"":col.attributes["footerText"]}";
     puiDatatable.addColumn(new Column(header, footerText, closable,
                                         sortable, sortBy,
-                                        filterby, filterMatchMode));
-
+                                        filterby, filterMatchMode, c));
+    col.attributes.remove("header");
+    col.attributes.remove("footerText");
+    col.attributes.remove("filterby");
+    col.attributes.remove("filterMatchMode");
+    col.attributes.remove("closable");
+    col.attributes.remove("sortable");
+    col.attributes.remove("sortBy");
     c++;
   });
 }

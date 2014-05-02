@@ -58,7 +58,10 @@ class Column {
    * attribute describes the immutable properties of the column. */
   String currentFilter="";
 
+  /** Index of the colum. */
+  int columnIndex;
+
   Column(this.header, this.footerText, this.closable, this.sortable, this.sortBy,
-      this.filterby, this.filterMatchMode) {
+      this.filterby, this.filterMatchMode, this.columnIndex) {
   }
 }

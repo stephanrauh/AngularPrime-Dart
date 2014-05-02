@@ -93,6 +93,13 @@ class PuiDatatableComponent extends PuiBaseComponent implements
   /** Unique identifier of the table - needed for the sort formatter */
   String uniqueTableID;
 
+  String cellStyle(int col)
+  {
+    if (columnHeaders[col].hidden)
+      return "invisible";
+    else
+      return "tablecell";
+  }
 
   /**
    * Initializes the component by setting the <pui-datatable> field and setting the scope.
@@ -278,18 +285,16 @@ class PuiDatatableComponent extends PuiBaseComponent implements
 
   /** Called by the action listener of the close button. Hides a particular column. */
   closeColumn(MouseEvent event, DivElement close) {
-    DivElement headerRow = shadowTableContent.children[0];
+    DivElement headerRow = shadowTableContent.querySelector("#headerRow");
+    DivElement filterRow = shadowTableContent.querySelector("#filterRow");
+    DivElement footerRow = shadowTableContent.querySelector("#footerRow");
     int index = 0;
     for ( ; index < headerRow.children.length; index++) {
       if (headerRow.children[index] == close) {
         columnHeaders[index].hidden = true;
-        ElementList headers = shadowTableContent.querySelectorAll(".pui-datatable-th");
-        headers[index].style.display = "none";
-        ElementList rows = puiDatatableElement.querySelectorAll(".tr");
-        rows.forEach((Element row) {
-          if (!row.classes.contains("ui-datatable-empty-message"))
-            row.children[index].style.display = "none";
-        });
+        headerRow.children[index].style.display = "none";
+        filterRow.children[index].style.display = "none";
+        footerRow.children[index].style.display = "none";
         break;
       }
     }
