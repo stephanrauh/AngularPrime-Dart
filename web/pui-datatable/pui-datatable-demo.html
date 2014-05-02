@@ -37,7 +37,7 @@
       </pui-tab>
       <pui-tab title="sort and close columns" style="height:500px">
       <pui-panel header="live demo" >
-         <pui-datatable value="ctrl.carTable" var="row">
+         <pui-datatable value="ctrl.carTable" var="row" initialsort="year" initialsortdirection="up">
             <pui-column header="Brand" sortable="true" closable="true">{{row.brand}}</pui-column>
             <pui-column header="Type" >                                {{row.type}}</pui-column>
             <pui-column header="Year" sortBy="toNumber(year)">         {{row.year}}</pui-column>
@@ -61,13 +61,54 @@
     </pui-tab>
           <pui-tab title="add, edit and remove rows" style="height:500px">
       <pui-panel header="live demo" >
+  <div style="display:table">
+    <div style="display:table-row">
+      <div style="display:table-cell">
+         <br />
          <pui-datatable value="ctrl.carTable" var="row">
             <pui-column header="Brand">{{row.brand}}</pui-column>
-            <pui-column header="Type"> {{row.type}}</pui-column>
-            <pui-column header="Year"> {{row.year}}</pui-column>
+            <pui-column header="Type" >{{row.type}} </pui-column>
+            <pui-column header="Year" >{{row.year}} </pui-column>
             <pui-column header="Color">{{row.color}}</pui-column>
+            <pui-column header="">
+              <pui-button icon="trash" ng-click="row.deleteCar()" value="&nbsp;"></pui-button>
+            </pui-column>
+            <pui-column header="">
+              <pui-button icon="pencil" ng-click="row.editCar()" value="edit"></pui-button>
+            </pui-column>
           </pui-datatable>
-          <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
+        <pui-button icon="plus" ng-click="ctrl.addCar()" value="add car"></pui-button>
+      </div>
+
+
+       <div style="display:table-cell" style="height:100%; ">
+         <div style="margin-left:50px;">
+            <div style="height:20px;">&nbsp;
+          </div>
+            <div  ng-if="ctrl.currentCar!=null">
+              <pui-grid>
+                  <pui-dropdown label="Brand:" ng-model="ctrl.currentCar.brand" editable="true" options="ctrl.currentCar.brands">
+                  </pui-dropdown>
+                  <pui-dropdown label="type" ng-model="ctrl.currentCar.type" editable="true" options="ctrl.currentCar.matchingTypes()">
+                  </pui-dropdown>
+                  <pui-input label="year" ng-model="ctrl.currentCar.year" min="1886" max="{{ctrl.currentYear}}" required></pui-input>
+                  <pui-color label="color" ng-model="ctrl.currentCar.color" required></pui-color>
+                  <pui-bind-html html="ctrl.currentCar.image"></pui-bind-html>
+              </pui-grid>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:table-row">
+      <div style="display:table-cell">
+        Legal notes:<br>
+        Every photography has been taken from Wikimedia Commons.<br>
+        You can check the licence of each image by reading the<br>
+        tooltip (i.e. by reading the text that appears after<br>
+        letting your mouse rest a couple of second on the image).
+      </div>
+    </div>
+  </div>
 
      </pui-panel>
      <pui-panel header="source code">
@@ -112,7 +153,7 @@
 
     <pui-tab title="putting it all together"  style="height:500px">
       <h3>Putting it all together</h3>
-  <div style="disply:table">
+  <div style="display:table">
     <div style="display:table-row">
       <div style="display:table-cell">
          <br />
