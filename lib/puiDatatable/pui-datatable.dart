@@ -292,9 +292,15 @@ class PuiDatatableComponent extends PuiBaseComponent implements
     for ( ; index < headerRow.children.length; index++) {
       if (headerRow.children[index] == close) {
         columnHeaders[index].hidden = true;
-        headerRow.children[index].style.display = "none";
-        filterRow.children[index].style.display = "none";
-        footerRow.children[index].style.display = "none";
+        if (null != headerRow && headerRow.children.length>index) {
+          headerRow.children[index].style.display = "none";
+        }
+        if (null != filterRow && filterRow.children.length>index) {
+          filterRow.children[index].style.display = "none";
+        }
+        if (null != footerRow && footerRow.children.length>index) {
+          footerRow.children[index].style.display = "none";
+        }
         break;
       }
     }
