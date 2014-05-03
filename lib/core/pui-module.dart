@@ -169,7 +169,7 @@ class PuiModule extends Module {
     bind(PuiGridComponent);
     bind(PuiMenuComponent);
     bind(PuiMenuItemComponent);
-    bind(PuiMenuHeaderComponent);
+    bind(PuiSubmenuComponent);
 
     bind(PuiDatatableComponent);
     bind(PuiEmptyRowsFilter);

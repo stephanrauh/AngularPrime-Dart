@@ -20,7 +20,7 @@ import 'dart:html';
 import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
 part 'pui-menuItem.dart';
-part 'pui-menuHeader.dart';
+part 'pui-submenu.dart';
 
 /**
  * <pui-menu> is a menu component with AngularDart support.

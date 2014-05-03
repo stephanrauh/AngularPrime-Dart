@@ -20,14 +20,14 @@ part of puiMenu;
  * <pui-menu> is a menu component with AngularDart support.
  */
 @Component(
-    selector: 'pui-menuHeader',
-    templateUrl: 'packages/angularprime_dart/puiMenu/pui-menuHeader.html',
+    selector: 'pui-submenu',
+    templateUrl: 'packages/angularprime_dart/puiMenu/pui-submenu.html',
     publishAs: 'cmp'
 )
-class PuiMenuHeaderComponent extends PuiBaseComponent implements ShadowRootAware  {
+class PuiSubmenuComponent extends PuiBaseComponent implements ShadowRootAware  {
 
   /** The <pui-menuHeader> field as defined in the HTML source code. */
-  Element puiMenuHeaderElement;
+  Element puiSubmenuElement;
 
   /** The scope is needed to add watches. */
   Scope scope;
@@ -52,7 +52,7 @@ class PuiMenuHeaderComponent extends PuiBaseComponent implements ShadowRootAware
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiMenuHeaderComponent(this.scope, this._parent, this.puiMenuHeaderElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
+  PuiSubmenuComponent(this.scope, this._parent, this.puiSubmenuElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
   }
 
   /**
@@ -69,7 +69,7 @@ class PuiMenuHeaderComponent extends PuiBaseComponent implements ShadowRootAware
     // Dirty hack to circumvent the additional work needed to style the shadow dom correctly
     // (ShadowDom is going to be dropped soon, so it's not worth the pain to make the component work with the shadow DOM)
     // To make things worse, onShadowRoot is called in any order, so we have to find out where to insert the code
-    int order=int.parse(puiMenuHeaderElement.attributes["_puiSortOrder"]);
+    int order=int.parse(puiSubmenuElement.attributes["_puiSortOrder"]);
     bool done=false;
     for (int i = 0; i < _parent.shadowyMenu.nodes.length; i++)
     {
@@ -88,6 +88,7 @@ class PuiMenuHeaderComponent extends PuiBaseComponent implements ShadowRootAware
           }
           }
           catch (error) {
+            print(error);
             print(e.outerHtml);
           }
         }

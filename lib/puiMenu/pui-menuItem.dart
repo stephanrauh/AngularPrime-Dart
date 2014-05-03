@@ -82,8 +82,6 @@ class PuiMenuItemComponent extends PuiBaseComponent implements ShadowRootAware  
     elements.forEach((Element menue) {menue.onClick.listen((e) {
       // When the button is clicked, it runs this code.
       if (disabled==null || disabled=="false") {
-        print(actionListener);
-        print(ngClick);
         try
         {
            actionListener();
@@ -124,6 +122,7 @@ class PuiMenuItemComponent extends PuiBaseComponent implements ShadowRootAware  
           }
           }
           catch (error) {
+            print(error);
             print(e.outerHtml);
           }
         }
