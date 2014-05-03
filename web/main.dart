@@ -24,12 +24,14 @@ part 'puiInputDemoController.dart';
 part 'puiButtonDemoController.dart';
 part 'pui-datatable/puiDatatableDemoController.dart';
 part 'pui-datatable/pui-car.dart';
+part 'pui-menu/pui-menuDemoController.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
     bind(PuiInputDemoController);
     bind(PuiButtonDemoController);
     bind(PuiDatatableDemoController);
+    bind(PuiMenuDemoController);
   }
 
   /**

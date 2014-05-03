@@ -52,6 +52,18 @@ class PuiMenuItemComponent extends PuiBaseComponent implements ShadowRootAware  
   @NgAttr("icon")
   String icon;
 
+  /** optional: the name of a Dart function called when the button is clicked.
+   * Similar to ng-click (but more natural to PrimeFaces programmers).
+   * Note that onClick is also a legal attribute, only it calls a Javascript function instead of a Dart function!
+   */
+  @NgCallback("actionListener")
+  Function actionListener;
+
+
+  @NgCallback("ng-click")
+  Function ngClick;
+
+
  /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
@@ -65,6 +77,31 @@ class PuiMenuItemComponent extends PuiBaseComponent implements ShadowRootAware  
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
+
+    HtmlCollection elements = shadowRoot.getElementsByClassName("pui-menuitem");
+    elements.forEach((Element menue) {menue.onClick.listen((e) {
+      // When the button is clicked, it runs this code.
+      if (disabled==null || disabled=="false") {
+        print(actionListener);
+        print(ngClick);
+        try
+        {
+           actionListener();
+        }
+        catch (error) {
+          print(error);
+        }
+        try
+        {
+          ngClick();
+        }
+        catch (error) {
+          print(error);
+        }
+      }
+    });
+    });
+
     // Dirty hack to circumvent the additional work needed to style the shadow dom correctly
     // (ShadowDom is going to be dropped soon, so it's not worth the pain to make the component work with the shadow DOM)
     // To make things worse, onShadowRoot is called in any order, so we have to find out where to insert the code
@@ -115,5 +152,9 @@ class PuiMenuItemComponent extends PuiBaseComponent implements ShadowRootAware  
     */
   }
 
+  void doCommand(String action)
+  {
+    print(action);
+  }
 }
 

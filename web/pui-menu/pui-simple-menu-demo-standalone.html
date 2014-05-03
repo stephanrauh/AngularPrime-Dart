@@ -10,14 +10,16 @@
 </head>
 <body>
 This is a simple menu.
+<div puiMenuDemo>
     <pui-menu>
       <pui-menuHeader value="File"></pui-menuHeader>
-      <pui-menuItem value="New" icon="ui-icon-document"></pui-menuItem>
-      <pui-menuItem value="Open" icon="ui-icon-folder-open"></pui-menuItem>
+      <pui-menuItem value="New" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
+      <pui-menuItem value="Open" icon="ui-icon-folder-open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
       <pui-menuHeader value="Edit"></pui-menuHeader>
-      <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w"></pui-menuItem>
-      <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e"></pui-menuItem>
+      <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+      <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
     </pui-menu>
+    </div>
   <script type="application/dart" src="../main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>
 </body>
