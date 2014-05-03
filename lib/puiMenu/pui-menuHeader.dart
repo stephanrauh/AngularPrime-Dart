@@ -49,7 +49,6 @@ class PuiMenuHeaderComponent extends PuiBaseComponent implements ShadowRootAware
   @NgOneWay("_puisortorder")
   int puiSortOrder;
 
-
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */

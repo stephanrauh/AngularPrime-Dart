@@ -48,6 +48,10 @@ class PuiMenuItemComponent extends PuiBaseComponent implements ShadowRootAware  
 
   /** The surrounding menu */
   PuiMenuComponent _parent;
+
+  @NgAttr("icon")
+  String icon;
+
  /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
