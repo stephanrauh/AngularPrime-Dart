@@ -31,6 +31,7 @@ import '../puiAttribute/puiAttr.dart';
 import '../puiPanel/pui-panel.dart';
 import '../puiAccordion/pui-accordion.dart';
 import '../puiTabview/pui-tabview.dart';
+import '../puiMenu/pui-menu.dart';
 
 import '../puiDatatable/pui-datatable.dart';
 
@@ -166,6 +167,9 @@ class PuiModule extends Module {
     bind(PuiTabviewComponent);
     bind(PuiTabComponent);
     bind(PuiGridComponent);
+    bind(PuiMenuComponent);
+    bind(PuiMenuItemComponent);
+    bind(PuiMenuHeaderComponent);
 
     bind(PuiDatatableComponent);
     bind(PuiEmptyRowsFilter);
