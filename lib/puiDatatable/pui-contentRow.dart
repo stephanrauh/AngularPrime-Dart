@@ -20,13 +20,9 @@ class PuiContentRow extends PuiBaseComponent /* implements ShadowRootAware */
     List<Node> list = PuiHtmlUtils.parseResponse("<span>${table.contentColumns}</span>").childNodes;
 
       ViewFactory template = compiler(list, directives);
-//      Scope childScope = scope.createChild(scope.context);
       Injector childInjector =
           injector.createChild([new Module()..bind(Scope, toValue: scope.parentScope)]);
-//      Injector childInjector =
-//          injector.createChild([new Module()..bind(Scope, toValue: scope)]);
       template(childInjector, list);
-//      innerNodes.forEach((Node n){ puiDatatableElement.append(n);});
 
       while (list.length>0) {
         Node n = list[0];

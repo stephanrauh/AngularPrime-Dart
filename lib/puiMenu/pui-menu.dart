@@ -19,8 +19,7 @@ library puiMenu;
 import 'dart:html';
 import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
-part 'pui-menuItem.dart';
-part 'pui-submenu.dart';
+import '../core/pui-module.dart';
 
 /**
  * <pui-menu> is a menu component with AngularDart support.
@@ -50,15 +49,71 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** The menu element that's really displayed (the shadow DOM) */
   Element shadowyMenu;
 
+  /** The inner HTML code */
+  List<Element> innerDOM;
+
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
   PuiMenuComponent(this.scope, this.puiMenuElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
-    int order=0;
+    String html = _createHTML();
+    puiMenuElement.nodes.clear();
+    _compileHTMLCodeToAngular(html, compiler, directives, injector);
+  }
+
+  String _createHTML() {
+    String html="";
     puiMenuElement.children.forEach((Element item ) {
-      item.attributes["_puisortorder"]=order.toString();
-      order++;
+      if (item.nodeName=="PUI-SUBMENU") {
+        html = _createSubmenu(item, html);
+      }
+      else if (item.nodeName=="PUI-MENUITEM")
+      {
+        html = _createMenuItem(item, html);
+      }
+
     });
+    return html;
+  }
+
+  String _createMenuItem(Element item, String html) {
+    String value=item.attributes["value"];
+    String icon=item.attributes["icon"];
+    String ngClick=item.attributes["ng-click"];
+    if (null==ngClick) ngClick=item.attributes["actionListener"];
+    String ngClickHTML = "";
+    if (null != ngClick) ngClickHTML="""ng-click="$ngClick" """;
+    String s =
+        """<li class="pui-menuitem ui-widget ui-corner-all" $ngClickHTML>
+          <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all" >
+    <span class="pui-menuitem-icon ui-icon $icon" ng-if="$icon != null">
+    </span>
+    <span class="ui-menuitem-text" >
+      $value
+    </span>
+          </a>
+        </li>""";
+    html += s;
+    return html;
+  }
+
+  String _createSubmenu(Element item, String html) {
+    String value=item.attributes["value"];
+    String s = """<li class="ui-widget-header ui-corner-all">
+                  <h3>$value</h3>""";
+
+    s+="</li>";
+    html += s;
+    return html;
+  }
+
+  void _compileHTMLCodeToAngular(String html, Compiler compiler, DirectiveMap directives, Injector injector) {
+    Element parseResponse = PuiHtmlUtils.parseResponse("<span>"+html+"</span>");
+    innerDOM=parseResponse.children;
+    ViewFactory template = compiler(innerDOM, directives);
+    Injector childInjector =
+        injector.createChild([new Module()..bind(Scope, toValue: scope.parentScope)]);
+    template(childInjector, innerDOM);
   }
 
   /**
@@ -69,6 +124,7 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
    */
   void onShadowRoot(ShadowRoot shadowRoot) {
     shadowyMenu =shadowRoot.getElementById("puiMenuContainer");
+    shadowyMenu.children.addAll(innerDOM);
   }
 
   /** depending on the disabled flag, the input field is switched either to read-only or editable mode */
