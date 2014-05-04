@@ -119,7 +119,7 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
     }
     else {
       String innerHTML=_createHTML(item);
-      innerHTML="""<ul class="ui-widget-content pui-menu-list ui-corner-all ui-helper-clearfix pui-menu-child pui-shadow" style="left: 193px; top: 0px; z-index: 1006; display: block;">
+      innerHTML="""<ul class="ui-widget-content pui-menu-list ui-corner-all ui-helper-clearfix pui-menu-child pui-shadow" style="top: 0px; z-index: 1006; display: none;">
           $innerHTML</ul>""";
       String html=_createMenuItem(item, innerHTML);
       return html;
@@ -168,12 +168,46 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
     EventTarget target = msg.target;
     window.alert("This alert is shown by the Dart component. Received parameter = ${msg.target}");
   }
-  void showSubmenu(MouseEvent msg) {
 
-    EventTarget target = msg.target;
-    window.alert("Show submenu = ${msg.target}");
+  /**
+   * This method is called by the mouseover event and makes a submenu visible.
+   */
+  void showSubmenu(MouseEvent msg) {
+    try
+    {
+      EventTarget target = msg.target;
+      if (target is SpanElement)
+      {
+        if (target.parent is AnchorElement) target=target.parent;
+      }
+      if (target is AnchorElement)
+      {
+        AnchorElement anchor = target;
+        int w = anchor.client.width;
+        anchor.parent.parent.children.forEach((Element p) {
+          p.children.forEach((Element e) {
+            if (e is UListElement)
+            {
+              e.style.display="none";
+            }
+          });
+        });
+        var submenu = anchor.nextElementSibling;
+        if (null != submenu) {
+          submenu.style.left=(5+w).toString() + "px";
+          submenu.style.display="block";
+        }
+      }
+    }
+    catch (error) {
+      print("An error has occurred: $error");
+    }
   }
 
+  /**
+   * This method is a hack needed to call the controller from the component's scope.
+   * @param methodCall the method call. Ticks can be encoded as &puitick;.
+   */
   void callFunction(String s)
   {
     s=s.replaceAll("&puitick;", "'");
