@@ -183,12 +183,16 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
       if (target is AnchorElement)
       {
         AnchorElement anchor = target;
+        anchor.classes.add("ui-state-hover");
         int w = anchor.client.width;
         anchor.parent.parent.children.forEach((Element p) {
           p.children.forEach((Element e) {
-            if (e is UListElement)
+            if (e is UListElement && e!=anchor.nextElementSibling)
             {
               e.style.display="none";
+            }
+            else if (e is AnchorElement && e != anchor) {
+              e.classes.remove("ui-state-hover");
             }
           });
         });
