@@ -17,10 +17,11 @@
 
 part of showcase;
 
-@Controller(selector: '[puiMenuDemo]', publishAs: 'ctrl')
+@Controller(selector: '[puiMenuDemo]', publishAs: 'ctrl', visibility: Directive.CHILDREN_VISIBILITY)
 class PuiMenuDemoController {
 
-  void showMsg(String msg) {
+  void showMsg(var msg) {
+
     window.alert("This alert is shown by Dart. Received parameter = "+msg);
   }
 

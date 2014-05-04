@@ -1,40 +1,26 @@
-
-<li class="ui-widget-header ui-corner-all ng-binding">
-                  <h3>Edit</h3>
-<div class="pui-menu ui-widget ui-widget-content ui-corner-all ui-helper-clearfix" style="display:none;top:30px;left:180px;width:200px;z-index:1000">
-<ul class="pui-menu-list ui-helper-reset"><li class="pui-menuitem ui-widget ui-corner-all ng-binding" ng-click="ctrl.showMsg('undo')">
-          <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all ng-binding">
-    <!--ANCHOR: [ng-if]=ui-icon-arrowreturnthick-1-w != null--><span class="pui-menuitem-icon ui-icon ui-icon-arrowreturnthick-1-w ng-binding" ng-if="ui-icon-arrowreturnthick-1-w != null">
-    </span>
-    <span class="ui-menuitem-text">
-      Undo
-    </span>
-          </a>
-        </li><li class="pui-menuitem ui-widget ui-corner-all ng-binding" ng-click="ctrl.showMsg('redo')">
-          <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all ng-binding">
-    <!--ANCHOR: [ng-if]=ui-icon-arrowreturnthick-1-e != null--><span class="pui-menuitem-icon ui-icon ui-icon-arrowreturnthick-1-e ng-binding" ng-if="ui-icon-arrowreturnthick-1-e != null">
-    </span>
-    <span class="ui-menuitem-text">
-      Redo
-    </span>
-          </a>
-        </li></ul></div></li>
-
-
-
 Rudy:
+<li class="pui-menuitem ui-widget ui-corner-all pui-menu-parent "  >
 <li class="pui-menuitem ui-widget ui-corner-all pui-menu-parent">
+  <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all" >
   <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all">
     <span class="ui-icon ui-icon-triangle-1-e"></span>
     <span class="pui-menuitem-icon ui-icon ui-icon-document"></span>
+    <span class="ui-menuitem-text">Edit</span>
     <span class="ui-menuitem-text">File</span>
   </a>
+  </a>
+    <ul class="ui-widget-content pui-menu-list ui-corner-all ui-helper-clearfix pui-menu-child pui-shadow" style="left: 193px; top: 0px; z-index: 1006; display: block;">
     <ul class="ui-widget-content pui-menu-list ui-corner-all ui-helper-clearfix pui-menu-child pui-shadow" style="left: 193px; top: 0px; z-index: 1006; display: block;">
         <li class="pui-menuitem ui-widget ui-corner-all pui-menu-parent">
-            <a data-icon="ui-icon-contact" class="pui-menuitem-link ui-corner-all">
+        <li class="pui-menuitem ui-widget ui-corner-all " ng-click="ctrl.showMsg('redo')"  >
+            <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all" >
+            <a data-icon="ui-icon-contact"  class="pui-menuitem-link ui-corner-all">
               <span class="ui-icon ui-icon-triangle-1-e"></span>
               <span class="pui-menuitem-icon ui-icon ui-icon-contact"></span>
+              <span class="pui-menuitem-icon ui-icon ui-icon-arrowreturnthick-1-e" ng-if="ui-icon-arrowreturnthick-1-e != null"></span>
+              <span class="ui-menuitem-text" >Redo</span>
               <span class="ui-menuitem-text">New</span>
+            </a>
             </a>
         </li>
         <li class="pui-menuitem ui-widget ui-corner-all"><a ng-click="doCommand('open')" class="pui-menuitem-link ui-corner-all"><span class="ui-menuitem-text">Open</span></a></li>

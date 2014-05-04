@@ -29,7 +29,8 @@ import '../core/pui-module.dart';
     templateUrl: 'packages/angularprime_dart/puiMenu/pui-menu.html',
     cssUrl: 'packages/angularprime_dart/puiMenu/pui-menu.css',
     applyAuthorStyles: true,
-    publishAs: 'cmp'
+    publishAs: 'cmp',
+    visibility: Directive.CHILDREN_VISIBILITY
 )
 class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
 
@@ -83,17 +84,21 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
 
     String ngClick=item.attributes["ng-click"];
     if (null==ngClick) ngClick=item.attributes["actionListener"];
+    if (null != ngClick) ngClick=ngClick.replaceAll("'", "&puitick;");
+
     String ngClickHTML = "";
-    if (null != ngClick) ngClickHTML="""ng-click="$ngClick" """;
+    if (null != ngClick) ngClickHTML="""ng-click="cmp.callFunction('$ngClick')" """;
     String parentClass="";
     String subMenuTriangle="";
+    String toggleSubmenu="";
     if (item.children.length>0) {
       parentClass="pui-menu-parent";
       subMenuTriangle="""<span class="ui-icon ui-icon-triangle-1-e"></span>""";
+      toggleSubmenu = 'ng-mouseOver="cmp.showSubmenu(\$event);"';
     }
 
     String html =
-        """<li class="pui-menuitem ui-widget ui-corner-all $parentClass" $ngClickHTML >
+        """<li class="pui-menuitem ui-widget ui-corner-all $parentClass" $ngClickHTML $toggleSubmenu >
           <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all">
           $subMenuTriangle
     $iconSpan
@@ -109,7 +114,8 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
   String _createSubmenu(Element item) {
     String value=item.attributes["value"];
     if (item.children.length==0) {
-      return """<li class="ui-widget-header ui-corner-all"><h3>$value</h3></li>""";
+      String togglePanel = true? '': 'ng-mouseOver="cmp.showSubmenu(\$event);"'; // todo
+      return """<li class="ui-widget-header ui-corner-all" $togglePanel><h3>$value</h3></li>""";
     }
     else {
       String innerHTML=_createHTML(item);
@@ -125,7 +131,7 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
     innerDOM=parseResponse.children;
     ViewFactory template = compiler(innerDOM, directives);
     Injector childInjector =
-        injector.createChild([new Module()..bind(Scope, toValue: scope.parentScope)]);
+        injector.createChild([new Module()..bind(Scope, toValue: scope)]);
     template(childInjector, innerDOM);
   }
 
@@ -157,6 +163,22 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
     */
   }
 
+  void showMsg(MouseEvent msg) {
+
+    EventTarget target = msg.target;
+    window.alert("This alert is shown by the Dart component. Received parameter = ${msg.target}");
+  }
+  void showSubmenu(MouseEvent msg) {
+
+    EventTarget target = msg.target;
+    window.alert("Show submenu = ${msg.target}");
+  }
+
+  void callFunction(String s)
+  {
+    s=s.replaceAll("&puitick;", "'");
+    scope.parentScope.eval(s);
+  }
 
 
 }
