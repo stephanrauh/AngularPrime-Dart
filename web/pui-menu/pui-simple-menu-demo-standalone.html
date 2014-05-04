@@ -10,16 +10,94 @@
 </head>
 <body>
 This is a simple menu.
-<div puiMenuDemo>
-    <pui-menu>
-      <pui-submenu value="File"></pui-submenu>
-      <pui-menuItem value="New" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
-      <pui-menuItem value="Open" icon="ui-icon-folder-open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
-      <pui-submenu value="Edit"></pui-submenu>
-      <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
-      <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
-    </pui-menu>
+<pui-tabview>
+  <pui-tab title="plain simple menu">
+    <div puiMenuDemo>
+      <pui-menu>
+        <pui-submenu value="File"></pui-submenu>
+        <pui-menuItem value="New"  actionListener="ctrl.showMsg('new')"></pui-menuItem>
+        <pui-menuItem value="Open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
+        <pui-submenu value="Edit" ></pui-submenu>
+        <pui-menuItem value="Undo" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+        <pui-menuItem value="Redo" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
+      </pui-menu>
     </div>
+  </pui-tab>
+
+  <pui-tab title="plain menu + icons">
+    <div puiMenuDemo>
+      <pui-menu>
+        <pui-submenu value="File" icon="ui-icon-document"></pui-submenu>
+        <pui-menuItem value="New" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
+        <pui-menuItem value="Open" icon="ui-icon-folder-open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
+        <pui-submenu value="Edit" icon="ui-icon-pencil"></pui-submenu>
+        <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+        <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
+      </pui-menu>
+    </div>
+  </pui-tab>
+
+  <pui-tab title="plain menu + icons + disabled items">
+    <div puiMenuDemo>
+      <pui-menu>
+        <pui-submenu value="File" icon="ui-icon-document"></pui-submenu>
+        <pui-menuItem value="New" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
+        <pui-menuItem value="Open (disabled)" disabled="true" icon="ui-icon-folder-open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
+        <pui-menuItem value="Save" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
+        <pui-submenu value="Edit (disabled)" disabled="true" icon="ui-icon-pencil"></pui-submenu>
+        <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+        <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
+      </pui-menu>
+    </div>
+  </pui-tab>
+
+
+  <pui-tab title="tiered menu" selected="true">
+    <div puiMenuDemo>
+      <pui-menu>
+        <pui-submenu value="File" >
+          <pui-menuItem value="New"  actionListener="ctrl.showMsg('new')"></pui-menuItem>
+          <pui-menuItem value="Open"  actionListener="ctrl.showMsg('open')"></pui-menuItem>
+        </pui-submenu>
+        <pui-submenu value="Edit" >
+          <pui-menuItem value="Undo" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+          <pui-menuItem value="Redo" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
+        </pui-submenu>
+      </pui-menu>
+    </div>
+  </pui-tab>
+
+  <pui-tab title="tiered menu + icons">
+    <div puiMenuDemo>
+      <pui-menu>
+        <pui-submenu value="File" icon="ui-icon-document">
+          <pui-menuItem value="New" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
+          <pui-menuItem value="Open" icon="ui-icon-folder-open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
+        </pui-submenu>
+        <pui-submenu value="Edit" icon="ui-icon-pencil">
+          <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+          <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
+        </pui-submenu>
+      </pui-menu>
+    </div>
+    </pui-tab>
+
+  <pui-tab title="tiered menu + icons + disabled items">
+    <div puiMenuDemo>
+      <pui-menu>
+        <pui-submenu value="File" icon="ui-icon-document">
+          <pui-menuItem value="New" icon="ui-icon-document" actionListener="ctrl.showMsg('new')"></pui-menuItem>
+          <pui-menuItem value="Open (disabled)" disabled="true" icon="ui-icon-folder-open" actionListener="ctrl.showMsg('open')"></pui-menuItem>
+        </pui-submenu>
+        <pui-submenu value="Edit (disabled)" disabled="true" icon="ui-icon-pencil">
+          <pui-menuItem value="Undo" icon="ui-icon-arrowreturnthick-1-w" ng-click="ctrl.showMsg('undo')"></pui-menuItem>
+          <pui-menuItem value="Redo" icon="ui-icon-arrowreturnthick-1-e" ng-click="ctrl.showMsg('redo')"></pui-menuItem>
+        </pui-submenu>
+      </pui-menu>
+    </div>
+    </pui-tab>
+
+  </pui-tabview>
   <script type="application/dart" src="../main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>
 </body>

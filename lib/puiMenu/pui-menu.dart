@@ -56,55 +56,68 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
   PuiMenuComponent(this.scope, this.puiMenuElement, this._model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
-    String html = _createHTML();
+    String html = _createHTML(puiMenuElement);
     puiMenuElement.nodes.clear();
     _compileHTMLCodeToAngular(html, compiler, directives, injector);
   }
 
-  String _createHTML() {
+  String _createHTML(Element parent) {
     String html="";
-    puiMenuElement.children.forEach((Element item ) {
+    parent.children.forEach((Element item ) {
       if (item.nodeName=="PUI-SUBMENU") {
-        html = _createSubmenu(item, html);
+        html += _createSubmenu(item);
       }
       else if (item.nodeName=="PUI-MENUITEM")
       {
-        html = _createMenuItem(item, html);
+        html += _createMenuItem(item);
       }
 
     });
     return html;
   }
 
-  String _createMenuItem(Element item, String html) {
+  String _createMenuItem(Element item, [String subMenuHTML=""]) {
     String value=item.attributes["value"];
     String icon=item.attributes["icon"];
+    String iconSpan=icon==null?"":"""<span class="pui-menuitem-icon ui-icon $icon" ng-if="$icon != null"></span>""";
+
     String ngClick=item.attributes["ng-click"];
     if (null==ngClick) ngClick=item.attributes["actionListener"];
     String ngClickHTML = "";
     if (null != ngClick) ngClickHTML="""ng-click="$ngClick" """;
-    String s =
-        """<li class="pui-menuitem ui-widget ui-corner-all" $ngClickHTML>
-          <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all" >
-    <span class="pui-menuitem-icon ui-icon $icon" ng-if="$icon != null">
-    </span>
+    String parentClass="";
+    String subMenuTriangle="";
+    if (item.children.length>0) {
+      parentClass="pui-menu-parent";
+      subMenuTriangle="""<span class="ui-icon ui-icon-triangle-1-e"></span>""";
+    }
+
+    String html =
+        """<li class="pui-menuitem ui-widget ui-corner-all $parentClass" $ngClickHTML >
+          <a data-icon="ui-icon-document" class="pui-menuitem-link ui-corner-all">
+          $subMenuTriangle
+    $iconSpan
     <span class="ui-menuitem-text" >
       $value
     </span>
           </a>
+          $subMenuHTML
         </li>""";
-    html += s;
     return html;
   }
 
-  String _createSubmenu(Element item, String html) {
+  String _createSubmenu(Element item) {
     String value=item.attributes["value"];
-    String s = """<li class="ui-widget-header ui-corner-all">
-                  <h3>$value</h3>""";
-
-    s+="</li>";
-    html += s;
-    return html;
+    if (item.children.length==0) {
+      return """<li class="ui-widget-header ui-corner-all"><h3>$value</h3></li>""";
+    }
+    else {
+      String innerHTML=_createHTML(item);
+      innerHTML="""<ul class="ui-widget-content pui-menu-list ui-corner-all ui-helper-clearfix pui-menu-child pui-shadow" style="left: 193px; top: 0px; z-index: 1006; display: block;">
+          $innerHTML</ul>""";
+      String html=_createMenuItem(item, innerHTML);
+      return html;
+    }
   }
 
   void _compileHTMLCodeToAngular(String html, Compiler compiler, DirectiveMap directives, Injector injector) {
