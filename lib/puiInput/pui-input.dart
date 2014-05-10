@@ -20,6 +20,10 @@ import 'dart:html';
 import 'package:angular/angular.dart';
 import '../core/pui-base-component.dart';
 part 'pui-color.dart';
+part 'pui-date.dart';
+part 'pui-email.dart';
+part 'pui-time.dart';
+part 'pui-url.dart';
 part 'pui-week.dart';
 
 /**

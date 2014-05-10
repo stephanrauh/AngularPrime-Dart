@@ -83,6 +83,9 @@ class Car {
   String week;
   String city;
   String zipcode;
+  String deliveryDate;
+  String email="lorem@ipsum.com";
+
   PuiDatatableDemoController _parent;
 
   Car(this.brand, this.type, this._year, this.color, this._parent);

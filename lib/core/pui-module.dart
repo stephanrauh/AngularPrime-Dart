@@ -178,6 +178,10 @@ class PuiModule extends Module {
     bind(PuiBindHtmlDirective);
 
     bind(PuiInputTextComponent);
+    bind(PuiDateComponent);
+    bind(PuiEMailComponent);
+    bind(PuiTimeComponent);
+    bind(PuiUrlComponent);
     bind(PuiWeekComponent);
     bind(PuiColorComponent);
     bind(PuiButtonComponent);
