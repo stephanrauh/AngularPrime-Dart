@@ -84,6 +84,7 @@ class Car {
   String city;
   String zipcode;
   String deliveryDate;
+  String time;
   String email="lorem@ipsum.com";
 
   PuiDatatableDemoController _parent;

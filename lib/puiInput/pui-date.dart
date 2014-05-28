@@ -31,7 +31,9 @@ class PuiDateComponent extends PuiInputTextComponent {
   /**
    * Initializes the component by setting the <pui-date> field and setting the scope.
    */
-  PuiDateComponent(Scope scope, Element puiInputElement, NgModel model, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser) : super(scope, puiInputElement, model, compiler, injector, directives, parser) {
+  PuiDateComponent(Scope scope, Element puiInputElement, NgModel model, Compiler compiler, Injector injector,
+                   DirectiveMap directives, Parser parser) :
+                   super(scope, puiInputElement, model, compiler, injector, directives, parser) {
     puiInputElement.attributes['type']="date";
   }
 }
