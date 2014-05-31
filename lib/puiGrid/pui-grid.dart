@@ -65,6 +65,13 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
   @NgOneWayOneTime("columns")
   int columns;
 
+  /** Comma separated list of the CSS classes of the columns. */
+  @NgAttr("columnClasses")
+  String columnClasses;
+
+  /** If true, the code needed to support Bootstrap is generated. */
+  @NgOneWayOneTime("bootstrap")
+  bool bootstrap;
 
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.

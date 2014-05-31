@@ -146,8 +146,11 @@ class PuiPanelComponent  extends PuiBaseComponent implements ShadowRootAware  {
 
   /** Adds toggle functionality to the HTML code */
   void onShadowRoot(ShadowRoot shadowRoot) {
+    Element widget=shadowRoot.querySelector(".pui-panel");
     titlebar = shadowRoot.querySelector('.pui-panel-titlebar');
     content = shadowRoot.querySelector('.pui-panel-content');
+    List excludedAttributes=["header", "id", "toggleable", "collapsed", "toggleOrientation"];
+    copyAttributesToShadowDOM(puiPanelElement, widget, scope, excludedAttributes);
     convertAttributes();
 
     if (toggleable == "true") {

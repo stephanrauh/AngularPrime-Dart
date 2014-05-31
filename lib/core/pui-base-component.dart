@@ -110,13 +110,17 @@ class PuiBaseComponent {
     * Copies every attribute from the updated <pui-input> - which contains the current model values -
     * to the shadow tree, and creates the map of original attribute values.
     */
-  void copyAttributesToShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope) {
+  void copyAttributesToShadowDOM(Element puiInputElement, Element shadowyInputField, Scope scope, [List<String> exclusions=null]) {
     if (null!=shadowyInputField)
     {
       originalValues = new Map();
 
-      puiInputElement.attributes.forEach((String key, String value) =>
-         addAttributeToShadowDOM(shadowyInputField, key, value));
+      if (null==exclusions) exclusions=["id"];
+      puiInputElement.attributes.forEach((String key, String value) {
+          if (!exclusions.contains(key)) {
+            addAttributeToShadowDOM(shadowyInputField, key, value);
+          }
+      });
     }
   }
 
