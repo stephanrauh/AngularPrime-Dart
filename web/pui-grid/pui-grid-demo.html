@@ -12,6 +12,7 @@
 
 <form name="carForm">
   <div puiDatatableDemo>
+  <pui-panel header="Single-column grid">
     <pui-grid>
         <pui-dropdown ng-model="ctrl.carTable[0].brand" editable="true" options="ctrl.carTable[0].brands" label="brand">
         </pui-dropdown>
@@ -25,6 +26,7 @@
         <pui-input label="ZIP code (4-5 digits)" ng-model="ctrl.carTable[0].zipcode" minlength="4" maxlength="5" required></pui-input>
         <pui-input label="ZIP code (disabled)" disabled="true" ng-model="ctrl.carTable[0].zipcode" minlength="4" maxlength="5" required></pui-input>
       </pui-grid>
+      </pui-panel>
   </div>
 </form>
 

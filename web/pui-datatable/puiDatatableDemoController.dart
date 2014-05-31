@@ -60,6 +60,8 @@ class PuiDatatableDemoController {
   }
 
   int get currentYear => 2014;
+  
+  int leseJahr() { return 2014; }
 
 }
 
