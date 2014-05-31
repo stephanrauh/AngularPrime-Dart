@@ -33,7 +33,6 @@ class MyAppModule extends PuiModule {
    */
   void bootStrap() {
     super.bootStrap();
-    print("Hello World");
     // equivalent to ngBootstrap(module: this);
   }
 
