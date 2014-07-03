@@ -27,8 +27,7 @@ import '../core/pui-module.dart';
 @Component(
     selector: 'pui-menu',
     templateUrl: 'packages/angularprime_dart/puiMenu/pui-menu.html',
-    cssUrl: 'packages/angularprime_dart/puiMenu/pui-menu.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp',
     visibility: Directive.CHILDREN_VISIBILITY
 )
@@ -141,7 +140,7 @@ class PuiMenuComponent extends PuiBaseComponent implements ShadowRootAware  {
    *
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     shadowyMenu =shadowRoot.getElementById("puiMenuContainer");
     shadowyMenu.children.addAll(innerDOM);
   }

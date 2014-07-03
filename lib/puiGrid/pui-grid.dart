@@ -34,8 +34,7 @@ import '../core/pui-base-component.dart';
 @Component(
     selector: 'pui-grid',
     templateUrl: 'packages/angularprime_dart/puiGrid/pui-grid.html',
-    cssUrl: 'packages/angularprime_dart/puiGrid/pui-grid.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
@@ -86,7 +85,7 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
    *
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     DivElement table = shadowRoot.children[1];
     List rows = table.children;
     List fields = puiGridComponent.children;

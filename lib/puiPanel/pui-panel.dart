@@ -29,8 +29,7 @@ import '../core/pui-base-component.dart';
 @Component(
     selector: 'pui-panel',
     templateUrl: 'packages/angularprime_dart/puiPanel/pui-panel.html',
-    cssUrl: 'packages/angularprime_dart/puiPanel/pui-panel.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiPanelComponent  extends PuiBaseComponent implements ShadowRootAware  {
@@ -145,7 +144,7 @@ class PuiPanelComponent  extends PuiBaseComponent implements ShadowRootAware  {
   }
 
   /** Adds toggle functionality to the HTML code */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     Element widget=shadowRoot.querySelector(".pui-panel");
     titlebar = shadowRoot.querySelector('.pui-panel-titlebar');
     content = shadowRoot.querySelector('.pui-panel-content');

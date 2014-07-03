@@ -26,7 +26,7 @@ import '../core/pui-base-component.dart';
 @Component(
     selector: 'pui-include',
     templateUrl: 'packages/angularprime_dart/puiInclude/pui-include.html',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiIncludeComponent extends PuiBaseComponent implements ShadowRootAware  {

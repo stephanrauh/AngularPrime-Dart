@@ -54,8 +54,7 @@ part 'pui-contentRow.dart';
 @Component(visibility: Directive.CHILDREN_VISIBILITY,
     selector: 'pui-datatable',
     templateUrl: 'packages/angularprime_dart/puiDatatable/pui-datatable.html',
-    cssUrl:       'packages/angularprime_dart/puiDatatable/pui-datatable.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp')
 class PuiDatatableComponent extends PuiBaseComponent implements
     ShadowRootAware {
@@ -115,7 +114,7 @@ class PuiDatatableComponent extends PuiBaseComponent implements
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     shadowTableContent = shadowRoot.getElementById("pui-content");
     ElementList targetDiv = shadowRoot.querySelectorAll('contentRows');
     Element targetDiv2 = shadowRoot.getElementById('contentRows');

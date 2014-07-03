@@ -26,8 +26,7 @@ import '../core/pui-base-component.dart';
 @Component(
     selector: 'pui-radiobutton',
     templateUrl: 'packages/angularprime_dart/puiRadiobuttons/pui-radiobutton.html',
-    cssUrl: 'packages/angularprime_dart/puiRadiobuttons/pui-radiobutton.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiRadiobuttonComponent extends PuiBaseComponent implements ShadowRootAware  {
@@ -56,7 +55,7 @@ class PuiRadiobuttonComponent extends PuiBaseComponent implements ShadowRootAwar
    *
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     shadowyRadiobutton = shadowRoot.getElementsByTagName("input")[0];
     copyAttributesToShadowDOM(puiInputElement, shadowyRadiobutton, scope);
     addWatches(puiInputElement, shadowyRadiobutton, scope);

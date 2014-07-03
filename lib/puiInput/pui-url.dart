@@ -22,8 +22,7 @@ part of puiInput;
 @Component(
     selector: 'pui-url',
     templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
-    cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiUrlComponent extends PuiInputTextComponent {

@@ -28,8 +28,7 @@ import '../core/pui-base-component.dart';
 @Component(
     selector: 'pui-button',
     templateUrl: 'packages/angularprime_dart/puiButton/pui-button.html',
-    cssUrl: 'packages/angularprime_dart/puiButton/pui-button.css',
-    applyAuthorStyles: true,
+    useShadowDom: false,
     publishAs: 'cmp')
 class PuiButtonComponent extends PuiBaseComponent implements ShadowRootAware {
 
@@ -85,7 +84,7 @@ class PuiButtonComponent extends PuiBaseComponent implements ShadowRootAware {
    * <li>add watches to copy interpolated attributes to the shadow DOM</li>
    * </ul>
    * */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     button = shadowRoot.querySelector('button');
 
     if (actionListener != null) {

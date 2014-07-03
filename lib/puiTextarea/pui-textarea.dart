@@ -26,8 +26,7 @@ import '../core/pui-base-component.dart';
 @Component(
     selector: 'pui-textarea',
     templateUrl: 'packages/angularprime_dart/puiTextarea/pui-textarea.html',
-    cssUrl: 'packages/angularprime_dart/puiTextarea/pui-textarea.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiTextareaComponent extends PuiBaseComponent implements ShadowRootAware  {
@@ -60,7 +59,7 @@ class PuiTextareaComponent extends PuiBaseComponent implements ShadowRootAware  
    *
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     shadowyTextareaField = shadowRoot.getElementsByTagName("textarea")[0];
     // @ToDo: the class shouldn't be added to the pui-class, but to the inner class
     // (but the class definition is currently destroyed by copyAttributesToShadowDOM and

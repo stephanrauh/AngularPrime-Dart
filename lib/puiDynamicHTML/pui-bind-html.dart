@@ -39,7 +39,6 @@ import '../core/pui-module.dart';
   visibility: Directive.CHILDREN_VISIBILITY,
   selector: 'pui-bind-html',
   template: '',
-  applyAuthorStyles: true,
   publishAs: 'cmp'
 )
 class PuiBindHtmlDirective implements ShadowRootAware {

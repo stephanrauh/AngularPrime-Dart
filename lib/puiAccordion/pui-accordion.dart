@@ -26,11 +26,10 @@ import '../core/pui-base-component.dart';
 /**
  * The pui-accordion component is a panel group that can be shrinked to a single line. Typically, there are multiple accordions on a dialog, and expanding one of them hides the other ones.
  */
-@Component(selector: 'pui-accordion',
-    templateUrl:       'packages/angularprime_dart/puiAccordion/pui-accordion.html',
-    cssUrl:            'packages/angularprime_dart/puiAccordion/pui-accordion.css',
-    applyAuthorStyles: true,
-    publishAs:         'cmp')
+@Component(selector:  'pui-accordion',
+    templateUrl:      'packages/angularprime_dart/puiAccordion/pui-accordion.html',
+    useShadowDom:     false,
+    publishAs:        'cmp')
 class PuiAccordionComponent  extends PuiBaseComponent implements ShadowRootAware  {
 
   /** This mouse listener is exposed so it can be removed again. */
@@ -165,7 +164,7 @@ class PuiAccordionComponent  extends PuiBaseComponent implements ShadowRootAware
   }
 
   /** Initializes the accordion. */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     titlebar = shadowRoot.getElementsByClassName('pui-accordion-header')[0];
     content = shadowRoot.getElementsByClassName('pui-accordion-content')[0];
     if (collapsed) {

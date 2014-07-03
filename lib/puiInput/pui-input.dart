@@ -32,8 +32,7 @@ part 'pui-week.dart';
 @Component(
     selector: 'pui-input',
     templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
-    cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiInputTextComponent extends PuiBaseComponent implements ShadowRootAware  {
@@ -140,7 +139,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements ShadowRootAware 
    *
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
 
     _autoDetectType();

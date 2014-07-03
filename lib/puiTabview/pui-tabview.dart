@@ -47,8 +47,7 @@ import 'dart:html';
   visibility: Directive.CHILDREN_VISIBILITY,
   selector: 'pui-tabview',
   templateUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.html',
-  cssUrl: 'packages/angularprime_dart/puiTabview/pui-tabview.css',
-  applyAuthorStyles: true,
+  useShadowDom:     false,
   publishAs: 'cmp'
 )
 class PuiTabviewComponent extends PuiBaseComponent implements ShadowRootAware {
@@ -71,7 +70,7 @@ class PuiTabviewComponent extends PuiBaseComponent implements ShadowRootAware {
    * Make the global CSS styles available to the shadow DOM, copy the user-defined attributes from
    * the HTML source code into the shadow DOM and see to it that model updates result in updates of the shadow DOM.
    */
-  void onShadowRoot(ShadowRoot shadowRoot) {
+  void onShadowRoot(Node shadowRoot) {
     copyAttributesToShadowDOM(puiTabviewElement, null, scope);
     addWatches(puiTabviewElement, null, scope);
   }

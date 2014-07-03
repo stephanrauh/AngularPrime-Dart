@@ -3,8 +3,7 @@ part of puiDatatable;
 @Component(visibility: Directive.CHILDREN_VISIBILITY,
     selector: 'pui-row',
     template: '<content></content>',
-    cssUrl:       'packages/angularprime_dart/puiDatatable/pui-datatable.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp')
 class PuiContentRow extends PuiBaseComponent /* implements ShadowRootAware */
 {

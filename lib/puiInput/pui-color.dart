@@ -22,8 +22,7 @@ part of puiInput;
 @Component(
     selector: 'pui-color',
     templateUrl: 'packages/angularprime_dart/puiInput/pui-input.html',
-    cssUrl: 'packages/angularprime_dart/puiInput/pui-input.css',
-    applyAuthorStyles: true,
+    useShadowDom:     false,
     publishAs: 'cmp'
 )
 class PuiColorComponent extends PuiInputTextComponent {
