@@ -27,6 +27,7 @@ part 'mainController.dart';
 class MyAppModule extends PuiModule {
   MyAppModule() {
     bind(TetrisPlaygroundComponent);
+    bind(MainController);
   }
 
   /**

@@ -19,6 +19,15 @@ part of angularTetris;
 
 @Controller(selector: '[MainController]', publishAs: 'ctrl')
 class MainController {
+  List<int> bricks = new List();
+  
+  MainController() {
+    print(1);
+    for (int r = 0; r < 20; r++)
+      for (int c = 0; c < 10; c++)
+        bricks.add((r+c)%4);
+    print(bricks.length);
+  }
 
   void showMsg(String msg) {
     window.alert("This alert is shown by Dart. Received parameter = "+msg);
