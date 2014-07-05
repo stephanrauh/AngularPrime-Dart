@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="bootstrap.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title>Super-heroic JSF: AngularFaces and AngularPrime/Dart</title>
+    <link rel="stylesheet" href="../themes/aristo/theme.css">
+    <link rel="stylesheet" href="../themes/jquery-ui.css">
+    <link rel="stylesheet" href="../pui.css">
+    <link rel="stylesheet" href="../style.css">
+    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
+</head>
+<body>
+
+  <div>
+    <h3><span style="width:200px;">AngularPrime/Dart and AngularFaces</span></h3>
+ </div>
+ <div>
+     <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+       </div>
+      </div>
+ </div>
+ <pui-grid columns="2" stlye="width:100%" bootstrap="true" columnClasses="col-md-6,col-md-7">
+ <pui-panel header="AngularFaces: JSF on steroids">
+    AngularFaces combines enterprise level JSF with a well-known, "super-heroic" framework.
+    It's designed as an extension to PrimeFaces.<br />
+    Currently, there are two different versions of AngularFaces:
+    <ul>
+    <li>AngularFaces 1.0 is the version that already works. It contains a couple of widgets
+    that are derived from PrimeFaces widgets. There's some documentation on <a href="http://www.beyondjava.net/blog">BeyondJava.net</a>
+    and the <a href="http://showcase.angularfaces.com">the AngularFaces showcase</a>.
+    </li>
+    <li>AngularFaces 2.0 is an all-new take on adding AngularJS to JSF. This version blends
+    neatlessly into PrimeFaces, but doesn't require PrimeFaces. In theory you can use AngularFaces 2.0 without PrimeFaces
+    (but then you have to accept a very limited set of widgets).
+    </li>
+    </ul>
+    What makes AngularFaces 2.0 stand out among other JSF frameworks is it uses it's own ultra-compact DSL to
+    generate the JSF pages. After a short initial burst your AngularFaces application causes very
+    little network traffic. Of course, Angular reduces network traffic even further.
+    <br />
+    Oh, and AngularFaces uses Dart as a client side language - a great advantage to Java programmers
+    because Dart looks and feels very much like Java (but Java the way it was meant to be :) ).
+    <br />
+    If you're familiar with Javascript: In a future version there will be also support for Javascript.
+    <br />
+    Currently, AngularFaces 2.0 is hardly more than a sketch. I expect to finish a running version by the end of summer.
+
+ </pui-panel>
+ <pui-panel header="AngularPrime/Dart: AngularDart on steroids" style="width:100%">
+    AngularPrime/Dart is a widget library for AngularDart. It's also the technical basis of AngularFaces.
+    <br />
+    There are only a few widget libraries for Dart and AngularDart in particular. Some of them
+    look very interesting, so I experimented a couple of weeks before deciding AngularFaces deserves
+    it's own widget library.
+ </pui-panel>
+ <pui-panel header="A first look at AngularFaces">
+    To do: source code and preview image of a small example (e.g. the datatable)
+ </pui-panel>
+ <pui-panel header="A first look at AngularPrime/Dart">
+    To do: source code and live demo of a small example (e.g. the datatable)
+ </pui-panel>
+ <pui-panel header="Getting started with AngularFaces">
+    To do: explain what to download, how to set up Eclipse and DartEditor or the DartEditor Eclipse plugin,
+    describe the general project setup and
+    write a small example.
+ </pui-panel>
+ <pui-panel header="Getting started with AngularPrime/Dart">
+    To do: explain what to download, how to set up Eclipse, describe the general project setup and
+    write a small example.
+ </pui-panel>
+ <pui-panel header="AngularFaces tutorial">
+   To do: write a step-by-step tutorial.
+ </pui-panel>
+ <pui-panel header="AngularPrime/Dart tutorial">
+   To do: write a step-by-step tutorial.
+ </pui-panel>
+ <pui-panel header="AngularFaces reference manual">
+   To do: describe each widget of AngularFaces.
+ </pui-panel>
+ <pui-panel header="AngularPrime/Dart reference manual">
+   To do: describe every widget of AngularPrime/Dart.
+ </pui-panel>
+ </pui-grid>
+ </div>
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
+</html>

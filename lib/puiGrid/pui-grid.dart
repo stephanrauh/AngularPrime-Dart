@@ -71,11 +71,17 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** If true, the code needed to support Bootstrap is generated. */
   @NgOneWayOneTime("bootstrap")
   bool bootstrap;
+  
+  /** The content of the grid */
+  List<Element> content;
 
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  PuiGridComponent(this.puiGridComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {}
+  PuiGridComponent(this.puiGridComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
+    content= new List<Element>();
+    puiGridComponent.children.forEach((Element e){content.add(e);});
+  }
 
 
 
@@ -86,9 +92,9 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(Node shadowRoot) {
-    DivElement table = shadowRoot.children[1];
+    DivElement table = (shadowRoot as Element).children[0];
     List rows = table.children;
-    List fields = puiGridComponent.children;
+    List fields = content;
     var numberOfFields = fields.length;
     int c = (columns==null || columns<1) ? 1 : columns;
     for (int i = 1; i < numberOfFields / c; i++)
@@ -101,9 +107,9 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
     for (int i = 0; i < numberOfFields; i++)
     {
       DivElement currentRow = rows[currentRowIndex];
-      HtmlElement currentField = fields[0]; // no typo - each time
-      // a field is added to the shadow DOM it's removed from the fields array
-
+      DivElement currentCell=currentRow.children[currentHTMLColumn];
+      LabelElement currentCellHeader=currentCell.children[0];
+      HtmlElement currentField = fields[i];
       String label = currentField.attributes["label"];
       if (null == label && null != currentField.attributes["ng-model"])
       {
@@ -111,16 +117,16 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
       }
       if (label!=null)
       {
-        currentRow.children[currentHTMLColumn].children[0].innerHtml= label;
+        currentCellHeader.innerHtml= label;
       }
       if (currentField.id==null || currentField.id=="")
       {
         currentField.id = "puiinputid:" + currentField.hashCode.toString();
       }
-      currentRow.children[currentHTMLColumn].children[0].attributes["for"]=currentField.id;
+      currentCellHeader.attributes["for"]=currentField.id;
 
       currentHTMLColumn++;
-      currentRow.children[currentHTMLColumn].append(currentField);
+      currentCell.append(currentField);
       currentColumn++;
       currentHTMLColumn++;
       if (currentColumn >= c)
