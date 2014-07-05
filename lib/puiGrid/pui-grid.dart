@@ -79,6 +79,12 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
   PuiGridComponent(this.puiGridComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser): super(compiler, injector, directives, parser) {
+    init();
+  }
+
+  /** Initializes the component. Can be called by the a deriving class's constructor (needed because the
+   * super constructor is always called first, which isn't always the desired behaviour). */
+  void init() {
     content= new List<Element>();
     puiGridComponent.children.forEach((Element e){content.add(e);});
   }
@@ -97,7 +103,15 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
     List fields = content;
     var numberOfFields = fields.length;
     int c = (columns==null || columns<1) ? 1 : columns;
-    for (int i = 1; i < numberOfFields / c; i++)
+    Element firstRow=rows[0];    
+    for (int i = 2; i <= c; i++)
+    {
+      firstRow.children.add(firstRow.children[0].clone(true));
+      firstRow.children.add(firstRow.children[1].clone(true));
+    }
+
+    
+    for (int i = 2; i <= numberOfFields / c; i++)
     {
         rows.add(rows[0].clone(true));
     }

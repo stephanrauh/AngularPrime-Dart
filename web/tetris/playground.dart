@@ -29,11 +29,11 @@ part of angularTetris;
  */
 @Component(
     selector: 'tetris-playground',
-    templateUrl: 'tetris-playground.html',
+    templateUrl: 'packages/angularprime_dart/puiGrid/pui-grid.html',
     useShadowDom:     false,
     publishAs: 'cmp'
 )
-class TetrisPlaygroundComponent {
+class TetrisPlaygroundComponent extends PuiGridComponent {
   int numberOfColumns=10;
   int numberOfRows=25;
 
@@ -43,9 +43,25 @@ class TetrisPlaygroundComponent {
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  TetrisPlaygroundComponent(this.playgroundComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser) {
-    if (playgroundComponent.attributes.containsKey("columns")) numberOfColumns=playgroundComponent.attributes["columns"];
-    if (playgroundComponent.attributes.containsKey("rows")) numberOfColumns=playgroundComponent.attributes["rows"];
+  TetrisPlaygroundComponent(Element playgroundComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser)
+      :  super(playgroundComponent, compiler, injector, directives, parser)
+  {
+    this.playgroundComponent=playgroundComponent;
+    
+    HtmlElement brickTemplate=playgroundComponent.children[0];
+    playgroundComponent.children.clear();
+    
+    if (playgroundComponent.attributes.containsKey("columns")) numberOfColumns=int.parse(playgroundComponent.attributes["columns"]);
+    if (playgroundComponent.attributes.containsKey("rows")) numberOfColumns=int.parse(playgroundComponent.attributes["rows"]);
+    for (int r = 0; r < numberOfRows; r++) {
+      for (int c = 0; c < numberOfColumns; c++) {
+        HtmlElement element = brickTemplate.clone(true);
+        element.innerHtml= """brick($c,$r)""";
+        element.style.backgroundColor="#00FF00";
+        playgroundComponent.children.add(element);
+      }      
+    }
+    init();
   }
 }
 

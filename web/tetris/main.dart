@@ -20,6 +20,7 @@ library angularTetris;
 import 'package:angularprime_dart/core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
+import 'package:angularprime_dart/puiGrid/pui-grid.dart';
 part 'playground.dart';
 part 'mainController.dart';
 
