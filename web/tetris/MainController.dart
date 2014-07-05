@@ -20,17 +20,30 @@ part of angularTetris;
 @Controller(selector: '[MainController]', publishAs: 'ctrl')
 class MainController {
   List<int> bricks = new List();
-  
+  int rows;
+  int columns;
+
   MainController() {
-    print(1);
-    for (int r = 0; r < 20; r++)
-      for (int c = 0; c < 10; c++)
+  }
+
+  init() {
+    for (int r = 0; r < rows; r++)
+      for (int c = 0; c < columns; c++)
         bricks.add((r+c)%4);
-    print(bricks.length);
   }
 
   void showMsg(String msg) {
     window.alert("This alert is shown by Dart. Received parameter = "+msg);
+  }
+
+  void dropEveryBrick()
+  {
+    for (int r = (rows-1); r > 0; r--)
+      for (int c = 0; c < columns; c++)
+        bricks[r*columns+c] = bricks[(r-1)*columns+c];
+    for (int c = 0; c < columns; c++) {
+      bricks[c]=0;
+    }
   }
 
 }

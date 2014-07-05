@@ -37,29 +37,55 @@ class TetrisPlaygroundComponent extends PuiGridComponent {
   int numberOfColumns=10;
   int numberOfRows=25;
 
+  Scope scope;
+
   /** The <tetris-playground> field as defined in the HTML source code. */
   Element playgroundComponent;
+
+  MainController mainController;
+
+  String color(int r, int c){int col= mainController.bricks[r*numberOfColumns+c];
+                          if (0==col) return "#FFFFFF";
+                          if (1==col) return "#FF0000";
+                          if (2==col) return "#00FF00";
+                          if (3==col) return "#0000FF";
+                          if (4==col) return "#FFFF00";
+                          return "#00FFFFFF";
+                          }
+
+//  int text(int r, int c){return mainController.bricks[r*numberOfColumns+c];}
+  String text(int r, int c){return "";}
 
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
    */
-  TetrisPlaygroundComponent(Element playgroundComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser)
+  TetrisPlaygroundComponent(MainController this.mainController, this.scope, Element playgroundComponent, Compiler compiler, Injector injector, DirectiveMap directives, Parser parser)
       :  super(playgroundComponent, compiler, injector, directives, parser)
   {
     this.playgroundComponent=playgroundComponent;
-    
-    HtmlElement brickTemplate=playgroundComponent.children[0];
-    playgroundComponent.children.clear();
-    
+
     if (playgroundComponent.attributes.containsKey("columns")) numberOfColumns=int.parse(playgroundComponent.attributes["columns"]);
-    if (playgroundComponent.attributes.containsKey("rows")) numberOfColumns=int.parse(playgroundComponent.attributes["rows"]);
+    if (playgroundComponent.attributes.containsKey("rows")) numberOfRows=int.parse(playgroundComponent.attributes["rows"]);
+    mainController.rows = numberOfRows;
+    mainController.columns = numberOfColumns;
+    mainController.init();
+
+
     for (int r = 0; r < numberOfRows; r++) {
       for (int c = 0; c < numberOfColumns; c++) {
-        HtmlElement element = brickTemplate.clone(true);
-        element.innerHtml= """brick($c,$r)""";
-        element.style.backgroundColor="#00FF00";
-        playgroundComponent.children.add(element);
-      }      
+          List<Node> list = PuiHtmlUtils.parseResponse("<span><button style=\"width:30px;height:30px;background-color:{{cmp.color($r, $c)}}}\">{{cmp.text($r, $c)}}</button></span>").childNodes;
+
+          ViewFactory template = compiler(list, directives);
+          Injector childInjector =
+                injector.createChild([new Module()..bind(Scope, toValue: scope)]);
+          template(childInjector, list);
+
+          while (list.length>0) {
+              Node n = list[0];
+              playgroundComponent.children.add(n);
+          }
+
+        }
     }
     init();
   }
