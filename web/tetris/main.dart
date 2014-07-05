@@ -15,16 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-library angularfaces.com;
+library angularTetris;
 
 import 'package:angularprime_dart/core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
-part 'MainController.dart';
+part 'playground.dart';
+part 'mainController.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
-//    bind(PuiInputDemoController);
+    bind(TetrisPlaygroundComponent);
   }
 
   /**

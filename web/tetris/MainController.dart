@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-part of angularfaces.com;
+part of angularTetris;
 
 @Controller(selector: '[MainController]', publishAs: 'ctrl')
 class MainController {
