@@ -94,7 +94,8 @@ class Tetrimino {
     {
       for (int r = 0; r < width; r++) {
         if (y+r-d>=0) {
-          playground[x+c-d][y+r-d]=shape[c][r];
+          if (shape[c][r]>0)
+            playground[x+c-d][y+r-d]=shape[c][r];
         }
       }
     }
@@ -125,7 +126,19 @@ class Tetrimino {
       x -= offset;
       drawTile(playground);
     }
-      
+  }
+  
+  /** Lets a tetrimino drop a row, if possible. If the way is blocked, the method returns false instead of moving the tile. */
+  bool moveTileDown(List<List<int>> playground){ 
+    undrawTile(playground);
+    y++;
+    if (canDrawTile(playground)) {
+      drawTile(playground);
+      return true;
+    }
+    y--;
+    drawTile(playground);
+    return false;
   }
   
   bool canDrawTile(List<List<int>> playground) {
@@ -141,13 +154,13 @@ class Tetrimino {
           if (pc<0) return false;
           var pr = y+r-d;
           if (pr<0) return false;
-          if (pc>playground.length) return false;
-          if (pr>playground[pc].length) return false;
+          if (pc>=playground.length) return false;
+          if (pr>=playground[pc].length) return false;
           if (playground[pc][pr]>0) return false;
         }
       }
-      return true;
     }
+    return true;
   }
 
 

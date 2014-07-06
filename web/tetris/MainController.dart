@@ -19,13 +19,13 @@ part of angularTetris;
 
 @Controller(selector: '[MainController]', publishAs: 'ctrl')
 class MainController {
-  List<int> bricks = new List();
+  List<int> bricks = null;
   int rows;
   int columns;
   
   Tetrimino tetrimino = null;
   
-  List<List<int>> playground;
+  List<List<int>> playground=null;
   
   
   
@@ -51,16 +51,24 @@ class MainController {
   }
 
   init() {
-    bricks = new List<int>(rows*columns);
-    playground = new List<List<int>>(columns);
+    if (null == bricks)
+    {
+      bricks = new List<int>(rows*columns);
+      playground = new List<List<int>>(columns);
+      for (int c = 0; c < columns; c++)
+      {
+        List<int> column = new List<int>(rows);
+        playground[c]=column;
+      }
+    }
     for (int c = 0; c < columns; c++)
     {
-      List<int> column = new List<int>(rows);
-      playground[c]=column;
+      List<int> column = playground[c];
       for (int r = 0; r < column.length; r++) {
         column[r]=0;
       }
     }
+    tetrimino=null;
   }
   
   drawBricks() {
@@ -75,19 +83,44 @@ class MainController {
     window.alert("This alert is shown by Dart. Received parameter = "+msg);
   }
 
+  void dropTile() {
+    if (!tetrimino.moveTileDown(playground)) {
+      tetrimino=null;
+      eliminateCompletedRows(playground);
+    }
+  }
+  
+  void eliminateCompletedRows(List<List<int>> playground) {
+    int r = rows-1;
+    while(r>=0) {
+      bool hasEmptyCells=false;
+      for (int c=0; c < columns; c++) {
+         if (playground[c][r]==0) hasEmptyCells=true;
+      }
+      if (!hasEmptyCells) {
+        dropRowsAbove(r);
+      }
+      else r--;
+    }
+  }
+  
   void applyGravity()
   {
-    for (int r = (rows-1); r > 0; r--)
-      for (int c = 0; c < columns; c++)
-        if (playground[c][r]==0) {
-          playground[c][r]=playground[c][r-1];
-          playground[c][r-1]=0;
-        }
+    bool movement=false;
+    for (int c = 0; c < columns; c++) {
+      List<int> column = playground[c];
+      for (int r = (rows-1); r > 0; r--)
+      if (column[r]==0 && column[r]!=column[r-1]) {
+        movement=true;
+        column[r]=column[r-1];
+        column[r-1]=0;
+      }
+    }
    }
   
   void dropRowsAbove(int bottomRow)
   {
-    for (int r = (bottomRow-1); r > 0; r--)
+    for (int r = bottomRow; r > 0; r--)
       for (int c = 0; c < columns; c++)
         playground[c][r]=playground[c][r-1];  
     for (int c = 0; c < columns; c++) {
@@ -96,6 +129,7 @@ class MainController {
   }
   
   void startGame() {
+    init();
     watch = new Stopwatch();
     watch.start();
     update(null);
@@ -103,12 +137,16 @@ class MainController {
   
   void update(e) {
     if (null == tetrimino) {
-      addRandomTetrimino();
+      if (!addRandomTetrimino()) {
+        endOfGame();
+        return;
+      }
+      
     }
     if (keyboard.isPressed(KeyCode.LEFT)) tetrimino.moveTile(-1, playground);
     if (keyboard.isPressed(KeyCode.RIGHT)) tetrimino.moveTile(1, playground);
     if (watch.elapsedMilliseconds>500 || keyboard.isPressed(KeyCode.SPACE)) {
-      applyGravity();
+      dropTile();
       watch.reset();
     }
     if (keyboard.isPressed(KeyCode.A))
@@ -118,8 +156,18 @@ class MainController {
     window.requestAnimationFrame(update);
   }
   
-  void addRandomTetrimino() {
+  /** returns false if the next tile cannot be drawn */
+  bool addRandomTetrimino() {
     tetrimino=new Tetrimino(columns);
-    tetrimino.drawTile(playground);
+    if (tetrimino.canDrawTile(playground)) {
+      tetrimino.drawTile(playground);
+      return true;
+    }
+    return false;
+  }
+  
+  void endOfGame() {
+    print("End of game");
   }
 }
+  
