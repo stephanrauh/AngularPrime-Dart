@@ -75,13 +75,23 @@ class MainController {
     window.alert("This alert is shown by Dart. Received parameter = "+msg);
   }
 
-  void dropEveryBrick()
+  void applyGravity()
   {
     for (int r = (rows-1); r > 0; r--)
       for (int c = 0; c < columns; c++)
-        bricks[r*columns+c] = bricks[(r-1)*columns+c];
+        if (playground[c][r]==0) {
+          playground[c][r]=playground[c][r-1];
+          playground[c][r-1]=0;
+        }
+   }
+  
+  void dropRowsAbove(int bottomRow)
+  {
+    for (int r = (bottomRow-1); r > 0; r--)
+      for (int c = 0; c < columns; c++)
+        playground[c][r]=playground[c][r-1];  
     for (int c = 0; c < columns; c++) {
-      bricks[c]=0;
+      playground[c][0]=0;
     }
   }
   
@@ -95,17 +105,16 @@ class MainController {
     if (null == tetrimino) {
       addRandomTetrimino();
     }
-    drawBricks();
-    if (watch.elapsedMilliseconds>50)
-    {
+    if (keyboard.isPressed(KeyCode.LEFT)) tetrimino.moveTile(-1, playground);
+    if (keyboard.isPressed(KeyCode.RIGHT)) tetrimino.moveTile(1, playground);
+    if (watch.elapsedMilliseconds>500 || keyboard.isPressed(KeyCode.SPACE)) {
+      applyGravity();
       watch.reset();
-      if (keyboard.isPressed(KeyCode.SPACE)) {
-        dropEveryBrick();
-      }
     }
     if (keyboard.isPressed(KeyCode.A))
         print('A is pressed!');
     keyboard.reset();
+    drawBricks();
     window.requestAnimationFrame(update);
   }
   

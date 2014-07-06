@@ -93,8 +93,62 @@ class Tetrimino {
     for (int c = 0; c < width; c++)
     {
       for (int r = 0; r < width; r++) {
-        playground[x+c-d][y+r-d]=shape[c][r];
+        if (y+r-d>=0) {
+          playground[x+c-d][y+r-d]=shape[c][r];
+        }
       }
     }
   }
+  
+  void undrawTile(List<List<int>> playground) {
+    int d = 0;
+    if (width==4) d = 1;
+    
+    for (int c = 0; c < width; c++)
+    {
+      for (int r = 0; r < width; r++) {
+        if (y+r-d>=0) {
+          if (shape[c][r]>0)
+          playground[x+c-d][y+r-d]=0;
+        }
+      }
+    }
+  }
+  
+  void moveTile(int offset, List<List<int>> playground) {
+    undrawTile(playground);
+    x += offset;
+    if (canDrawTile(playground)) {
+      drawTile(playground);
+    }
+    else {
+      x -= offset;
+      drawTile(playground);
+    }
+      
+  }
+  
+  bool canDrawTile(List<List<int>> playground) {
+    int d = 0;
+    if (width==4) d = 1;
+    
+    for (int c = 0; c < width; c++)
+    {
+      for (int r = 0; r < width; r++) {
+        if (shape[c][r]>0)
+        {
+          var pc = x+c-d;
+          if (pc<0) return false;
+          var pr = y+r-d;
+          if (pr<0) return false;
+          if (pc>playground.length) return false;
+          if (pr>playground[pc].length) return false;
+          if (playground[pc][pr]>0) return false;
+        }
+      }
+      return true;
+    }
+  }
+
+
 }

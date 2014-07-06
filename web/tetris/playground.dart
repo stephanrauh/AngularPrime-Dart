@@ -46,10 +46,13 @@ class TetrisPlaygroundComponent extends PuiGridComponent {
 
   String color(int r, int c){int col= mainController.bricks[r*numberOfColumns+c];
                           if (0==col) return "#FFFFFF";
-                          if (1==col) return "#FF0000";
-                          if (2==col) return "#00FF00";
-                          if (3==col) return "#0000FF";
-                          if (4==col) return "#FFFF00";
+                          if (1==col) return "#00F0F0";
+                          if (2==col) return "#0000F0";
+                          if (3==col) return "#F0A000";
+                          if (4==col) return "#F0F000";
+                          if (5==col) return "#00F000";
+                          if (6==col) return "#F00000";
+                          if (7==col) return "#A000F0";
                           return "#00FFFFFF";
                           }
 
