@@ -141,6 +141,30 @@ class Tetrimino {
     return false;
   }
   
+  void rotateTile(List<List<int>> playground, int direction) {
+    undrawTile(playground);
+    List<List<int>> oldshape = new List<List<int>>(4);
+    for (int r = 0; r < 4; r++) {
+      oldshape[r] = new List<int>(4);
+      for (int c=0; c < 4; c++) oldshape[r][c]=shape[r][c];
+    }
+    if (direction==90)
+      for (int r = 0; r < width; r++) {
+         for (int c=0; c < width; c++) shape[r][c]=oldshape[c][width-1-r];
+      }
+    else
+      for (int r = 0; r < width; r++) {
+         for (int c=0; c < width; c++) shape[r][c]=oldshape[width-1-c][r];
+      }
+      
+    if (!canDrawTile(playground)) {
+      for (int r = 0; r < 4; r++) {
+        for (int c=0; c < 4; c++) shape[r][c]=oldshape[r][c];
+      }
+    }
+    drawTile(playground);
+  }
+  
   bool canDrawTile(List<List<int>> playground) {
     int d = 0;
     if (width==4) d = 1;
