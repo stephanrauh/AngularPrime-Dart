@@ -140,6 +140,7 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
       currentCellHeader.attributes["for"]=currentField.id;
 
       currentHTMLColumn++;
+      currentCell=currentRow.children[currentHTMLColumn];
       currentCell.append(currentField);
       currentColumn++;
       currentHTMLColumn++;
