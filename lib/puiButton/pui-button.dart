@@ -97,7 +97,6 @@ class PuiButtonComponent extends PuiBaseComponent implements ShadowRootAware {
     }
 
     updateMouseOverListeners();
-    scope.watch("disabled", (newVar, oldVar) { updateMouseOverListeners();});
 
     if (icon == null) {
       button.classes.add('pui-button-text-only');
@@ -106,20 +105,26 @@ class PuiButtonComponent extends PuiBaseComponent implements ShadowRootAware {
     }
     addWatches(puiButton, button, scope);
   }
+  
+  void updateWidgetState(String key, String value) {
+    if (key=="disabled") {
+      updateMouseOverListeners();
+    }
+  }
+
 
   /**
    * Sets either the disabled class or the mouse over effects.
    * Called during the initialization of the button and when the disabled attribute has been modified.
    */
   void updateMouseOverListeners() {
-    if (disabled!=null)
-    {
+    if (disabled!=null && disabled!="false") {
       button.classes.add("ui-state-disabled");
       if (null != onMouseEnter) onMouseEnter.cancel();
       if (null != onMouseLeave) onMouseLeave.cancel();
     }
-    else
-    {
+    else {
+      button.classes.remove("ui-state-disabled");
       onMouseEnter = button.onMouseEnter.listen((event) { button.classes.add('ui-state-hover');});
       onMouseLeave = button.onMouseLeave.listen((event) { button.classes.remove('ui-state-hover');});
     }

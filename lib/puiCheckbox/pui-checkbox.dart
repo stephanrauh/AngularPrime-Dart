@@ -63,8 +63,9 @@ class PuiCheckboxComponent extends PuiBaseComponent implements ShadowRootAware  
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(Node shadowRoot) {
-    shadowyInputField = shadowRoot.getElementById("checkboxVisibleItemId");
-    iconElement = shadowRoot.getElementById("checkboxIconId");
+    HtmlElement sr = shadowRoot as HtmlElement;
+    shadowyInputField = sr.querySelector("#checkboxVisibleItemId");
+    iconElement = sr.querySelector("#checkboxIconId");
     copyAttributesToShadowDOM(puiCheckboxElement, shadowyInputField, scope);
     update();
     shadowyInputField.onChange.listen((Event e)=>update());

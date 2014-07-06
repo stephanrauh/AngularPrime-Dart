@@ -111,7 +111,7 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
     }
 
     
-    for (int i = 2; i <= numberOfFields / c; i++)
+    for (int i = 2; i <= (numberOfFields + c - 1) / c; i++)
     {
         rows.add(rows[0].clone(true));
     }

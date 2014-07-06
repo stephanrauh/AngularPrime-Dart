@@ -79,6 +79,13 @@ class PuiBaseComponent {
         }
       }
     }
+    updateWidgetState(key, value);
+  }
+  
+  /**
+   * This method can be redefined to react to widget state changes.
+   */
+  void updateWidgetState(String key, String value) {
   }
 
   /**
@@ -104,7 +111,7 @@ class PuiBaseComponent {
   addWatch(Scope scope, String exp, Element puiInputElement, Element shadowyInputField) =>
       scope.parentScope.watch(exp,  (newVar, oldVar){
         updateAttributesInShadowDOM(puiInputElement, shadowyInputField, scope);
-      });
+      }, canChangeModel: true);
 
   /**
     * Copies every attribute from the updated <pui-input> - which contains the current model values -

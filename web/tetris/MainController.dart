@@ -23,6 +23,9 @@ class MainController {
   int rows;
   int columns;
   int timeToDrop;
+  bool gameActive=false;
+  bool gravity=false;
+  bool preview=false;
   
   Tetrimino tetrimino = null;
   
@@ -133,6 +136,7 @@ class MainController {
   
   void startGame() {
     init();
+    gameActive=true;
     watch = new Stopwatch();
     watch.start();
     update(null);
@@ -149,6 +153,12 @@ class MainController {
     if (keyboard.isPressed(KeyCode.RIGHT)) tetrimino.moveTile(1, playground);
     if (keyboard.isPressed(KeyCode.DOWN)) tetrimino.rotateTile(playground, 90);
     if (keyboard.isPressed(KeyCode.UP)) tetrimino.rotateTile(playground, 270);
+    if (keyboard.isPressed(KeyCode.SPACE)) {
+      while (null != tetrimino) {
+        dropTile();
+      }
+      watch.reset();
+    }
     if (watch.elapsedMilliseconds>timeToDrop) {
       dropTile();
       watch.reset();
@@ -170,6 +180,7 @@ class MainController {
   
   void endOfGame() {
     print("End of game");
+    gameActive=false;
   }
 }
   

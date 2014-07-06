@@ -140,7 +140,7 @@ class PuiInputTextComponent extends PuiBaseComponent implements ShadowRootAware 
    * @Todo Find out, which attributes are modified by Angular, and set a watch updating only the attributes that have changed.
    */
   void onShadowRoot(Node shadowRoot) {
-    shadowyInputField = shadowRoot.getElementsByTagName("input")[0];
+    shadowyInputField = (shadowRoot as HtmlElement).querySelector("input");
 
     _autoDetectType();
     copyAttributesToShadowDOM(puiInputElement, shadowyInputField, scope);

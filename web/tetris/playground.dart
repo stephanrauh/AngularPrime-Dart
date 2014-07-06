@@ -76,7 +76,7 @@ class TetrisPlaygroundComponent extends PuiGridComponent {
 
     for (int r = 0; r < numberOfRows; r++) {
       for (int c = 0; c < numberOfColumns; c++) {
-          List<Node> list = PuiHtmlUtils.parseResponse("<span><button style=\"width:30px;height:30px;background-color:{{cmp.color($r, $c)}}}\">{{cmp.text($r, $c)}}</button></span>").childNodes;
+          List<Node> list = PuiHtmlUtils.parseResponse("<span><button style=\"width:25px;height:20px;background-color:{{cmp.color($r, $c)}}}\">{{cmp.text($r, $c)}}</button></span>").childNodes;
 
           ViewFactory template = compiler(list, directives);
           Injector childInjector =
