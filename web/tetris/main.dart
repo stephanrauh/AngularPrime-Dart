@@ -20,9 +20,13 @@ library angularTetris;
 import 'package:angularprime_dart/core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
+import 'dart:core';
+import 'dart:math';
 import 'package:angularprime_dart/puiGrid/pui-grid.dart';
 part 'playground.dart';
+part 'keyboard.dart';
 part 'mainController.dart';
+part 'tetrimino.dart';
 
 class MyAppModule extends PuiModule {
   MyAppModule() {
