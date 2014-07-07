@@ -29,7 +29,7 @@ part of angularTetris;
  */
 @Component(
     selector: 'tetris-playground',
-    templateUrl: 'packages/angularprime_dart/puiGrid/pui-grid.html',
+    templateUrl: 'playground.html',
     useShadowDom:     false,
     publishAs: 'cmp'
 )

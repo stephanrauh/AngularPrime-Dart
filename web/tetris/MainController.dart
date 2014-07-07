@@ -26,20 +26,20 @@ class MainController {
   bool gameActive=false;
   bool gravity=false;
   bool preview=false;
-  
+
   Tetrimino tetrimino = null;
-  
+
   List<List<int>> playground=null;
-  
-  
-  
+
+
+
   Keyboard keyboard;
   Stopwatch watch;
 
   MainController() {
     keyboard = new Keyboard();
   }
-  
+
   /**
    * Enables keyboard navigation.
    */
@@ -75,7 +75,7 @@ class MainController {
     tetrimino=null;
     timeToDrop=500;
   }
-  
+
   drawBricks() {
     int index=0;
     for (int r = 0; r < rows; r++)
@@ -84,8 +84,8 @@ class MainController {
 
   }
 
-  void showMsg(String msg) {
-    window.alert("This alert is shown by Dart. Received parameter = "+msg);
+  void showHighscore() {
+    window.alert("Highscore is yet to be implemented.");
   }
 
   void dropTile() {
@@ -94,7 +94,7 @@ class MainController {
       eliminateCompletedRows(playground);
     }
   }
-  
+
   void eliminateCompletedRows(List<List<int>> playground) {
     int r = rows-1;
     while(r>=0) {
@@ -109,31 +109,34 @@ class MainController {
       else r--;
     }
   }
-  
-  void applyGravity()
+
+  bool applyGravity()
   {
     bool movement=false;
-    for (int c = 0; c < columns; c++) {
-      List<int> column = playground[c];
-      for (int r = (rows-1); r > 0; r--)
-      if (column[r]==0 && column[r]!=column[r-1]) {
-        movement=true;
-        column[r]=column[r-1];
-        column[r-1]=0;
+    if (gravity) {
+      for (int c = 0; c < columns; c++) {
+        List<int> column = playground[c];
+        for (int r = (rows-1); r > 0; r--)
+        if (column[r]==0 && column[r]!=column[r-1]) {
+          movement=true;
+          column[r]=column[r-1];
+          column[r-1]=0;
+        }
       }
     }
+    return movement;
    }
-  
+
   void dropRowsAbove(int bottomRow)
   {
     for (int r = bottomRow; r > 0; r--)
       for (int c = 0; c < columns; c++)
-        playground[c][r]=playground[c][r-1];  
+        playground[c][r]=playground[c][r-1];
     for (int c = 0; c < columns; c++) {
       playground[c][0]=0;
     }
   }
-  
+
   void startGame() {
     init();
     gameActive=true;
@@ -141,12 +144,14 @@ class MainController {
     watch.start();
     update(null);
   }
-  
+
   void update(e) {
     if (null == tetrimino) {
-      if (!addRandomTetrimino()) {
-        endOfGame();
-        return;
+      if (!applyGravity()) {
+        if (!addRandomTetrimino()) {
+          endOfGame();
+          return;
+        }
       }
     }
     if (keyboard.isPressed(KeyCode.LEFT)) tetrimino.moveTile(-1, playground);
@@ -167,7 +172,7 @@ class MainController {
     drawBricks();
     window.requestAnimationFrame(update);
   }
-  
+
   /** returns false if the next tile cannot be drawn */
   bool addRandomTetrimino() {
     tetrimino=new Tetrimino(columns);
@@ -177,10 +182,8 @@ class MainController {
     }
     return false;
   }
-  
+
   void endOfGame() {
-    print("End of game");
     gameActive=false;
   }
 }
-  

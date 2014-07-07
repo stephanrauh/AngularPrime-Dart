@@ -25,7 +25,7 @@ import 'dart:math';
 import 'package:angularprime_dart/puiGrid/pui-grid.dart';
 part 'playground.dart';
 part 'keyboard.dart';
-part 'mainController.dart';
+part 'MainController.dart';
 part 'tetrimino.dart';
 
 class MyAppModule extends PuiModule {

@@ -14,34 +14,42 @@
 </head>
 <body>
 <div MainController>
-
-  <div>
+   <div>
     <h3><span style="width:200px;">Tetris on AngularDart</span></h3>
- </div>
- 
- <pui-grid columns="2">
-    <tetris-playground columns="10" rows="20" >
-    </tetris-playground>
-    
-    <pui-panel header="settings">
-      <pui-grid >
-        <pui-checkbox label="gravity<br><small>(allows for chain reactions)</small>" ng-model="ctrl.gravity"></pui-checkbox>
-        <pui-checkbox label="preview" ng-model="ctrl.preview"></pui-checkbox>
-        <pui-input label="columns" ng-model="ctrl.columns"></pui-input>
-        <pui-input label="rows" ng-model="ctrl.rows"></pui-input>
-        <pui-input label="drop delay in ms" disabled="true" ng-model="ctrl.timeToDrop"></pui-input>
-      </pui-grid>
-    </pui-panel>
+   </div>
 
-    <pui-button value="start game" disabled="{{ctrl.gameActive}}" actionListener="ctrl.startGame()"></pui-button>
-    <pui-panel header="Copyright" style="width:350px">
-    <p>(C) 2014 by Stephan Rauh http://www.beyondjava.net</p>
-    <p>This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.</p>
-    </pui-panel>
- </pui-grid>
+   <pui-grid columns="3">
+     <pui-grid columns="1">
+        <tetris-playground columns="10" rows="20" >
+        </tetris-playground>
+
+        <div>
+        <pui-button value="start game" disabled="{{ctrl.gameActive}}" actionListener="ctrl.startGame()"></pui-button>
+        <pui-button value="highscore" disabled="{{ctrl.gameActive}}" actionListener="ctrl.showHighscore()"></pui-button>
+        </div>
+        </pui-grid>
+        <div style="width:20px"></div>
+        <pui-grid columns="1">
+          <div style="height:10px"></div>
+          <pui-panel header="settings">
+            <pui-grid >
+              <pui-checkbox label="gravity<br><small>(allows for chain reactions)</small>" ng-model="ctrl.gravity"></pui-checkbox>
+              <pui-checkbox label="preview next tile" ng-model="ctrl.preview"></pui-checkbox>
+              <pui-input label="columns" ng-model="ctrl.columns"></pui-input>
+              <pui-input label="rows" ng-model="ctrl.rows"></pui-input>
+              <pui-input label="drop delay in ms" disabled="true" ng-model="ctrl.timeToDrop"></pui-input>
+            </pui-grid>
+          </pui-panel>
+          <div style="height:10px"></div>
+          <pui-panel header="Copyright" style="width:350px">
+            <p>(C) 2014 by Stephan Rauh http://www.beyondjava.net</p>
+            <p>This program is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.</p>
+          </pui-panel>
+       </pui-grid>
+     </pui-grid>
 
    <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script>
