@@ -18,8 +18,8 @@
     <h3><span style="width:200px;">Tetris on AngularDart</span></h3>
     <span ng-show style="height:0px">
     This is an early prototype of Tetris running on AngularPrime/Dart.<br />
-    Currently, AngularTetris runs only on Google Chrome or Google Dartium. It's not yet compatible with other browsers.<br />
-    Please note the Javascript version takes a long time to start up (roughly 30 seconds on a i7-2600). Stay patient!
+    Currently, I've tested AngularTetris with Google Chrome 35, Firefox 30 and Internet Explorer 11. It may or may not work with other browsers.
+    Please note the Javascript version starts a lot slower than the Dartium version.
     </span>
    </div>
 
@@ -38,12 +38,12 @@
           <div style="height:10px"></div>
           <pui-panel header="settings">
             <pui-grid >
-            <div>Counter: {{ctrl.counter}}</div>
               <pui-checkbox label="gravity<br><small>(allows for chain reactions)</small>" ng-model="ctrl.gravity"></pui-checkbox>
               <pui-checkbox label="preview next tile" ng-model="ctrl.preview"></pui-checkbox>
               <pui-input label="columns" ng-model="ctrl.columns"></pui-input>
               <pui-input label="rows" ng-model="ctrl.rows"></pui-input>
               <pui-input label="drop delay in ms" disabled="true" ng-model="ctrl.timeToDrop"></pui-input>
+              <pui-input label="frame counter<br><small>(a performance indicator<br>for the developer)</small>" disabled="true" ng-model="ctrl.counter"></pui-input>
             </pui-grid>
           </pui-panel>
           <div style="height:10px"></div>
