@@ -9,6 +9,8 @@ As for the showcase: there are some compatibility issues, so currently it doesn'
 it's a good idea to view it with the <a href="https://www.dartlang.org/tools/dartium/">Dartium browser</a>.<br>
 Please apologize this temporary problem.
 
+There's also a live Tetris clone running on AngularPrime/Dart: http://angularfaces.com/tetris/angulartetris/.
+
 <b>Compatibility:</b><br />
 Albeit AngularPrime-Dart is developed in Dart, it also runs in native Javascript (by using Dart's cross-compiler dart2js).
 
@@ -27,7 +29,10 @@ The goal of the project is to provide
 </ul> 
 
 <b>Current state of the art:</b><br />
-The project's still in its nascient state. Be prepared for rapid changes of the API (of both AngularDart and AngularPrime-Dart).
+I'm porting the project to a non-shadow-DOM version. The newest Google Chrome ceased to support shadow DOM a little earlier than I expected it to do.
+In general the project's still in its nascient state. Be prepared for rapid changes of the API (of both AngularDart and AngularPrime-Dart).
+
+
 
 <b>Components implemented so far</b>
 Structural components:
