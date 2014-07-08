@@ -23,6 +23,7 @@ class MainController {
   int rows;
   int columns;
   int timeToDrop;
+  int counter=0;
   bool gameActive=false;
   bool gravity=false;
   bool preview=false;
@@ -31,6 +32,8 @@ class MainController {
 
   List<List<int>> playground=null;
 
+  var updateGraphicsCallback=null;
+
 
 
   Keyboard keyboard;
@@ -38,20 +41,6 @@ class MainController {
 
   MainController() {
     keyboard = new Keyboard();
-  }
-
-  /**
-   * Enables keyboard navigation.
-   */
-  keyListener(KeyboardEvent e) {
-    if (e.keyCode==KeyCode.ENTER)
-    {
-      print("Enter");
-      return;
-    }
-    else if (e.keyCode==KeyCode.UP) {
-      print("up");
-    }
   }
 
   init() {
@@ -138,6 +127,7 @@ class MainController {
   }
 
   void startGame() {
+    timeToDrop=500;
     init();
     gameActive=true;
     watch = new Stopwatch();
@@ -146,6 +136,7 @@ class MainController {
   }
 
   void update(e) {
+    counter++;
     if (null == tetrimino) {
       if (!applyGravity()) {
         if (!addRandomTetrimino()) {
@@ -170,6 +161,7 @@ class MainController {
     }
     keyboard.reset();
     drawBricks();
+    updateGraphicsCallback();
     window.requestAnimationFrame(update);
   }
 

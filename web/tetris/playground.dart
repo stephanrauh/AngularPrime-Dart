@@ -30,6 +30,16 @@ part of angularTetris;
 @Component(
     selector: 'tetris-playground',
     templateUrl: 'playground.html',
+/*    template: """<div style="display:table">
+  <div style="display:table-row; height:100%;">
+    <div style="display:table-cell" class="pui-label-cell">
+      <label></label>
+    </div>
+    <div style="display:table-cell" class="pui-widget-cell">
+    </div>
+  </div>
+</div>""",
+ */
     useShadowDom:     false,
     publishAs: 'cmp'
 )
@@ -44,20 +54,23 @@ class TetrisPlaygroundComponent extends PuiGridComponent {
 
   MainController mainController;
 
-  String color(int r, int c){int col= mainController.bricks[r*numberOfColumns+c];
-                          if (0==col) return "#FFFFFF";
-                          if (1==col) return "#00F0F0";
-                          if (2==col) return "#0000F0";
-                          if (3==col) return "#F0A000";
-                          if (4==col) return "#F0F000";
-                          if (5==col) return "#00F000";
-                          if (6==col) return "#F00000";
-                          if (7==col) return "#A000F0";
-                          return "#00FFFFFF";
+  String color(int r, int c){return getBrickColor(mainController.bricks[r*numberOfColumns+c]);
                           }
 
+  String getBrickColor(int col) {
+                              if (0==col) return "#FFFFFF";
+                              if (1==col) return "#00F0F0";
+                              if (2==col) return "#0000F0";
+                              if (3==col) return "#F0A000";
+                              if (4==col) return "#F0F000";
+                              if (5==col) return "#00F000";
+                              if (6==col) return "#F00000";
+                              if (7==col) return "#A000F0";
+                              return "#00FFFFFF";
+  }
+
 //  int text(int r, int c){return mainController.bricks[r*numberOfColumns+c];}
-  String text(int r, int c){return "";}
+  String text(int r, int c){return (mainController.bricks[r*numberOfColumns+c]).toString();}
 
   /**
    * Initializes the component by setting the <pui-input> field and setting the scope.
@@ -76,7 +89,10 @@ class TetrisPlaygroundComponent extends PuiGridComponent {
 
     for (int r = 0; r < numberOfRows; r++) {
       for (int c = 0; c < numberOfColumns; c++) {
-          List<Node> list = PuiHtmlUtils.parseResponse("<span><button style=\"width:25px;height:20px;background-color:{{cmp.color($r, $c)}}}\">{{cmp.text($r, $c)}}</button></span>").childNodes;
+//        String button="<button style=\"width:25px;height:20px;background-color:{{cmp.color($r, $c)}}}\">{{cmp.text($r, $c)}}</button>";
+        String button="<button style=\"width:25px;height:20px\"></button>";
+//        String button="<button style=\"width:25px;height:20px\">{{cmp.text($r, $c)}}</button>";
+          List<Node> list = PuiHtmlUtils.parseResponse("<span>$button</span>").childNodes;
 
           ViewFactory template = compiler(list, directives);
           Injector childInjector =
@@ -91,6 +107,17 @@ class TetrisPlaygroundComponent extends PuiGridComponent {
         }
     }
     init();
+    mainController.updateGraphicsCallback = () => updateGraphics();
+  }
+
+  void updateGraphics() {
+    List<Element> htmlBricks = content;
+    for (int i = 0; i < htmlBricks.length; i++) {
+      int brick = mainController.bricks[i];
+      String color = getBrickColor(brick);
+      Element htmlBrick = htmlBricks[i];
+      htmlBrick.style.backgroundColor=color;
+    }
   }
 }
 
