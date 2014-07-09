@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="../themes/jquery-ui.css">
     <link rel="stylesheet" href="../pui.css">
     <link rel="stylesheet" href="../style.css">
-    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
 </head>
 <body>
 
@@ -27,21 +26,12 @@
     <h3><span style="width:200px;">AngularPrime/Dart and AngularFaces</span></h3>
  </div>
  <div>
-     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-6">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-6">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-      </div>
- </div>
+ <pui-grid hasLabel="false" columns="2" bootstrap="true" columnClasses="col-md-12">
+   <pui-panel header="Live Demo of AngularPrime/Dart" >
+      <a class="btn btn-default" target="#" href="http://www.angularfaces.com/tetris/angulartetris/">a simple Tetris game</a>
+   </pui-panel>
+ </pui-grid>
+
  <pui-grid hasLabel="false" columns="2" bootstrap="true" columnClasses="col-md-6,col-md-6">
    <pui-panel header="AngularFaces: JSF on steroids" >
       AngularFaces combines enterprise level JSF with a well-known, "super-heroic" framework.

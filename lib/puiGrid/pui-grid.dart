@@ -103,11 +103,17 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
    */
   void onShadowRoot(Node shadowRoot) {
     DivElement table = (shadowRoot as Element).children[0];
+    if (bootstrap==false || bootstrap==null) {
+      table.style.display="table";
+    }
     List rows = table.children;
     List fields = content;
     var numberOfFields = fields.length;
     int c = (columns==null || columns<1) ? 1 : columns;
     Element firstRow=rows[0];
+    if (bootstrap==false || bootstrap==null) {
+      firstRow.style.display="table-row";
+    }
     if (hasLabel==false) {
       firstRow.children.removeAt(0);
     }
@@ -127,6 +133,9 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
       }
     }
 
+    if (bootstrap==false || bootstrap==null) {
+      firstRow.children.forEach((Element cell){cell.style.display="table-cell";});
+    }
 
     for (int i = 2; i <= (numberOfFields + c - 1) / c; i++)
     {
