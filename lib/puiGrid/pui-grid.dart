@@ -71,7 +71,11 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
   /** If true, the code needed to support Bootstrap is generated. */
   @NgOneWayOneTime("bootstrap")
   bool bootstrap;
-  
+
+  /** If true, a label column is added to accomodate automatically labelled input fields. */
+  @NgOneWayOneTime("hasLabel")
+  bool hasLabel;
+
   /** The content of the grid */
   List<Element> content;
 
@@ -103,14 +107,27 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
     List fields = content;
     var numberOfFields = fields.length;
     int c = (columns==null || columns<1) ? 1 : columns;
-    Element firstRow=rows[0];    
+    Element firstRow=rows[0];
+    if (hasLabel==false) {
+      firstRow.children.removeAt(0);
+    }
     for (int i = 2; i <= c; i++)
     {
       firstRow.children.add(firstRow.children[0].clone(true));
-      firstRow.children.add(firstRow.children[1].clone(true));
+      if (hasLabel==null || hasLabel==true) {
+        firstRow.children.add(firstRow.children[1].clone(true));
+      }
     }
 
-    
+    if (null != columnClasses) {
+      List<String> classes = columnClasses.split(",");
+      for (int i = 0; i < firstRow.children.length; i++) {
+        String currentClass = classes[i % (classes.length)];
+        firstRow.children[i].classes.add(currentClass);
+      }
+    }
+
+
     for (int i = 2; i <= (numberOfFields + c - 1) / c; i++)
     {
         rows.add(rows[0].clone(true));
@@ -122,24 +139,26 @@ class PuiGridComponent extends PuiBaseComponent implements ShadowRootAware  {
     {
       DivElement currentRow = rows[currentRowIndex];
       DivElement currentCell=currentRow.children[currentHTMLColumn];
-      LabelElement currentCellHeader=currentCell.children[0];
       HtmlElement currentField = fields[i];
-      String label = currentField.attributes["label"];
-      if (null == label && null != currentField.attributes["ng-model"])
-      {
-        label = currentField.attributes["ng-model"];
-      }
-      if (label!=null)
-      {
-        currentCellHeader.innerHtml= label;
-      }
-      if (currentField.id==null || currentField.id=="")
-      {
-        currentField.id = "puiinputid:" + currentField.hashCode.toString();
-      }
-      currentCellHeader.attributes["for"]=currentField.id;
+      if (hasLabel==null || hasLabel==true) {
+        LabelElement currentCellHeader=currentCell.children[0];
+        String label = currentField.attributes["label"];
+        if (null == label && null != currentField.attributes["ng-model"])
+        {
+          label = currentField.attributes["ng-model"];
+        }
+        if (label!=null)
+        {
+          currentCellHeader.innerHtml= label;
+        }
+        if (currentField.id==null || currentField.id=="")
+        {
+          currentField.id = "puiinputid:" + currentField.hashCode.toString();
+        }
+        currentCellHeader.attributes["for"]=currentField.id;
 
-      currentHTMLColumn++;
+        currentHTMLColumn++;
+      }
       currentCell=currentRow.children[currentHTMLColumn];
       currentCell.append(currentField);
       currentColumn++;

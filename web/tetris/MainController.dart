@@ -152,16 +152,18 @@ class MainController {
     if (keyboard.isPressed(KeyCode.SPACE)) {
       while (null != tetrimino) {
         dropTile();
+        drawBricks();
+        updateGraphicsCallback();
       }
       watch.reset();
     }
     if (watch.elapsedMilliseconds>timeToDrop) {
       dropTile();
+      drawBricks();
+      updateGraphicsCallback();
       watch.reset();
     }
     keyboard.reset();
-    drawBricks();
-    updateGraphicsCallback();
     window.requestAnimationFrame(update);
   }
 
