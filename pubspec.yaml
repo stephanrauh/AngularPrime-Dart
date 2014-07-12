@@ -2,6 +2,7 @@ name: angularprime_dart
 version: 0.0.1
 
 transformers:
+- angular
 - $dart2js:
     checked: false
     minify: true

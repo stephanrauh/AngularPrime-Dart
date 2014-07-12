@@ -145,10 +145,10 @@ class MainController {
         }
       }
     }
-    if (keyboard.isPressed(KeyCode.LEFT)) tetrimino.moveTile(-1, playground);
-    if (keyboard.isPressed(KeyCode.RIGHT)) tetrimino.moveTile(1, playground);
-    if (keyboard.isPressed(KeyCode.DOWN)) tetrimino.rotateTile(playground, 90);
-    if (keyboard.isPressed(KeyCode.UP)) tetrimino.rotateTile(playground, 270);
+    if (keyboard.isPressed(KeyCode.LEFT)) { tetrimino.moveTile(-1, playground);  drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.RIGHT)) { tetrimino.moveTile(1, playground); drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.DOWN)) { tetrimino.rotateTile(playground, 90); drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.UP)) {tetrimino.rotateTile(playground, 270); drawBricks(); updateGraphicsCallback(); }
     if (keyboard.isPressed(KeyCode.SPACE)) {
       while (null != tetrimino) {
         dropTile();
